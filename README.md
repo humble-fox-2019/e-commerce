@@ -4,6 +4,8 @@
 
 <img src="https://cdn1.imggmi.com/uploads/2019/9/16/9d9aab1445a8dc71d743ad8b012ece6a-full.png" style="zoom:50%;" />
 
+------
+
 
 
 This is a API documentations for Tokopa'dia ecommerce.
@@ -178,11 +180,93 @@ http://34.87.19.30
 
 ### <u>Products Route</u>
 
-- Create product
-- Get all product
-- Get one product
-- Update product
-- Delete product
+- **Create product**
+
+  To create a product, you must authenticated store
+
+  ```
+  POST /product
+  ```
+
+  **Request Headers**
+
+  | Name    | Type     | Description                                            |
+  | ------- | -------- | ------------------------------------------------------ |
+  | `token` | `string` | Token that you received from server for authenticating |
+
+  **Request Body**
+
+  | Name | Type | Description |
+  | ---- | ---- | ----------- |
+  |      |      |             |
+  |      |      |             |
+  |      |      |             |
+
+  **Sample success response**
+
+  ```
+  
+  ```
+
+  **Sample error response**
+
+  ```
+  
+  ```
+
+  
+
+- **Get all product**
+
+  ```
+  GET /product
+  ```
+
+  **Sample success response**
+
+  ```
+  
+  ```
+
+  
+
+- **Get one product**
+
+  ```
+  GET /product/:productId
+  ```
+
+  **Sample success response**
+
+  
+
+- **Update product**
+
+  ```
+  PUT /product/:productId
+  ```
+
+  **Request Headers**
+
+  | Name | Type | Description |
+  | ---- | ---- | ----------- |
+  |      |      |             |
+
+  
+
+- **Delete product**
+
+  ```
+  DELETE /product/:productId
+  ```
+
+  **Request headers**
+
+  | Name | Type | Description |
+  | ---- | ---- | ----------- |
+  |      |      |             |
+
+  
 
 ### <u>Cart Route</u>
 

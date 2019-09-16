@@ -1,0 +1,43 @@
+Shoes Store
+----------------------
+
+Users
+----------
+email
+name
+password
+role: admin/customer
+image
+cart [{
+    productId,
+    productName,
+    price,
+    qty
+},
+{
+    productId,
+    productName,
+    price,
+    qty
+}]
+whislist []
+
+Products
+----------
+name
+description
+price
+image
+categories {}
+stock
+
+Categories
+----------
+name
+
+Transactions
+----------
+cart []
+buyer {}
+adddress
+status: paid / panding / confirm / shiping / done / cancel

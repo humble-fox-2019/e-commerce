@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const MONGO_URI = process.env.MONGO_URI
+const MONGO_URI = `mongodb+srv://josprima:28jos1997@cluster0-mblvo.gcp.mongodb.net/ecommerce-${process.env.NODE_ENV}?retryWrites=true&w=majority`
 
 
 mongoose.connect(MONGO_URI, {

@@ -43,7 +43,7 @@ after(function(done) {
 })
 
 describe('User Model test', function() {
-    describe('POST /users/signup - Create user test', function() {
+    describe('POST /user/signup - Create user test', function() {
         it('should return object created user', function(done) {
             chai.request(app)
                 .post('/user/signup')
@@ -103,7 +103,7 @@ describe('User Model test', function() {
                 })
         })
     })
-    describe('POST /users/signin - Login user test', function() {
+    describe('POST /user/signin - Login user test', function() {
         it('should return token and success status 200', function(done) {
             chai.request(app)
                 .post('/user/signin')

@@ -2,6 +2,8 @@ function errorHandler(err, req, res, next) {
     const status = err.status || 500
     const message = err.message || 'Internal server error'
 
+    console.log(err)
+
     if(err.name === 'ValidationError') {
         const errors = []
         for(error in err.errors) {

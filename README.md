@@ -1,6 +1,10 @@
-![]()
 
-# TokoPa'dia | Ecommerce TDD 
+
+# TokoPadia | Ecommerce TDD 
+
+<img src="https://cdn1.imggmi.com/uploads/2019/9/16/9d9aab1445a8dc71d743ad8b012ece6a-full.png" style="zoom:50%;" />
+
+
 
 This is a API documentations for Tokopa'dia ecommerce.
 

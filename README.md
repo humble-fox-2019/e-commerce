@@ -7,10 +7,8 @@ This is a API documentations for Tokopa'dia ecommerce.
 Base root for all endpoint :
 
 ```
-
+http://
 ```
-
-
 
 
 

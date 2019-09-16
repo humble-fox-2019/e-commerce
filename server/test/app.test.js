@@ -27,24 +27,99 @@ describe('User' , function () {
             .end( function( err, res) {
                 expect( res.body ).to.be.an('array')
                 expect( res.body ).to.have.lengthOf(3)
+                expect( res.body[0] ).to.be.equal('Username is required');
+                expect( res.body[1] ).to.be.equal('Email is required');
+                expect( res.body[2] ).to.be.equal('Password is required');
+                done()
+            })
+        })
+        
+        it('it should return error message about username' , function (done ) {
+            chai.request(app)
+            .post('/register')
+            .send({
+                "email" : "test123@test.com",
+                "password" : "test123"
+            })
+            .end( function( err, res) {
+                expect( res.body ).to.be.an('array')
+                expect( res.body ).to.have.lengthOf(1)
+                expect( res.body[0] ).to.be.equal('Username is required');
+                done()
+            })
+        })
+        it('it should return error message about email' , function (done ) {
+            chai.request(app)
+            .post('/register')
+            .send({
+                "username" : "test123",
+                "password" : "test123"
+            })
+            .end( function( err, res) {
+                expect( res.body ).to.be.an('array')
+                expect( res.body ).to.have.lengthOf(1)
+                expect( res.body[0] ).to.be.equal('Email is required');
+                done()
+            })
+        })
+        it('it should return error message about password' , function (done ) {
+            chai.request(app)
+            .post('/register')
+            .send({
+                "username" : "test123",
+                "email" : "test123@test.com"
+            })
+            .end( function( err, res) {
+                expect( res.body ).to.be.an('array')
+                expect( res.body ).to.have.lengthOf(1)
+                expect( res.body[0] ).to.be.equal('Password is required');
                 done()
             })
         })
 
         // // If Already Created Dont run this
-        // it('it should return new user obj' , function( done ) {
-        //     chai.request(app)
-        //     .post('/register')
-        //     .send({
-        //         "username" : "test123",
-        //         "email" : "test123@test.com",
-        //         "password" : "test123"
-        //     })
-        //     .end( function( err, res ) {
-        //         expect( res.body ).to.include.keys('createdUser');
-        //         done();
-        //     })
-        // })
+        it('it should return new user obj' , function( done ) {
+            chai.request(app)
+            .post('/register')
+            .send({
+                "username" : "newUser",
+                "email" : "newUser@test.com",
+                "password" : "newUser"
+            })
+            .end( function( err, res ) {
+                expect( res.body ).to.include.keys('createdUser');
+                expect( res.body.createdUser ).to.include.keys('username','email','password')
+                expect( res.body.createdUser.username ).to.be.equals('newUser')
+                expect( res.body.createdUser.email ).to.be.equals('newUser@test.com')
+                done();
+            })
+        })
+        it('it should return error message because username already registered' , function( done ) {
+            chai.request(app)
+            .post('/register')
+            .send({
+                "username" : "newUser",
+                "email" : "newUser@test.com",
+                "password" : "newUser"
+            })
+            .end( function( err, res ) {
+                expect( res.body ).to.be.equal("Username already registered")
+                done();
+            })
+        })
+        it('it should return error message because email already registered' , function( done ) {
+            chai.request(app)
+            .post('/register')
+            .send({
+                "username" : "newUser2",
+                "email" : "newUser@test.com",
+                "password" : "newUser"
+            })
+            .end( function( err, res ) {
+                expect( res.body ).to.be.equal("Email already registered")
+                done();
+            })
+        })
     })
 
     describe('Login' , function() {
@@ -57,6 +132,20 @@ describe('User' , function () {
             })
             .end( function( err , res ) {
                 expect( res.body ).to.include.all.keys('token' ,'user');
+                expect( res.body.user ).to.include.all.keys('email' , 'id' )
+                expect( res.body.user.email ).to.equal('admin@admin.com')
+                done()
+            }) 
+        })
+        it ('it should return error message' , function( done ) {
+            chai.request(app)
+            .post('/login')
+            .send({
+                email : "admin@admins.com",
+                password : "admins"
+            })
+            .end( function( err , res ) {
+                expect( res.body ).to.be.equal("Invalid Email / Password")
                 done()
             }) 
         })
@@ -80,6 +169,7 @@ const updateProduct = {
 }
 let productId;
 let products = []
+
 // Admin
 describe('Product Admin CRUD' , function() {
     let token;
@@ -111,6 +201,8 @@ describe('Product Admin CRUD' , function() {
         })
     })
 
+
+
     // READ
     describe('Get All Product',function(){
         it('it should return all list of product' , function (done) {
@@ -124,7 +216,6 @@ describe('Product Admin CRUD' , function() {
             })
         })
     })
-
     // UPDATE 
     describe('Update Product' , function() {
         it('it should return update message' , function( done ) {
@@ -143,7 +234,7 @@ describe('Product Admin CRUD' , function() {
 
     // DELETE
     describe('Delete Product' , function () {
-        it('it should return removed product that updated just before this' , function( done ) {
+        it('it should return deleted product that updated just before this' , function( done ) {
             chai.request(app)
             .delete(`/products/${productId}`)
             .set( 'token' , token )
@@ -160,8 +251,9 @@ describe('Product Admin CRUD' , function() {
             })
         })
     })
-})
 
+
+})
 
 let user;
 
@@ -180,7 +272,25 @@ describe('Product Customer' , function() {
         }) 
     })
 
-
+    describe('Customer cannot Create A Product' , function( ) {
+        it('it should return error message because logged user are customer' , function( done ) {
+            const product = {
+                "name" : "Kamado Tanjirou",
+                "price" : 300000,
+                "stock" : 30,
+                "category" : "exclusive"
+            }
+            
+            chai.request(app)
+            .post('/products')
+            .set( 'token' , token )
+            .send( product )
+            .end( function( err, res ) {
+                expect( res.body ).to.be.equal('You must be admin to use this feature!')
+                done();
+            })
+        })
+    })
 
     // See Product
     describe('Get All Product',function(){

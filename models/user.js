@@ -20,7 +20,7 @@ const UserSchema = new Schema({
             }, 
             {
                 validator: function(email) {
-                    mongoose.models.User.findOne({ email })
+                    return mongoose.models.User.findOne({ email })
                         .then(user => {
                             if (user) return false;
                             else return true;
@@ -35,7 +35,7 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'Password field is required']
     },
     image: {
         type: String,
@@ -43,7 +43,7 @@ const UserSchema = new Schema({
     }, 
     role: {
         type: String,
-        default: 'Customer'
+        default: 'customer'
     }, 
     cart: [
        {

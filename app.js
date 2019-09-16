@@ -1,6 +1,6 @@
 const NODE_ENV = process.env.NODE_ENV;
 
-if (NODE_ENV === 'development') {
+if (NODE_ENV === 'development' || NODE_ENV === 'test') {
     console.log(NODE_ENV);
     require('dotenv').config();
 }
@@ -14,7 +14,7 @@ const { errorHandler } = require('./middlewares/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect(`mongodb://localhost/e-commerce-${NODE_ENV === 'test' ? NODE_ENV : ''}`, { useNewUrlParser: true,useUnifiedTopology: true })
+mongoose.connect(`mongodb://localhost/e-commerce${NODE_ENV === 'test' ? `-test` : ''}`, { useNewUrlParser: true,useUnifiedTopology: true })
     .then(() => {
         console.log('mongodb connected!');
     })

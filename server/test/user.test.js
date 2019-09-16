@@ -43,6 +43,52 @@ describe('User Model test', function() {
                     done()
                 })
         })
+        it('should return error status 400 because user not send', function(done) {
+            chai.request(app)
+                .post('/user/signup')
+                .send()
+                .end(function (err, res) {
+                    expect(err).to.be.null
+                    expect(res.body).to.be.an('object').to.have.key('errors')
+                    expect(res.body.errors).to.be.an('array')
+                    expect(res.body.errors).to.include('username required')
+                    expect(res.body.errors).to.include('email required')
+                    expect(res.body.errors).to.include('password required')
+                    done()
+                })
+        })
+        it('should return error status 400 because username not valid', function(done) {
+            chai.request(app)
+                .post('/user/signup')
+                .send({
+                    username: 'abc',
+                    email: 'test@gmail.com',
+                    password: 'abc123'
+                })
+                .end(function (err, res) {
+                    expect(err).to.be.null
+                    expect(res.body).to.be.an('object').to.have.key('errors')
+                    expect(res.body.errors).to.be.an('array')
+                    expect(res.body.errors).to.include('username minimal 4 characters')
+                    done()
+                })
+        })
+        it('should return error status 400 because email not valid', function(done) {
+            chai.request(app)
+                .post('/user/signup')
+                .send({
+                    username: 'abcd',
+                    email: 'gmail.com',
+                    password: 'abc123'
+                })
+                .end(function (err, res) {
+                    expect(err).to.be.null
+                    expect(res.body).to.be.an('object').to.have.key('errors')
+                    expect(res.body.errors).to.be.an('array')
+                    expect(res.body.errors).to.include('invalid email')
+                    done()
+                })
+        })
     })
 })
 

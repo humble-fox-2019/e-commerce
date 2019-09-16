@@ -4,17 +4,18 @@ const { hashPassword } = require('../helpers/bcrypt')
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, 'Username required'],
-        minlength: [3, 'Username min 3 characters'],
+        required: [true, 'username required'],
+        minlength: [4, 'username minimal 4 characters'],
         maxlength: [20, 'Username max 20 characters']
     },
     email: {
         type: String,
-        required: [true, 'Email required']
+        required: [true, 'email required'],
+        match: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'invalid email']
     },
     password: {
         type: String,
-        required: [true, 'Password required']
+        required: [true, 'password required']
     }
 })
 

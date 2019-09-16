@@ -11,7 +11,7 @@ This is a API documentations for Tokopa'dia ecommerce.
 Base root for all endpoint :
 
 ```
-http://
+http://34.87.19.30
 ```
 
 
@@ -31,18 +31,30 @@ http://
   | `username` | `string` |             |
   | `email`    | `string` |             |
   | `password` | `string` |             |
-  | `address`  | `string` |             |
 
   **Sample success response**
 
   ```
-  
+  STATUS CODE: 201 (Created)
+  {
+    "message": "success signup",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2Y0OTlkODk3ZGYzMGJjZTNmNTIyMyIsInVzZXJuYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MjMwMDV9.bRZxvC1OWpmfP8kLuLLsgdHx8tm9wFWDc1dfXz2x0gg"
+  }
   ```
 
   **Sample error response**
 
+  If error has occurred it will send `errors` as an array that include error message
+
   ```
-  
+  STATUS CODE: 400 (Bad request)
+  {
+    "errors": [
+      "username required",
+      "email required",
+      "password required"
+    ]
+  }
   ```
 
   

@@ -196,11 +196,13 @@ http://34.87.19.30
 
   **Request Body**
 
-  | Name | Type | Description |
-  | ---- | ---- | ----------- |
-  |      |      |             |
-  |      |      |             |
-  |      |      |             |
+  | Name                         | Type     | Description         |
+  | ---------------------------- | -------- | ------------------- |
+  | `name`                       | `string` | product name        |
+  | `[description]` **optional** | `string` | Product description |
+  | `image`                      | `string` | Product image       |
+  | `price`                      | `number` | product price       |
+  | `quantity`                   | `number` | product quantity    |
 
   **Sample success response**
 

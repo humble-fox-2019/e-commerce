@@ -1,6 +1,6 @@
 
 
-# TokoPadia | Ecommerce TDD 
+# TOKOPADIA | Ecommerce TDD 
 
 <img src="https://cdn1.imggmi.com/uploads/2019/9/16/9d9aab1445a8dc71d743ad8b012ece6a-full.png" style="zoom:50%;" />
 
@@ -248,7 +248,21 @@ http://34.87.19.30
   **Sample success response**
 
   ```
-  
+  STATUS CODE: 200(Ok)
+  {
+    "products": [
+      {
+        "_id": "5d7f974d58a49813007022e7",
+        "name": "Handphone asus",
+        "description": "handphone asus",
+        "image": "https://storage.googleapis.com/image-ecommerce-josprima-site/1568642892075tokopadia.png",
+        "price": 200000000,
+        "stock": 20,
+        "store": "5d7f77449e494c0f69ccb313",
+        "__v": 0
+      }
+    ]
+  }
   ```
 
   
@@ -260,6 +274,22 @@ http://34.87.19.30
   ```
 
   **Sample success response**
+
+  ```
+  STATUS CODE: 200(Ok)
+  {
+    "product": {
+      "_id": "5d7f974d58a49813007022e7",
+      "name": "Handphone asus",
+      "description": "handphone asus",
+      "image": "https://storage.googleapis.com/image-ecommerce-josprima-site/1568642892075tokopadia.png",
+      "price": 200000000,
+      "stock": 20,
+      "store": "5d7f77449e494c0f69ccb313",
+      "__v": 0
+    }
+  }
+  ```
 
   
 

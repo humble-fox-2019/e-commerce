@@ -9,8 +9,8 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/registration', UserController.signup);
-router.post('/signin', UserController.signin);
+router.post('/registration', UserController.registration);
+router.post('/login', UserController.login);
 
 router.get('/*', (req, res, next) => {
     next({ statusCode: 404, msg: 'Route not found' });

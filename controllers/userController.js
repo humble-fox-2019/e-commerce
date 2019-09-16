@@ -3,7 +3,7 @@ const { jwt } = require('../helpers');
 const { bcrypt } = require('../helpers');
 
 class UserController {
-    static signup(req, res, next) {
+    static registration(req, res, next) {
         const { name, email, password } = req.body
 
         User.create({ name, email, password })
@@ -13,15 +13,21 @@ class UserController {
             .catch(next)
     }
 
-    static signin(req, res, next) {
+    static login(req, res, next) {
         const { email, password } = req.body;
+        let errors = [];
         if (email === undefined || email === '') {
-            return next({ statusCode: 400, msg: 'email is required' })
+            errors.push('email is required');
         }
 
         if (password === undefined || password === '') {
-            return next({ statusCode: 400, msg: 'password is required' })
+            errors.push('password is required');
         }
+
+        if (errors.length > 0) {
+            return next({ statusCode: 400, msg: errors });
+        }
+
         User.findOne({ email })
             .then(user => {
                 if (!user) {
@@ -32,11 +38,13 @@ class UserController {
                         let userData = {
                             'name': user.name,
                             'id': user._id,
-                            'email': user.email
+                            'email': user.email,
+                            'role': user.role,
+                            'image': user.image
                         }
 
-                        let token = jwt.generateToken(userData);
-                        res.status(200).json({ token })
+                        let access_token = jwt.generateToken(userData);
+                        res.status(200).json({ access_token, userData })
                     } else {
                         next({ statusCode: 400, msg: "email/password not found" });
                     }

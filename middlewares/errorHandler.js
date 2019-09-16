@@ -23,8 +23,13 @@ function errorHandler(err, req, res, next) {
             message: ["Data not found"]
         });
     } else {
+        let myErr = [err.msg];
+
+        if (Array.isArray(err.msg)) {
+            myErr = err.msg;
+        }
         res.status(err.statusCode || 500).json({
-            message: [err.msg] || ['Internal server error']
+            message: myErr || ['Internal server error']
         });
     }
 }

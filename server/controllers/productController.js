@@ -3,17 +3,23 @@ const Product = require('../models/Product')
 class ProductController {
 
     static create(req, res, next) {
-        const { name, description, price, quantity } = req.body
+        const { name, description, price, stock } = req.body
+        let image = null
+        if(req.file) {
+            image = req.file.cloudStoragePublicUrl
+        }else{
+            image = null
+        }
         Product.create({
             name,
             description,
-            image: req.file.cloudStoragePublicUrl,
+            image,
             price,
-            quantity,
+            stock,
             store: req.decode.id
         })
             .then(product => {
-                res.json({
+                res.status(201).json({
                     product
                 })
             })
@@ -58,7 +64,7 @@ class ProductController {
 
     }
 
-    
+
 
 
 }

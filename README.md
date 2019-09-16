@@ -196,24 +196,45 @@ http://34.87.19.30
 
   **Request Body**
 
-  | Name                         | Type     | Description         |
-  | ---------------------------- | -------- | ------------------- |
-  | `name`                       | `string` | product name        |
-  | `[description]` **optional** | `string` | Product description |
-  | `image`                      | `string` | Product image       |
-  | `price`                      | `number` | product price       |
-  | `quantity`                   | `number` | product quantity    |
+  | Name          | Type     | Description         |
+  | ------------- | -------- | ------------------- |
+  | `name`        | `string` | product name        |
+  | `description` | `string` | Product description |
+  | `image`       | `string` | Product image       |
+  | `price`       | `number` | product price       |
+  | `stock`       | `number` | product quantity    |
 
   **Sample success response**
 
   ```
-  
+  STATUS CODE: 201(Created)
+  {
+    "product": {
+      "_id": "5d7f974d58a49813007022e7",
+      "name": "Handphone asus",
+      "description": "handphone asus",
+      "image": "https://storage.googleapis.com/image-ecommerce-josprima-site/1568642892075tokopadia.png",
+      "price": 200000000,
+      "stock": 20,
+      "store": "5d7f77449e494c0f69ccb313",
+      "__v": 0
+    }
+  }
   ```
 
   **Sample error response**
 
   ```
-  
+  STATUS CODE: 400(Bad request)
+  {
+    "errors": [
+      "name required",
+      "description required",
+      "image required",
+      "price required",
+      "stock required"
+    ]
+  }
   ```
 
   

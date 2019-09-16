@@ -5,7 +5,8 @@ const productSchema = new mongoose.Schema({
         required: [true, 'name required']
     },
     description: {
-        type: String
+        type: String,
+        required: [true, 'description required']
     },
     image: {
         type: String,
@@ -13,12 +14,13 @@ const productSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: [true, 'price required']
+        required: [true, 'price required'],
+        min: [1, 'invalid price']
     },
-    quantity: {
+    stock: {
         type: Number,
-        required: [true, 'quantity required'],
-        min: [1, 'invalid quantity'],
+        required: [true, 'stock required'],
+        min: [1, 'invalid stock'],
     },
     store: {
         type: mongoose.Schema.Types.ObjectId,

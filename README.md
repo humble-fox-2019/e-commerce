@@ -103,12 +103,13 @@ http://34.87.19.30
 
   **Request body**
 
-  | Name       | Type     | Description |
-  | ---------- | -------- | ----------- |
-  | `name`     | `string` |             |
-  | `email`    | `string` |             |
-  | `password` | `string` |             |
-  | `address`  | `string` |             |
+  | Name       | Type     | Description    |
+  | ---------- | -------- | -------------- |
+  | `name`     | `string` | Store name     |
+  | `email`    | `string` | Store email    |
+  | `password` | `string` | Store password |
+  | `city`     | `string` | Store city     |
+  | `province` | `string` | Store province |
 
   **Sample success response**
 

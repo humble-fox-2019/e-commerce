@@ -1,0 +1,29 @@
+Cheramics Store
+
+---------
+Users
+---------
++ id
++ name - string
++ email - string
++ password - string
++ role - string || default customer
++ cart - array of product
+
+---------
+Products
+---------
++ id
++ name - string
++ description - string
++ image - string
++ price - integer
++ stock - integer
+
+---------
+Orders
+---------
++ id
++ UserId - object id of User
++ Products - array of object id of product
++ status - string 

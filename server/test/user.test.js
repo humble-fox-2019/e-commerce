@@ -1,6 +1,7 @@
 const chai = require('chai')
 const chaiHTTP = require('chai-http')
 const app = require('../app')
+const User = require('../models/User')
 
 const expect = chai.expect
 chai.use(chaiHTTP)
@@ -16,6 +17,17 @@ let userSignin = {
     email: newUser.email,
     password: newUser.password
 }
+
+after(function(done) {
+    if(process.env.NODE_ENV === 'test') {
+        User.deleteMany({})
+            .then(_ => {
+                console.log('User testing data deleted successfully')
+                done()
+            })
+            .catch(console.log)
+    }
+})
 
 describe('User Model test', function() {
     describe('POST /users/signup - Create user test', function() {

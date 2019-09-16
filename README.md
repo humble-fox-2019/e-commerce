@@ -34,7 +34,7 @@ http://34.87.19.30
 
   **Sample success response**
 
-  ```
+  ```json
   STATUS CODE: 201 (Created)
   {
     "message": "success signup",
@@ -75,21 +75,30 @@ http://34.87.19.30
   **Sample success response**
 
   ```
-  
+  STATUS CODE: 200 (ok)
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2Y2MDkwNjY0NmY5MGM4OGI1YzA5MSIsInVzZXJuYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE1Njg2Mjg5MTl9.KdV6QwmcLkg8PCk6JewOdNY2brlEIggJRZ_jKGWwl5E",
+    "message": "success signin"
+  }
   ```
 
   **Sample error response**
 
   ```
-  
+  STATUS CODE: 401 (Unauthorized)
+  {
+    "errors": [
+      "wrong email/password"
+    ]
+  }
   ```
 
-### <u>Shop Route</u>
+### <u>Store Route</u>
 
-- **Shop Signup**
+- **Store Signup**
 
   ```
-  POST /shop/signup
+  POST /store/signup
   ```
 
   **Request body**
@@ -115,10 +124,10 @@ http://34.87.19.30
 
   
 
-- **Shop Signin**
+- **Store Signin**
 
   ```
-  POST /shop/signin
+  POST /store/signin
   ```
 
   **Request body**

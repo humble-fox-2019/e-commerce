@@ -9,10 +9,10 @@ class UserController {
 
         let errors = []
         if(!email) {
-            errors.push('Email required')
+            errors.push('email required')
         }
         if(!password) {
-            errors.push('Password required')
+            errors.push('password required')
         }
         if(errors.length > 0) {
             res.status(400).json({
@@ -30,18 +30,19 @@ class UserController {
                             }
                             const token = sign(payload)
                             res.json({
-                                token
+                                token,
+                                message: 'success signin'
                             })
                         }else {
                             return next({
                                 status: 401,
-                                message: 'Wrong Email/Password'
+                                message: 'wrong email/password'
                             })
                         }
                     }else{
                         return next({
                             status: 401,
-                            message: 'Wrong Email/Password'
+                            message: 'wrong email/password'
                         })
                     }
                 })

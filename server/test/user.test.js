@@ -18,6 +18,19 @@ let userSignin = {
     password: newUser.password
 }
 
+before(function(done) {
+    User.create({
+        username: 'andi',
+        email: 'andi@gmail.com',
+        password: 'andi123'
+    })
+    .then(_ => {
+        console.log('User testing data created successfully')
+        done()
+    })
+    .catch(console.log)
+})
+
 after(function(done) {
     if(process.env.NODE_ENV === 'test') {
         User.deleteMany({})
@@ -86,6 +99,49 @@ describe('User Model test', function() {
                     expect(res.body).to.be.an('object').to.have.key('errors')
                     expect(res.body.errors).to.be.an('array')
                     expect(res.body.errors).to.include('invalid email')
+                    done()
+                })
+        })
+    })
+    describe('POST /users/signin - Login user test', function() {
+        it('should return token and success status 200', function(done) {
+            chai.request(app)
+                .post('/user/signin')
+                .send({
+                    email: 'andi@gmail.com',
+                    password: 'andi123'
+                })
+                .end(function(err, res) {
+                    expect(err).to.be.null
+                    expect(res.body).to.be.an('object').to.have.any.keys('message', 'token')
+                    expect(res.body.message).to.equal('success signin')
+                    expect(res.body.token).to.be.a('string')
+                    done()
+                })
+        })
+        it('should return error status 400 because user not send data', function(done) {
+            chai.request(app)
+                .post('/user/signin')
+                .send()
+                .end(function(err, res) {
+                    expect(err).to.be.null
+                    expect(res.body).to.be.an('object').to.have.key('errors')
+                    expect(res.body.errors).to.be.an('array').include('email required')
+                    expect(res.body.errors).to.be.an('array').include('password required')
+                    done()
+                })
+        })
+        it('should return error status 401 because wrong email/password', function(done) {
+            chai.request(app)
+                .post('/user/signin')
+                .send({
+                    email: 'apa@gmail.com',
+                    password: 'apaapa'
+                })
+                .end(function(err, res) {
+                    expect(err).to.be.null
+                    expect(res.body).to.be.an('object').to.have.key('errors')
+                    expect(res.body.errors).to.be.an('array').include('wrong email/password')
                     done()
                 })
         })

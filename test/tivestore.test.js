@@ -161,7 +161,7 @@ describe('products', function () {
                 })
                 .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
                 .end(function (res, req, next) {
-                    expect(res.body.message).to.equal('You do not have access to data product');
+                    expect(res.body.message[0]).to.equal('You do not have access to data product');
                     expect(res).have.status(403);
                     done();
                 });
@@ -348,38 +348,123 @@ describe('products', function () {
     });
 
     describe('Delete product', function () {
-        it('Delete product without error', function (done) {
-            done();
-        });
 
         it('Error if not admin', function (done) {
-            done()
+            chai.request(app)
+                .delete('products/' + productId)
+                .set('access_token', memberToken)
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('You do not have access to data product');
+                    expect(res).have.status(403);
+                    done();
+                });
         });
 
         it('Error invalid id', function (done) {
-            done()
+            chai.request(app)
+                .delete('products/' + 'asdsa21321asdsadAA')
+                .set('access_token', adminToken)
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Invalid ID');
+                    expect(res).have.status(400);
+                    done();
+                });
+        });
+
+        it('Delete product without error', function (done) {
+            chai.request(app)
+                .delete('products/' + productId)
+                .set('access_token', adminToken)
+                .end(function (res, req, next) {
+                    expect(res.body.message).equal.to('successfully deleted');
+                    expect(res.body.data).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
     });
 });
 
 describe('Cart', function () {
-    describe('Get my cart', function () {
-
-    });
-
     describe('Add product to cart', function () {
+        it('Add product without error', function (done) {
+            done();
+        });
 
+        it('Error product not found', function (done) {
+            done();
+        });
+
+        it('Error less quantity', function (done) {
+            done();
+        });
     });
 
     describe('Update product from cart', function () {
+        it('Update product without error', function (done) {
+            done();
+        });
 
+        it('Error cart empty', function (done) {
+            done();
+        });
+
+        it('Error product not found', function (done) {
+            done();
+        });
+
+        it('Error less quantity', function (done) {
+            done();
+        });
+    });
+
+    describe('Get my cart', function () {
+        it('Get cart without error', function (done) {
+            chai.request(app)
+                .get('cart')
+                .set('access_token', memberToken)
+                .end(function (res, req, next) {
+                    expect(res.body).must.be.an('array');
+                    expect(res.body[0]).to.include.keys(['productId', 'productName', 'price', 'qty']);
+                    expect(res).have.status(200);
+                    done();
+                });
+        })
+
+        it('Error cart empty', function (done) {
+            done();
+        })
     });
 
     describe('Remove product from cart', function () {
+        it('Remove product without error', function (done) {
+            done();
+        });
 
+        it('Error cart empty', function (done) {
+            done();
+        });
+
+        it('Error product not found', function (done) {
+            done();
+        });
+
+        it('Error less quantity', function (done) {
+            done();
+        });
     });
 
     describe('Checkout', function () {
+        it('Checkout without error', function (done) {
+            done();
+        });
 
+        it('Error cart empty', function (done) {
+            done();
+        });
+
+        it('Error less quantity', function (done) {
+            done();
+        });
     });
 });

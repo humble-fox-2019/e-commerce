@@ -1,3 +1,4 @@
 const UserController = require('./user')
+const ProductController = require('./product')
 
-module.exports = { UserController }
+module.exports = { UserController, ProductController }

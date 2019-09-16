@@ -6,8 +6,8 @@ const mongoose = require('mongoose')
 
 chai.use(chaiHttp)
 
-describe('User', function () {
-  describe('Register', function () {
+describe('User /users', function () {
+  describe('Register POST /users/register', function () {
     before(function (done) {
       mongoose.connect('mongodb://localhost/e-commerce-test', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, function () {
         mongoose.connection.db.dropDatabase(function () {
@@ -15,6 +15,39 @@ describe('User', function () {
         })
       })
     })
+
+    it('should not create with blank string in email field', function (done) {
+      chai.request(app)
+        .post('/users/register')
+        .send({
+          email: '',
+          password: '123456'
+        })
+        .end(function (err, res) {
+          expect(err).to.be.null
+          expect(res).to.have.status(400)
+          expect(res.body).to.have.property('errors')
+          expect(res.body.errors).to.include(`Email is required`)
+          done()
+        })
+    })
+
+    it('should not create with blank string in password field', function (done) {
+      chai.request(app)
+        .post('/users/register')
+        .send({
+          email: 'buzz@gmail.com',
+          password: ''
+        })
+        .end(function (err, res) {
+          expect(err).to.be.null
+          expect(res).to.have.status(400)
+          expect(res.body).to.have.property('errors')
+          expect(res.body.errors).to.include(`Password is required`)
+          done()
+        })
+    })
+
 
     it('should not create with empty in both email or password', function (done) {
       chai.request(app)
@@ -57,6 +90,7 @@ describe('User', function () {
           password: '123456'
         })
         .end(function (err, res) {
+          // console.log(res.body.user)
           expect(err).to.be.null
           expect(res).to.have.status(201)
           expect(res.body.user).to.have.property('email')
@@ -68,7 +102,7 @@ describe('User', function () {
     })
   })
 
-  describe('Sign In', function () {
+  describe('Sign In POST /users/login/', function () {
     it('should not get a token from invalid email or password', function (done) {
       chai.request(app)
         .post('/users/login')
@@ -111,6 +145,7 @@ describe('User', function () {
           password: '123456'
         })
         .end(function (err, res) {
+          // console.log(res.body)
           expect(err).to.be.null
           expect(res).to.have.status(200)
           expect(res.body).to.have.property('user')

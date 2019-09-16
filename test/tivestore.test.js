@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const fs = require('fs');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -121,17 +122,44 @@ describe('Authentication', function () {
     })
 });
 
+let productId;
 describe('products', function () {
     describe('Create product', function () {
         it('Create product without error', function (done) {
-            done();
+            chai.request(app)
+                .post('products')
+                .set('access_token', adminToken)
+                .send({
+                    name: 'addidas New Hammer sole for Sports person',
+                    price: 1200000,
+                    description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter.',
+                    category: 'Household',
+                    stock: 40
+                })
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
+                .end(function (res, req, next) {
+                    productId = res.body._id;
+
+                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res.body.name).equal.to('addidas New Hammer sole for Sports person');
+                    expect(res.body.price).equal.to(1200000);
+                    expect(res).have.status(201);
+                    done();
+                });
         });
 
         it('Error if not admin', function (done) {
             chai.request(app)
                 .post('products')
-                .send({})
                 .set('access_token', memberToken)
+                .send({
+                    name: 'addidas New Hammer sole for Sports person',
+                    price: 1200000,
+                    description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter.',
+                    category: 'Household',
+                    stock: 40
+                })
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
                 .end(function (res, req, next) {
                     expect(res.body.message).to.equal('You do not have access to data product');
                     expect(res).have.status(403);
@@ -140,47 +168,164 @@ describe('products', function () {
         });
 
         it('Error required', function (done) {
-            done()
+            chai.request(app)
+                .post('products')
+                .set('access_token', adminToken)
+                .send({})
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
+                .end(function (res, req, next) {
+                    expect(res.body.message).to.have.members(['name is required', 'price is required', 'description is required', 'image is required', 'category is required', 'stock is required']);
+                    expect(res).have.status(400);
+                    done();
+                });
         });
 
         it('Error format', function (done) {
-            done()
+            chai.request(app)
+                .post('products')
+                .set('access_token', adminToken)
+                .send({
+                    name: 'addidas New Hammer sole for Sports person',
+                    price: 'as',
+                    description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter.',
+                    category: 'Household',
+                    stock: 'asas'
+                })
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
+                .end(function (res, req, next) {
+                    expect(res.body.message).to.have.members(['price must number', 'stock must number']);
+                    expect(res).have.status(400);
+                    done();
+                });
         });
     });
 
     describe('Update product', function () {
         it('Update product without error', function (done) {
-            done();
+            chai.request(app)
+                .patch('products/' + productId)
+                .set('access_token', adminToken)
+                .send({
+                    name: 'addidas New Hammer sole for Sports person2',
+                    price: 8000000,
+                    description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter 2.',
+                    category: 'Household 2',
+                    stock: 10
+                })
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
+                .end(function (res, req, next) {
+                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
         it('Error if not admin', function (done) {
-            done()
+            chai.request(app)
+                .patch('products/' + productId)
+                .set('access_token', memberToken)
+                .send({
+                    name: 'addidas New Hammer sole for Sports person2',
+                    price: 8000000,
+                    description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter 2.',
+                    category: 'Household 2',
+                    stock: 10
+                })
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
+                .end(function (res, req, next) {
+                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
         it('Error invalid id', function (done) {
-            done()
+            chai.request(app)
+                .patch('products/' + 'sadsayy6521gvmvashd')
+                .set('access_token', adminToken)
+                .send({
+                    name: 'addidas New Hammer sole for Sports person2',
+                    price: 8000000,
+                    description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter 2.',
+                    category: 'Household 2',
+                    stock: 10
+                })
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
+                .end(function (res, req, next) {
+                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
-        it('Error if no one input', function (done) {
-            done()
+        it('Error if product not found', function (done) {
+            chai.request(app)
+                .patch('products/' + '5d7e80911a4a273a4fbf42b8')
+                .set('access_token', adminToken)
+                .send({
+                    name: 'addidas New Hammer sole for Sports person2',
+                    price: 8000000,
+                    description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter 2.',
+                    category: 'Household 2',
+                    stock: 10
+                })
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
+                .end(function (res, req, next) {
+                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
         it('Error format', function (done) {
-            done()
+            chai.request(app)
+                .patch('products/' + productId)
+                .set('access_token', adminToken)
+                .send({
+                    price: 'sd',
+                    stock: 'sad'
+                })
+                .attach('image', fs.readFileSync('img.jpg'), 'img.jpg')
+                .end(function (res, req, next) {
+                    expect(res.body.message).to.have.members(['price must number', 'stock must number']);
+                    expect(res).have.status(400);
+                    done();
+                });
         });
     });
 
     describe('Get a product', function () {
-        it('Create product without error', function (done) {
-            done();
+        it('Get a product without error', function (done) {
+            chai.request(app)
+                .get('products/' + productId)
+                .set('access_token', adminToken)
+                .end(function (res, req, next) {
+                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
         it('Error invalid id', function (done) {
-            done()
+            chai.request(app)
+                .get('products/' + 'sadsad6678y321jbb')
+                .set('access_token', adminToken)
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Invalid ID');
+                    expect(res).have.status(400);
+                    done();
+                });
         });
 
         it('Error if data not found', function (done) {
-            done()
+            chai.request(app)
+                .get('products/' + '5d7e80911a4a273a4fbf42b8')
+                .set('access_token', adminToken)
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Data not found');
+                    expect(res).have.status(404);
+                    done();
+                });
         });
     });
 
@@ -191,7 +336,7 @@ describe('products', function () {
                 .set('access_token', adminToken)
                 .end(function (res, req, next) {
                     expect(res.body.products).must.be.an('array');
-                    expect(res.body.products[0]).to.have.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res.body.products[0]).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
                     expect(res).have.status(200);
                     done();
                 });
@@ -223,6 +368,10 @@ describe('Cart', function () {
     });
 
     describe('Add product to cart', function () {
+
+    });
+
+    describe('Update product from cart', function () {
 
     });
 

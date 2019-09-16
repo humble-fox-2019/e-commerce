@@ -41,9 +41,9 @@ class ProductController {
         const { name, price, description, image, category, stock } = req.body;
         const data = { name, price, description, image, category, stock };
 
-        Product.updateOne({ _id: req.params.id }, data, { omitUndefined: true, runValidators: true })
-            .then((info) => {
-                res.status(200).json({ message: 'successfully updated', data: info });
+        Product.findOneAndUpdate({ _id: req.params.id }, data, { omitUndefined: true, runValidators: true })
+            .then(data => {
+                res.status(200).json({ message: 'successfully updated', data });
             })
             .catch(next);
     }

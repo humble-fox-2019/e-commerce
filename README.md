@@ -144,11 +144,11 @@ http://localhost:3000
 
   ### _Response_ :
 
-   - 200 (OK)
+   - 201 (Created)
 
      ```javascript
      {
-         message: 'Added to cart.'
+         message: 'Added to cart'
      }
      ```
 
@@ -166,7 +166,7 @@ http://localhost:3000
 
      
 
-   - 401 (Not Authenticated)
+   - 403 (Not Authenticated)
 
      ```javascript
      {
@@ -219,7 +219,7 @@ http://localhost:3000
 
     
 
-  - 401 (Not Authenticated)
+  - 403 (Not Authenticated)
 
     ```javascript
     {
@@ -277,7 +277,7 @@ http://localhost:3000
 
     
 
-  - 401 (Not Authenticated)
+  - 403 (Not Authenticated)
 
     ```javascript
     {
@@ -340,9 +340,9 @@ http://localhost:3000
             "Cart ID is not found"
         ]
     }
-    ```  
+    ```
 
-  - 401 (Not Authenticated)
+  - 403 (Not Authenticated)
 
     ```javascript
     {
@@ -420,9 +420,9 @@ http://localhost:3000
             
         ]
     }
-    ``` 
+    ```
 
-  - 401 (Not Authenticated)
+  - 403 (Not Authenticated)
 
     ```javascript
     {
@@ -477,7 +477,7 @@ http://localhost:3000
 
     
 
-  - 401 (Not Authenticated)
+  - 403 (Not Authenticated)
 
     ```javascript
     {
@@ -522,7 +522,7 @@ http://localhost:3000
         "updatedAt": "2019-08-23T14:45:04.769Z"
       }
     ```
-  - 401 (Not Authenticated)
+  - 403 (Not Authenticated)
 
     ```javascript
     {
@@ -598,32 +598,29 @@ http://localhost:3000
     }
     ```
 
-    
-
   
-
-  - 401 (Not Authenticated)
-
-    ```javascript
+- 403 (Not Authenticated)
+  
+  ```javascript
     {
-        errors: [
+      errors: [
             "You must login first"
         ]
     }
     ```
-
+  
   - 401 (Unauthorized)
-
-    ```javascript
+  
+  ```javascript
     {
-        errors: [
+      errors: [
             "You haven't authorized"
         ]
     }
     ```
-
   
-
+  
+  
 + ### Delete
 
   Method : `DELETE`<br>Endpoint : `/products/:ProductId`
@@ -662,7 +659,7 @@ http://localhost:3000
         ]
     }
     ```
-  - 401 (Not Authenticated)
+  - 403 (Not Authenticated)
 
     ```javascript
     {

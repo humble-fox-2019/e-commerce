@@ -114,13 +114,26 @@ http://34.87.19.30
   **Sample success response**
 
   ```
-  
+  STATUS CODE: 201 (Created)
+  {
+    "message": "success signup",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2Y3NzQ0OWU0OTRjMGY2OWNjYjMxMyIsIm5hbWUiOiJ0b2tvIGFiYWRpIGpheWEiLCJlbWFpbCI6ImFiYWRpamF5YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MzQ2OTJ9.1wid8_m5Ol16b-19E8ODj8DlpEwIJ-hyq_9m_RdNouk"
+  }
   ```
 
   **Sample error response**
 
   ```
-  
+  STATUS CODE: 400(Bad request)
+  {
+    "errors": [
+      "name required",
+      "email required",
+      "password required",
+      "city required",
+      "province required"
+    ]
+  }
   ```
 
   
@@ -141,13 +154,22 @@ http://34.87.19.30
   **Sample success response**
 
   ```
-  
+  STATUS CODE: 200(Ok)
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2Y3NzQ0OWU0OTRjMGY2OWNjYjMxMyIsIm5hbWUiOiJ0b2tvIGFiYWRpIGpheWEiLCJlbWFpbCI6ImFiYWRpamF5YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MzQ4MjZ9.tJVTcRLSpKYu73XPptm8TzM97SvXw65xWgx1MY-Hbv8",
+    "message": "success signin"
+  }
   ```
 
   **Sample error response**
 
   ```
-  
+  STATUS CODE: 401(Anauthorized)
+  {
+    "errors": [
+      "wrong email/password"
+    ]
+  }
   ```
 
   

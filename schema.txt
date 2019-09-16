@@ -22,18 +22,17 @@ cart [{
 }]
 whislist []
 
+cart
+----------
+
 Products
 ----------
 name
 description
 price
 image
-categories {}
+category
 stock
-
-Categories
-----------
-name
 
 Transactions
 ----------

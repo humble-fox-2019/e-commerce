@@ -4,9 +4,9 @@ const { comparePassword } = require('../helpers/bcrypt');
 
 class UserController {
     static signup(req, res, next) {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
 
-        User.create({ name, email, password })
+        User.create({ name, email, password, role })
             .then(user => {
                 const payload = {
                     name: user.name,
@@ -48,6 +48,19 @@ class UserController {
                 }
             })
             .catch(next)
+    }
+
+    static addCart(req, res, next) {
+        // const { ProductId, count } = req.body;
+        // const _id = req.decode.id;
+
+        // User.findOne({ _id })
+        //     .then(user => {
+        //         user.products.push({
+                    
+        //         })
+        //     })
+        
     }
 }
 

@@ -38,7 +38,7 @@ describe('User', function() {
                     expect(res.body.payload.name).to.equal(user.name);
                     expect(res.body.payload.email).to.equal(user.email);
                     expect(res.body.payload.role).to.equal('customer');
-                    
+                    console.log(res.body)
                     done();
                 });
                 

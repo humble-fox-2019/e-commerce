@@ -11,7 +11,9 @@ module.exports = {
             for (let key in err.errors) {
                 errors.push(err.errors[key].message)
             }
-            console.log(errors)
+    
+            // console.log(errors, '========== dari error handler')
+
             res.status(400).json({
                 errors
             });

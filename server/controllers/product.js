@@ -4,6 +4,7 @@ class ProductController {
     static findAll(req, res, next) {
         Product.find()
                .then(products => {
+                //    console.log(products)
                    res.status(200).json(products);
                })
                .catch(next);
@@ -11,9 +12,9 @@ class ProductController {
 
     static findOne(req, res, next) {
         const _id = req.params.id;
-        Product.findOne({ _id })
+        Product.findOne({_id})
                .then(product => {
-                   res.status(200).json(product);
+                   res.status(200).json(product)
                })
                .catch(next);
     }

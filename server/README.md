@@ -416,25 +416,24 @@ http://localhost:3000
             "Name field is required",
             "Description field is required",
             "Stock field description is required",
-            "Price field is required",
-            
+            "Price field is required"
         ]
     }
     ```
-
-  - 403 (Not Authenticated)
-
-    ```javascript
+    
+- 403 (Not Authenticated)
+  
+  ```javascript
     {
         errors: [
             "You must login first"
         ]
     }
     ```
-
-  - 401 (Unauthorized)
-
-    ```javascript
+  
+- 401 (Unauthorized)
+  
+  ```javascript
     {
         errors: [
             "You haven't authorized"
@@ -466,6 +465,7 @@ http://localhost:3000
         {
         "_id": "5d5ffbf0180c3f167c03afc2",
         "name": "Cheramic Bayat",
+        "description": "bagus sekali",
         "stock": 70,
         "price": 10000,
         "image": "https://www.pdma.org/global_graphics/default-store-350x350.jpg",
@@ -607,7 +607,7 @@ http://localhost:3000
             "You must login first"
         ]
     }
-    ```
+  ```
   
   - 401 (Unauthorized)
   
@@ -617,7 +617,7 @@ http://localhost:3000
             "You haven't authorized"
         ]
     }
-    ```
+  ```
   
   
   

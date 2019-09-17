@@ -15,6 +15,10 @@ const productSchema = new mongoose.Schema({
         required: [true, "Stock is required"],
         min: [0 , "Stock can't be minus"]
     },
+    description : {
+        type : String,
+        required: [true, "Description is required"]
+    },
     imageURL : {
         type : String,
         default : `http://capefearkitefestival.org/wp-content/themes/cardinal/images/default-thumb.png`

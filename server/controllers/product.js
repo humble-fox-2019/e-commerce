@@ -16,9 +16,9 @@ class ProductController {
         if ( req.file )
             imageURL = req.file.url
 
-        const { name , price , stock , category } = req.body
+        const { name , price , stock , category , description } = req.body
         
-        Product.create({ name, price, stock, imageURL , category })
+        Product.create({ name, price, stock, imageURL , category , description })
         .then( createdProduct => {
             res.status(201).json( createdProduct );
         })
@@ -31,12 +31,13 @@ class ProductController {
         if ( req.file ){
             imageURL = req.file.url
         }
-        let { name , price , stock , category } = req.body;
+        console.log( req.body.description , " <<<< ")
+        let { name , price , stock , category , description } = req.body;
 
-        let product = { name,price, stock, category }
+        let product = { name,price, stock, category , description }
 
         if ( imageURL ) {
-            product = { name,price, stock, category , imageURL }
+            product = { name,price, stock, category, description , imageURL }
         }
         Product.findOneAndUpdate(
             { _id : productId } ,
@@ -62,6 +63,7 @@ class ProductController {
     static addToCart ( req, res ,next ) {
         const user = req.decode
         const { productId , quantity } = req.body;
+        console.log( productId , "<<<<<<<")
         Cart.create({ userId : user.id , productId , quantity })
         .then( cart => {
             res.status(201).json({ message : "Cart Created", cart }) 
@@ -70,7 +72,7 @@ class ProductController {
     }
     static getUserCart ( req, res ,next ) {
         const userId = req.decode.id;
-        Cart.find({ userId }).populate('productId')
+        Cart.find({ userId }).populate('productId').populate('userId')
         .then ( cart => {
             res.status(200).json( cart );
         })

@@ -41,13 +41,18 @@ const deleteFile = ( url ) => {
         return
     }
     let deleteFile = url;
-    filename = deleteFile.replace(/(https:\/\/storage.googleapis.com\/posterpedia\/)/, '')
+    let filename = deleteFile.replace(/(https:\/\/storage.googleapis.com\/posterpedia\/)/, '')
 
     storage
     .bucket(CLOUD_BUCKET)
     .file( filename )
     .delete()
-    console.log("File Deleted")
+    .then( () => {
+        console.log("File Deleted")
+    })
+    .catch( err => {
+        console.log( "Delete file failed")
+    })
 }
 const Multer = require('multer'),
 multer = Multer({

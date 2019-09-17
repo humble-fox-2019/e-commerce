@@ -11,8 +11,8 @@ Server
 2. 
 
 ```
-Link : 
-
+Website : 
+Postman : https://documenter.getpostman.com/view/6836981/SVmvSe8r
 
 # 
 ## User
@@ -32,7 +32,8 @@ Response :
 ```
 Success :
 {
-    "token": <TOKEN>
+    "token": <TOKEN>,
+    "user": Object
 }
 Error : 
 {
@@ -72,7 +73,26 @@ Error :
 ## Product
 
 ```
-Admin Privilege
+Must LOGIN to use feature below
+```
+### Get All Product
+Route : `/products`  
+Method : `GET`  
+Headers : `TOKEN`    
+Body : -  
+Response : 
+```
+Success :
+{
+    [ productObj ]
+}
+
+```
+
+# 
+
+```
+Admin Privilege [MUST LOGIN AS AN ADMIN]
 ```
 ### Create New Product
 Route : `/products`  
@@ -84,8 +104,9 @@ Body :
     "name" : STRING,
     "price" : NUMBER,
     "stock" : NUMBER,
+    "category" : STRING,
     "description : STRING,
-    "imageURL" : <IMAGE FILE TYPE>
+    "file" : <IMAGE FILE TYPE>
 }
 ```
 Response : 
@@ -100,3 +121,81 @@ Error :
     message : []
 }
 ```
+
+
+### Update Product
+Route : `/products/:id`  
+Method : `PUT`  
+Headers : `TOKEN`    
+Body : 
+```
+{
+    "name" : STRING,
+    "price" : NUMBER,
+    "stock" : NUMBER,
+    "category" : STRING,
+    "description" : STRING
+    "file" : <IMAGE FILE TYPE>
+}
+```
+Response : 
+```
+Success :
+{
+    "updatedPreviousProduct"
+}
+Error :
+{
+    status : 400,
+    message : []
+}
+```
+
+
+### Delete Product
+Route : `/products/:id`  
+Method : `PUT`  
+Headers : `TOKEN`    
+Body : 
+```
+{
+    "name" : STRING,
+    "price" : NUMBER,
+    "stock" : NUMBER,
+    "category" : STRING,
+    "description" : STRING
+    "file" : <IMAGE FILE TYPE>
+}
+```
+Response : 
+```
+Success :
+{
+    "updatedPreviousProduct"
+}
+Error :
+{
+    status : 400,
+    message : []
+}
+```
+
+
+## Customer 
+```
+Customer Privilege [MUST LOGIN AS AN Customer]
+```
+### Get Product in Customer Cart
+
+
+
+### Add Product to Cart
+
+
+
+### Update Quantity of Product in Cart
+
+
+
+
+### Delete Product from Customer Cart 

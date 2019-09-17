@@ -1,15 +1,15 @@
 const express = require('express');
 const ProductController = require('../controllers/product');
 const authentication = require('../middleware/authentication');
-const { adminAuthorization , customerAuthorization , productOwner } = require('../middleware/authorization')
+const { adminAuthorization , customerAuthorization , productOwner , checkStock } = require('../middleware/authorization')
 const image = require('../helpers/image')
 
 const router = express.Router();
 
+router.get('/' , ProductController.getAll );
+
 // To Access all this routes need token!
 router.use( authentication )
-
-router.get('/' , ProductController.getAll );
 
 
 // Only user with role ADMIN can use this feature [CREATE , UPDATE , DELETE ] PRODUCT
@@ -25,6 +25,6 @@ router.post ('/cart' , ProductController.addToCart );
 
 // params id -> id itu adalah cart id 
 router.use( '/cart/:id' ,  productOwner )
-router.patch('/cart/:id' , ProductController.updateCartQuantity );
+router.patch('/cart/:id' , checkStock , ProductController.updateCartQuantity );
 router.delete('/cart/:id' , ProductController.deleteProductCart )
 module.exports = router;

@@ -2,7 +2,7 @@ const assert = require('assert');
 const mocha = require('mocha')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-
+const fs = require('fs')
 const app = require('../app');
 const expect = chai.expect;
 
@@ -78,22 +78,23 @@ describe('User' , function () {
         })
 
         // // If Already Created Dont run this
-        it('it should return new user obj' , function( done ) {
-            chai.request(app)
-            .post('/register')
-            .send({
-                "username" : "newUser",
-                "email" : "newUser@test.com",
-                "password" : "newUser"
-            })
-            .end( function( err, res ) {
-                expect( res.body ).to.include.keys('createdUser');
-                expect( res.body.createdUser ).to.include.keys('username','email','password')
-                expect( res.body.createdUser.username ).to.be.equals('newUser')
-                expect( res.body.createdUser.email ).to.be.equals('newUser@test.com')
-                done();
-            })
-        })
+        // it('it should return new user obj' , function( done ) {
+        //     chai.request(app)
+        //     .post('/register')
+        //     .send({
+        //         "username" : "newUser",
+        //         "email" : "newUser@test.com",
+        //         "password" : "newUser"
+        //     })
+        //     .end( function( err, res ) {
+        //         expect( res.body ).to.include.keys('createdUser');
+        //         expect( res.body.createdUser ).to.include.keys('username','email','password')
+        //         expect( res.body.createdUser.username ).to.be.equals('newUser')
+        //         expect( res.body.createdUser.email ).to.be.equals('newUser@test.com')
+        //         done();
+        //     })
+        // })
+
         it('it should return error message because username already registered' , function( done ) {
             chai.request(app)
             .post('/register')
@@ -185,10 +186,17 @@ describe('Product Admin CRUD' , function() {
     // CREATE
     describe('Create A Product' , function( ) {
         it('it should return created product' , function( done ) {
+            this.timeout(5000)
             chai.request(app)
             .post('/products')
+            .type('form')
             .set( 'token' , token )
-            .send( product )
+            .attach( 'file' , fs.readFileSync('./test/IU.jpg') , 'IU.jpg')
+            .field ("name" , "Kamado Tanjirou")
+            .field ("price" , 300000 )
+            .field ("stock" , 30 )
+            .field ("category" , "exclusive")
+            // .send( product )
             .end( function( err, res ) {
                 expect( res.body ).to.include.all.keys('name', 'price','stock' , 'category')
                 expect( res.body.name ).to.be.equal( product.name ) 
@@ -252,7 +260,20 @@ describe('Product Admin CRUD' , function() {
         })
     })
 
-
+    after('create a product' , function( done ) {
+        chai.request(app)
+        .post('/products')
+        .type('form')
+        .set( 'token' , token )
+        .attach( 'file' , fs.readFileSync('./test/Jisoo.jpg') , 'Jisoo.jpg')
+        .field ("name" , "Kim Jisoo")
+        .field ("price" , 300000 )
+        .field ("stock" , 30 )
+        .field ("category" , "exclusive")
+        .end( function( err, res ) {
+            done()
+        })
+    })
 })
 
 let user;
@@ -262,6 +283,7 @@ describe('Product Customer' , function() {
     let token;
     let tempProduct
     before('login as Customer' , function( done ) {
+
         chai.request(app)
         .post('/login')
         .send( customerLogin )
@@ -299,6 +321,7 @@ describe('Product Customer' , function() {
             .get('/products')
             .set( 'token' , token )
             .end( function( err, res ) {
+                console.log( res.body )
                 expect( res.body ).to.be.an('array');
                 tempProduct = res.body[0];
                 done();
@@ -347,6 +370,31 @@ describe('Product Customer' , function() {
         })
     })
 
+    describe('Update Product from Cart more than or less stock' , function() {
+        it('should return error message cannot update more than stock' , function ( done ) {
+            chai.request(app)
+            .patch(`/products/cart/${cartId}`)
+            .set( 'token' , token )
+            .send({ quantity : 100 })
+            .end( function( err , res ) {
+                console.log( res.body )
+                expect( res.status ).to.be.equal(400)
+                expect( res.body ).to.be.equal('Cannot update quantity more than available stock')
+                done();
+            })
+        })
+        it('should return error message that cannot update quantity less than 0' , function ( done ) {
+            chai.request(app)
+            .patch(`/products/cart/${cartId}`)
+            .set( 'token' , token )
+            .send({ quantity : -2 })
+            .end( function( err , res ) {
+                expect( res.status ).to.be.equal(400)
+                expect( res.body ).to.be.equal('Cannot update quantity less than 0')
+                done();
+            })
+        })
+    })
     // Delete Cart
     describe('Delete Product from Cart' , function() {
         it('should return message and deleted product', function( done ) {
@@ -366,4 +414,6 @@ describe('Product Customer' , function() {
             })
         })
     })
+
+    
 })

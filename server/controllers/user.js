@@ -14,15 +14,16 @@ class UserController {
                     const payload = {
                         id : found._id,
                         email : found.email,
-                        username : found.username
+                        username : found.username,
+                        role : found.role
                     }
                     const token = generateToken(payload)
                     res.status(200).json({ token , user : payload });
                 } else {
-                    next({ message : "Invalid Email / Password" })
+                    next({ status: 400, message : "Invalid Email / Password" })
                 }
             } else {
-                next({ message : "Invalid Email / Password" })
+                next({ status: 400 , message : "Invalid Email / Password" })
             }
         })
         .catch( next );

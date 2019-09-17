@@ -17,10 +17,10 @@
       </form>
     </div>
     <div class="menu">
-      <router-link to="/" class="active">Home</router-link>
-      <router-link to="/">Product</router-link>
-      <router-link to="/">Signin</router-link>
-      <router-link to="/">Signup</router-link>
+      <router-link to="/">Home</router-link>
+      <router-link to="/product">Product</router-link>
+      <router-link to="/signin">Signin</router-link>
+      <router-link to="/signup">Signup</router-link>
     </div>
   </div>
 </template>
@@ -76,7 +76,7 @@ export default {
   border-radius: 5px;
   color: rgb(61, 61, 61);
 }
-.menu a.active{
+.router-link-exact-active{
   font-weight: bold;
   background-color: rgb(220, 255, 200);
   color: #43ca34;

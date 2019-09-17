@@ -19,10 +19,13 @@ export default {
 
 <style scoped>
 .product{
-  flex-basis: 30%;
+  flex-basis: 22%;
+  flex-grow: 1;
   background-color: rgb(241, 241, 241);
   border-radius: 5px;
+  overflow: hidden;
   box-shadow: 0 2px 2px rgba(0,0,0,.2);
+  margin: 10px;
 }
 .product .text{
   padding: 30px 20px 20px 20px;
@@ -48,11 +51,12 @@ export default {
 }
 .text-footer h3{
   color: #43ca34;
+  font-size: 12pt;
 }
 .text-footer button{
   background-color: #43ca34;
   color: #ffffff;
-  padding: 10px 20px;
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   font-size: 10pt;

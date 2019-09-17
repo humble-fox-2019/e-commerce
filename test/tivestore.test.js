@@ -189,7 +189,8 @@ describe('products', function () {
                 .field('stock', 10)
                 .attach('image', fs.readFileSync('./img.jpg'), 'img.jpg')
                 .end(function (err, res) {
-                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res.body.message).to.equal('successfully updated');
+                    expect(res.body.data).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
                     expect(res).have.status(200);
                     done();
                 });
@@ -206,8 +207,8 @@ describe('products', function () {
                 .field('stock', 10)
                 .attach('image', fs.readFileSync('./img.jpg'), 'img.jpg')
                 .end(function (err, res) {
-                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
-                    expect(res).have.status(200);
+                    expect(res.body.message[0]).to.equal('You dont have authorized to this data');
+                    expect(res).have.status(403);
                     done();
                 });
         });
@@ -223,25 +224,8 @@ describe('products', function () {
                 .field('stock', 10)
                 .attach('image', fs.readFileSync('./img.jpg'), 'img.jpg')
                 .end(function (err, res) {
-                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
-                    expect(res).have.status(200);
-                    done();
-                });
-        });
-
-        it('Error if product not found', function (done) {
-            chai.request(app)
-                .patch('/products/' + '5d7e80911a4a273a4fbf42b8')
-                .set('access_token', adminToken)
-                .field('name', 'addidas New Hammer sole for Sports person 2')
-                .field('price', 1300000)
-                .field('description', 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter 2.')
-                .field('category', 'Household 2')
-                .field('stock', 10)
-                .attach('image', fs.readFileSync('./img.jpg'), 'img.jpg')
-                .end(function (err, res) {
-                    expect(res.body).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
-                    expect(res).have.status(200);
+                    expect(res.body.message[0]).to.equal('Invalid ID');
+                    expect(res).have.status(400);
                     done();
                 });
         });
@@ -258,17 +242,6 @@ describe('products', function () {
                     done();
                 });
         });
-
-        it('Error invalid id', function (done) {
-            chai.request(app)
-                .get('/products/' + 'sadsad6678y321jbb')
-                .set('access_token', adminToken)
-                .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('Invalid ID');
-                    expect(res).have.status(400);
-                    done();
-                });
-        });
     });
 
     describe('Get all products', function () {
@@ -277,8 +250,8 @@ describe('products', function () {
                 .get('/products')
                 .set('access_token', adminToken)
                 .end(function (err, res) {
-                    expect(res.body.products).must.be.an('array');
-                    expect(res.body.products[0]).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
+                    expect(res.body).be.an('array');
+                    expect(res.body[0]).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
                     expect(res).have.status(200);
                     done();
                 });
@@ -291,7 +264,7 @@ describe('products', function () {
                 .delete('/products/' + productId)
                 .set('access_token', customerToken)
                 .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('You dont have authorized to this data');
+                    expect(res.body.message[0]).to.equal('You dont have authorized to this data');
                     expect(res).have.status(403);
                     done();
                 });
@@ -302,7 +275,7 @@ describe('products', function () {
                 .delete('/products/' + 'asdsa21321asdsadAA')
                 .set('access_token', adminToken)
                 .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('Invalid ID');
+                    expect(res.body.message[0]).to.equal('Invalid ID');
                     expect(res).have.status(400);
                     done();
                 });
@@ -313,7 +286,7 @@ describe('products', function () {
                 .delete('/products/' + productId)
                 .set('access_token', adminToken)
                 .end(function (err, res) {
-                    expect(res.body.message).equal.to('successfully deleted');
+                    expect(res.body.message).to.equal('successfully deleted');
                     expect(res.body.data).to.include.keys(['_id', 'name', 'price', 'description', 'image', 'category', 'stock']);
                     expect(res).have.status(200);
                     done();

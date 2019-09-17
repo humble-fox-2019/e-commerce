@@ -10,7 +10,7 @@ router.get('/', ProductController.findAll);
 router.post('/', isAdmin, gcs.multer.single('image'), gcs.sendUploadToGCS, ProductController.store);
 
 router.get('/:id', ProductController.findOne);
-router.patch('/:id', ProductController.update);
-router.delete('/:id', ProductController.delete);
+router.patch('/:id', isAdmin, ProductController.update);
+router.delete('/:id', isAdmin, ProductController.delete);
 
 module.exports = router;

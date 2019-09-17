@@ -2,13 +2,9 @@ const Product = require('../models/product');
 
 class ProductController {
     static findAll(req, res, next) {
-        let where = {};
-        if (req.query.name) {
-            where = { "name": { $regex: '.*' + req.query.name + '.*' } }
-        }
-        Product.find(where)
-            .then(products => {
-                res.status(200).json(products);
+        Product.find()
+            .then(data => {
+                res.status(200).json(data);
             }).catch(next);
     }
 
@@ -39,7 +35,7 @@ class ProductController {
         const { name, price, description, image, category, stock } = req.body;
         const data = { name, price, description, image, category, stock };
 
-        Product.findOneAndUpdate({ _id: req.params.id }, data, { omitUndefined: true, runValidators: true })
+        Product.findByIdAndUpdate({ _id: req.params.id }, data, { omitUndefined: true, runValidators: true })
             .then(data => {
                 res.status(200).json({ message: 'successfully updated', data });
             })

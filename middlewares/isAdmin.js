@@ -9,7 +9,7 @@ function isAdmin(req, res, next) {
         }
     }
     catch{
-        next({ statusCode: 401, msg: "You do not have access to data product" })
+        next({ statusCode: 403, msg: "You dont have authorized to this data" })
     }
 }
 

@@ -1,21 +1,28 @@
 <template>
   <div class="slider">
     <div class="control">
-      <button class="left">
+      <button class="left" @click="index <= 0 ? index=2:index--">
         <i class="fas fa-chevron-left"></i>
       </button>
-      <button class="right">
+      <button class="right" @click="index >= 2 ? index=0:index++">
         <i class="fas fa-chevron-right"></i>
       </button>
     </div>
     <div class="slider-wrapper">
-      <SliderItem
-        v-for="(item, index) in slides"
-        :key = "index"
-        :image ="item.image"
-        :title = "item.title"
-        :color = "item.color">
-      </SliderItem>
+      <transition name='slide'>
+        <SliderItem v-if="index===0"
+          :slide = "slides[index]"
+          :id="index">
+        </SliderItem>
+        <SliderItem v-else-if="index===1"
+          :slide = "slides[index]"
+          :id="index">
+        </SliderItem>
+        <SliderItem v-else-if="index===2"
+          :slide = "slides[index]"
+          :id="index">
+        </SliderItem>
+      </transition>
     </div>
   </div>
 </template>
@@ -30,6 +37,7 @@ export default {
   },
   data() {
     return {
+      index: 0,
       slides: [{
         image: 'https://storage.cloud.google.com/image-ecommerce-josprima-site/gaming.png',
         title: 'Gaming',
@@ -63,17 +71,26 @@ export default {
   border-radius: 5px;
   cursor: pointer;
 }
+.control button:focus{
+  outline: none;
+}
 .left{
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 0;
+  left: 20px;
 }
 .right{
   position: absolute;
-  right: 0;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
+}
+.slide-enter-active{
+  animation: fadeInLeft 2s;
+}
+.slide-leave-active{
+  animation: fadeInRight .2s reverse;
 }
 
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div class="slider-item">
-    <img :src="image" alt="" srcset="">
+    <img :src="slide.image" alt="" srcset="">
     <div class="text">
-      <h1>{{title}}</h1>
+      <h1>{{slide.title}}</h1>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, repudiandae! Natus rerum aliquam quo aperiam ducimus corporis dolorem sed magnam nulla consequatur fugiat voluptate quisquam, officiis quos autem et veniam.</p>
-      <button>Shop now</button>
+      <button :style="'color: ' + slide.color + ';'">Shop now</button>
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 <script>
 export default {
   name: 'SlideItem',
-  props: ['image', 'title', 'color']
+  props: ['slide']
 }
 </script>
 

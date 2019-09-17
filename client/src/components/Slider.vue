@@ -1,23 +1,50 @@
 <template>
   <div class="slider">
     <div class="control">
-      <div></div>
-      <div></div>
+      <button class="left">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="right">
+        <i class="fas fa-chevron-right"></i>
+      </button>
     </div>
-    <div>
-      <img src="../assets/gaming.png" alt="" srcset="">
-      <div class="text">
-        <h1>Gaming</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate.</p>
-        <button>Shop now</button>
-      </div>
+    <div class="slider-wrapper">
+      <SliderItem
+        v-for="(item, index) in slides"
+        :key = "index"
+        :image ="item.image"
+        :title = "item.title"
+        :color = "item.color">
+      </SliderItem>
     </div>
   </div>
 </template>
 
 <script>
-export default {
 
+import SliderItem from '../components/SliderItem'
+export default {
+  name: 'Slider',
+  components: {
+    SliderItem
+  },
+  data() {
+    return {
+      slides: [{
+        image: 'https://storage.cloud.google.com/image-ecommerce-josprima-site/gaming.png',
+        title: 'Gaming',
+        color: '#43ca34'
+      },{
+        image: 'https://storage.cloud.google.com/image-ecommerce-josprima-site/multimedia.png',
+        title: 'Multimedia',
+        color: '#ffcc78'
+      },{
+        image: 'https://storage.cloud.google.com/image-ecommerce-josprima-site/work.png',
+        title: 'Work',
+        color: '#43ca34'
+      }]
+    }
+  }
 }
 </script>
 
@@ -26,40 +53,27 @@ export default {
   max-width: 1100px;
   margin: 60px auto;
   padding: 20px;
-}
-
-.slider img{
-  width: 100%;
-}
-
-.slider > div{
   position: relative;
 }
-.slider > div .text{
+.control button{
+  padding: 20px;
+  border: none;
+  background-color: rgba(255, 255, 255, .6);
+  box-shadow: 0 2px 4px rgba(11, 71, 5, .2);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.left{
   position: absolute;
   top: 50%;
-  left: 40px;
   transform: translateY(-50%);
-  max-width: 600px;
+  left: 0;
 }
-.slider > div .text h1{
-  color: #ffffff;
-  font-size: 32pt;
-}
-.slider > div .text p{
-  color: #ffffff;
-  margin: 30px 0;
-  line-height: 1.5em;
-}
-.slider > div .text button{
-  border: none;
-  padding: 10px 40px;
-  font-size: 10pt;
-  color: #43ca34;
-  font-weight: bold;
-  border-radius: 5px;
-  box-shadow: 0px 2px 4px rgba(11,71,5,.2);
-  cursor: pointer;
+.right{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 </style>

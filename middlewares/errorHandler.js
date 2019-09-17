@@ -29,7 +29,7 @@ function errorHandler(err, req, res, next) {
             myErr = err.msg;
         }
         res.status(err.statusCode || 500).json({
-            message: myErr || ['Internal server error']
+            message: (err.msg) ? myErr : ['Internal server error']
         });
     }
 }

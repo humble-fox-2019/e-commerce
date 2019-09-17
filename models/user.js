@@ -61,8 +61,7 @@ const userSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'Product'
             },
-            qty: Number,
-            price: Number
+            qty: Number
         }
     ],
     whislist: [

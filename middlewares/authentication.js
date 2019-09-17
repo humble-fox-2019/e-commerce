@@ -3,8 +3,8 @@ const User = require("../models/user")
 
 function authentication(req, res, next) {
     try {
-        const token = req.headers.token
-        const decode = jwt.decodeToken(token)
+        const access_token = req.headers.access_token
+        const decode = jwt.decodeToken(access_token)
 
         req.decode = decode
         let _id = req.decode.id

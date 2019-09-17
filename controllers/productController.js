@@ -13,11 +13,17 @@ class ProductController {
     }
 
     static store(req, res, next) {
-        const { name, price, description, image, category, stock } = req.body;
+        const { name, price, description, category, stock } = req.body;
+        let data = { name, price, description, category, stock }
+
+        if (req.file) {
+            data.image = req.file.cloudStoragePublicUrl;
+        }
+
         Product.create(
-            { name, price, description, image, category, stock }
-        ).then(product => {
-            res.status(201).json(product)
+            data
+        ).then(data => {
+            res.status(201).json({ message: 'successfully created', data })
         }).catch(next);
     }
 

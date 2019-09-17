@@ -20,9 +20,24 @@
         
         <v-divider inset vertical></v-divider>
       </v-toolbar-items>
+  
+  <v-menu>
+      <template v-slot:activator="{ on }">
+      <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
+      </template>
 
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-list>
+        <v-list-item route to='/login'>
+          <v-list-item-title>Login</v-list-item-title>
+        </v-list-item>
+        <v-list-item route to='/register'>
+          <v-list-item-title>Register</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+      
     </v-toolbar>
+    
   </nav>
 </template>
 

@@ -8,11 +8,7 @@ class ProductController {
         }
         Product.find(where)
             .then(products => {
-                if (products.length > 0) {
-                    res.status(200).json(products);
-                } else {
-                    next({ statusCode: 404 });
-                }
+                res.status(200).json(products);
             }).catch(next);
     }
 
@@ -29,11 +25,7 @@ class ProductController {
         Product.findOne({
             _id: req.params.id
         }).then(product => {
-            if (product) {
-                res.status(200).json(product);
-            } else {
-                next({ statusCode: 404 });
-            }
+            res.status(200).json(product);
         }).catch(next);
     }
 

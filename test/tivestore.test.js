@@ -5,11 +5,12 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
 const User = require("../models/user");
+const Product = require("../models/product");
 
 chai.use(chaiHttp);
 let expect = chai.expect;
 
-let memberToken = '';
+let customerToken = '';
 let adminToken = '';
 
 describe('Authentication', function () {
@@ -73,7 +74,7 @@ describe('Authentication', function () {
                 .post('/login')
                 .send({ email: 'candrasaputra@live.com', password: 'password123' })
                 .end(function (req, res, next) {
-                    memberToken = res.body.access_token;
+                    customerToken = res.body.access_token;
                     expect(res.body).to.have.property('access_token');
                     expect(res.body).to.have.property('userData');
                     expect(res.body.userData).to.include.keys(['id', 'name', 'email', 'role']);
@@ -151,7 +152,7 @@ describe('products', function () {
         it('Error if not admin', function (done) {
             chai.request(app)
                 .post('products')
-                .set('access_token', memberToken)
+                .set('access_token', customerToken)
                 .send({
                     name: 'addidas New Hammer sole for Sports person',
                     price: 1200000,
@@ -223,7 +224,7 @@ describe('products', function () {
         it('Error if not admin', function (done) {
             chai.request(app)
                 .patch('products/' + productId)
-                .set('access_token', memberToken)
+                .set('access_token', customerToken)
                 .send({
                     name: 'addidas New Hammer sole for Sports person2',
                     price: 8000000,
@@ -316,17 +317,6 @@ describe('products', function () {
                     done();
                 });
         });
-
-        it('Error if data not found', function (done) {
-            chai.request(app)
-                .get('products/' + '5d7e80911a4a273a4fbf42b8')
-                .set('access_token', adminToken)
-                .end(function (res, req, next) {
-                    expect(res.body.message[0]).equal.to('Data not found');
-                    expect(res).have.status(404);
-                    done();
-                });
-        });
     });
 
     describe('Get all products', function () {
@@ -341,18 +331,13 @@ describe('products', function () {
                     done();
                 });
         });
-
-        it('Error if data not found', function (done) {
-            done()
-        })
     });
 
     describe('Delete product', function () {
-
         it('Error if not admin', function (done) {
             chai.request(app)
                 .delete('products/' + productId)
-                .set('access_token', memberToken)
+                .set('access_token', customerToken)
                 .end(function (res, req, next) {
                     expect(res.body.message[0]).equal.to('You do not have access to data product');
                     expect(res).have.status(403);
@@ -385,36 +370,127 @@ describe('products', function () {
     });
 });
 
+let product1, product2, product3;
 describe('Cart', function () {
+    before(function (done) {
+        let promises = [Product.create({
+            name: 'addidas New Hammer sole for Sports person',
+            price: 1200000,
+            description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter.',
+            category: 'Household',
+            stock: 40
+        }), Product.create({
+            name: 'addidas Person advanced',
+            price: 1520000,
+            description: 'This is description',
+            category: 'Stylist',
+            stock: 10
+        }), Product.create({
+            name: 'addidas New luxury',
+            price: 990000,
+            description: 'lorem ok',
+            category: 'Household',
+            stock: 15
+        })]
+
+        Promise.all(promises)
+            .then((result) => {
+                product1 = result[0];
+                product2 = result[1];
+                product3 = result[2];
+            })
+    });
+
     describe('Add product to cart', function () {
         it('Add product without error', function (done) {
-            done();
+            chai.request(app)
+                .post('cart')
+                .set('access_token', customerToken)
+                .send({
+                    productId: product1,
+                    qty: 3
+                })
+                .end(function (res, req, next) {
+                    expect(res.body.message).equal.to('Add product successfully');
+                    expect(res.body.data).to.include.keys(['productId', 'qty', 'price']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
         it('Error product not found', function (done) {
-            done();
+            chai.request(app)
+                .post('cart')
+                .set('access_token', customerToken)
+                .send({
+                    productId: '5d75d0f3af42041666563035',
+                    qty: 3
+                })
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Product not found');
+                    expect(res).have.status(404);
+                    done();
+                });
         });
 
         it('Error less quantity', function (done) {
-            done();
+            chai.request(app)
+                .post('cart')
+                .set('access_token', customerToken)
+                .send({
+                    productId: product1,
+                    qty: 300
+                })
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Product quentity not enought');
+                    expect(res).have.status(400);
+                    done();
+                });
         });
     });
 
     describe('Update product from cart', function () {
         it('Update product without error', function (done) {
-            done();
-        });
-
-        it('Error cart empty', function (done) {
-            done();
+            chai.request(app)
+                .patch('cart/' + product2)
+                .set('access_token', customerToken)
+                .send({
+                    qty: 10
+                })
+                .end(function (res, req, next) {
+                    expect(res.body.message).equal.to('Update product successfully');
+                    expect(res.body.data).to.include.keys(['qty', 'price', 'subtotal']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
         it('Error product not found', function (done) {
-            done();
+            chai.request(app)
+                .patch('cart/' + '5d75d0f3af42041666563035')
+                .set('access_token', customerToken)
+                .send({
+                    qty: 10
+                })
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Product not found');
+                    expect(res).have.status(404);
+                    done();
+                });
         });
 
         it('Error less quantity', function (done) {
-            done();
+            chai.request(app)
+                .patch('cart/' + product2)
+                .set('access_token', customerToken)
+                .send({
+                    qty: 300
+                })
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Product quentity not enought');
+                    expect(res).have.status(400);
+                    done();
+                });
         });
     });
 
@@ -422,49 +498,79 @@ describe('Cart', function () {
         it('Get cart without error', function (done) {
             chai.request(app)
                 .get('cart')
-                .set('access_token', memberToken)
+                .set('access_token', customerToken)
                 .end(function (res, req, next) {
-                    expect(res.body).must.be.an('array');
-                    expect(res.body[0]).to.include.keys(['productId', 'productName', 'price', 'qty']);
+                    expect(res.body.data).must.be.an('array');
+                    expect(res.body.data[0]).to.include.keys(['productId', 'price', 'qty', 'subtotal']);
                     expect(res).have.status(200);
                     done();
                 });
-        })
-
-        it('Error cart empty', function (done) {
-            done();
         })
     });
 
     describe('Remove product from cart', function () {
         it('Remove product without error', function (done) {
-            done();
-        });
-
-        it('Error cart empty', function (done) {
-            done();
+            chai.request(app)
+                .delete('cart/' + product2)
+                .set('access_token', customerToken)
+                .send({
+                    qty: 10
+                })
+                .end(function (res, req, next) {
+                    expect(res.body.message).equal.to('Delete product successfully');
+                    expect(res.body.data).to.include.keys(['qty', 'price', 'subtotal']);
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
         it('Error product not found', function (done) {
-            done();
-        });
-
-        it('Error less quantity', function (done) {
-            done();
+            chai.request(app)
+                .delete('cart/' + '5d75d0f3af42041666563035')
+                .set('access_token', customerToken)
+                .send({
+                    qty: 10
+                })
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Product not found');
+                    expect(res).have.status(404);
+                    done();
+                });
         });
     });
 
     describe('Checkout', function () {
         it('Checkout without error', function (done) {
-            done();
+            chai.request(app)
+                .post('checkout')
+                .set('access_token', customerToken)
+                .end(function (res, req, next) {
+                    expect(res.body.message).equal.to('Checkout successfull');
+                    expect(res).have.status(200);
+                    done();
+                });
         });
 
         it('Error cart empty', function (done) {
-            done();
+            chai.request(app)
+                .post('checkout')
+                .set('access_token', customerToken)
+                .end(function (res, req, next) {
+                    expect(res.body.message[0]).equal.to('Cart empty');
+                    expect(res).have.status(404);
+                    done();
+                });
         });
 
-        it('Error less quantity', function (done) {
-            done();
-        });
+        // it('Error less quantity', function (done) {
+        //     chai.request(app)
+        //         .post('checkout')
+        //         .set('access_token', customerToken)
+        //         .end(function (res, req, next) {
+        //             expect(res.body.message).equal.to('Checkout successfull');
+        //             expect(res).have.status(200);
+        //             done();
+        //         });
+        // });
     });
 });

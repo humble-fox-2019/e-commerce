@@ -11,7 +11,7 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field label="Login" name="login" prepend-icon="md-person" type="text"></v-text-field>
+                  <v-text-field label="Email" name="Email" prepend-icon="md-person" type="email"></v-text-field>
 
                   <v-text-field
                     id="password"

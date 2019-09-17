@@ -296,26 +296,30 @@ describe('products', function () {
 });
 
 let product1, product2, product3;
-describe('Cart', function () {
+describe('Carts', function () {
+
     before(function (done) {
         let promises = [Product.create({
             name: 'addidas New Hammer sole for Sports person',
             price: 1200000,
             description: 'Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for something that can make your interior look awesome, and at the same time give you the pleasant warm feeling during the winter.',
             category: 'Household',
-            stock: 40
+            stock: 40,
+            image: 'https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg'
         }), Product.create({
             name: 'addidas Person advanced',
             price: 1520000,
             description: 'This is description',
             category: 'Stylist',
-            stock: 10
+            stock: 10,
+            image: 'https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg'
         }), Product.create({
             name: 'addidas New luxury',
             price: 990000,
             description: 'lorem ok',
             category: 'Household',
-            stock: 15
+            stock: 15,
+            image: 'https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg'
         })]
 
         Promise.all(promises)
@@ -323,20 +327,17 @@ describe('Cart', function () {
                 product1 = result[0];
                 product2 = result[1];
                 product3 = result[2];
+                done();
             })
     });
 
-    describe('Add product to cart', function () {
+    describe('Add product to carts', function () {
         it('Add product without error', function (done) {
             chai.request(app)
-                .post('/cart')
+                .post('/carts/' + product1)
                 .set('access_token', customerToken)
-                .send({
-                    productId: product1,
-                    qty: 3
-                })
                 .end(function (err, res) {
-                    expect(res.body.message).equal.to('Add product successfully');
+                    expect(res.body.message).to.equal('Add product successfully');
                     expect(res.body.data).to.include.keys(['productId', 'qty', 'price']);
                     expect(res).have.status(200);
                     done();
@@ -345,14 +346,10 @@ describe('Cart', function () {
 
         it('Error product not found', function (done) {
             chai.request(app)
-                .post('/cart')
+                .post('/carts/' + product1)
                 .set('access_token', customerToken)
-                .send({
-                    productId: '5d75d0f3af42041666563035',
-                    qty: 3
-                })
                 .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('Product not found');
+                    expect(res.body.message[0]).to.equal('Product not found');
                     expect(res).have.status(404);
                     done();
                 });
@@ -360,21 +357,17 @@ describe('Cart', function () {
 
         it('Error less quantity', function (done) {
             chai.request(app)
-                .post('/cart')
+                .post('/carts/' + product1)
                 .set('access_token', customerToken)
-                .send({
-                    productId: product1,
-                    qty: 300
-                })
                 .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('Product quentity not enought');
+                    expect(res.body.message[0]).to.equal('Product quentity not enought');
                     expect(res).have.status(400);
                     done();
                 });
         });
     });
 
-    describe('Update product from cart', function () {
+    describe('Update product from carts', function () {
         it('Update product without error', function (done) {
             chai.request(app)
                 .patch('/cart/' + product2)
@@ -383,7 +376,7 @@ describe('Cart', function () {
                     qty: 10
                 })
                 .end(function (err, res) {
-                    expect(res.body.message).equal.to('Update product successfully');
+                    expect(res.body.message).to.equal('Update product successfully');
                     expect(res.body.data).to.include.keys(['qty', 'price', 'subtotal']);
                     expect(res).have.status(200);
                     done();
@@ -398,7 +391,7 @@ describe('Cart', function () {
                     qty: 10
                 })
                 .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('Product not found');
+                    expect(res.body.message[0]).to.equal('Product not found');
                     expect(res).have.status(404);
                     done();
                 });
@@ -412,17 +405,17 @@ describe('Cart', function () {
                     qty: 300
                 })
                 .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('Product quentity not enought');
+                    expect(res.body.message[0]).to.equal('Product quentity not enought');
                     expect(res).have.status(400);
                     done();
                 });
         });
     });
 
-    describe('Get my cart', function () {
+    describe('Get my carts', function () {
         it('Get cart without error', function (done) {
             chai.request(app)
-                .get('/cart')
+                .get('/carts')
                 .set('access_token', customerToken)
                 .end(function (err, res) {
                     expect(res.body.data).must.be.an('array');
@@ -433,7 +426,7 @@ describe('Cart', function () {
         })
     });
 
-    describe('Remove product from cart', function () {
+    describe('Remove product from carts', function () {
         it('Remove product without error', function (done) {
             chai.request(app)
                 .delete('/cart/' + product2)
@@ -442,7 +435,7 @@ describe('Cart', function () {
                     qty: 10
                 })
                 .end(function (err, res) {
-                    expect(res.body.message).equal.to('Delete product successfully');
+                    expect(res.body.message).to.equal('Delete product successfully');
                     expect(res.body.data).to.include.keys(['qty', 'price', 'subtotal']);
                     expect(res).have.status(200);
                     done();
@@ -457,7 +450,7 @@ describe('Cart', function () {
                     qty: 10
                 })
                 .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('Product not found');
+                    expect(res.body.message[0]).to.equal('Product not found');
                     expect(res).have.status(404);
                     done();
                 });
@@ -470,7 +463,7 @@ describe('Cart', function () {
                 .post('/checkout')
                 .set('access_token', customerToken)
                 .end(function (err, res) {
-                    expect(res.body.message).equal.to('Checkout successfull');
+                    expect(res.body.message).to.equal('Checkout successfull');
                     expect(res).have.status(200);
                     done();
                 });
@@ -481,7 +474,7 @@ describe('Cart', function () {
                 .post('/checkout')
                 .set('access_token', customerToken)
                 .end(function (err, res) {
-                    expect(res.body.message[0]).equal.to('Cart empty');
+                    expect(res.body.message[0]).to.equal('Cart empty');
                     expect(res).have.status(404);
                     done();
                 });
@@ -492,7 +485,7 @@ describe('Cart', function () {
         //         .post('/checkout')
         //         .set('access_token', customerToken)
         //         .end(function (err, res) {
-        //             expect(res.body.message).equal.to('Checkout successfull');
+        //             expect(res.body.message).to.equal('Checkout successfull');
         //             expect(res).have.status(200);
         //             done();
         //         });

@@ -55,15 +55,6 @@ const userSchema = new Schema({
     image: {
         type: String
     },
-    cart: [
-        {
-            productId: {
-                type: Schema.Types.ObjectId,
-                ref: 'Product'
-            },
-            qty: Number
-        }
-    ],
     whislist: [
         {
             type: Schema.Types.ObjectId,

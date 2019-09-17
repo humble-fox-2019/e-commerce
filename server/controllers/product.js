@@ -1,5 +1,7 @@
 const Product = require('../models/product');
 const Cart = require('../models/cart');
+const { deleteFile } = require('../helpers/image')
+
 
 class ProductController {
     static getAll ( req , res , next ) {
@@ -10,7 +12,12 @@ class ProductController {
         .catch( next );
     }
     static create( req, res ,next ) {
-        const { name , price , stock , imageURL , category } = req.body
+        let imageURL;
+        if ( req.file )
+            imageURL = req.file.url
+
+        const { name , price , stock , category } = req.body
+        
         Product.create({ name, price, stock, imageURL , category })
         .then( createdProduct => {
             res.status(201).json( createdProduct );
@@ -18,16 +25,27 @@ class ProductController {
         .catch( next );
     }
     static update( req, res ,next ){
+        // harus kasi kalo update baru diupload k gcp dl trs delete yang sblmnya
         const productId = req.params.id;
-        let { name , price , stock , imageURL , category } =req.body;
-        if ( !imageURL ) imageURL = 'http://capefearkitefestival.org/wp-content/themes/cardinal/images/default-thumb.png'
+        let imageURL;
+        if ( req.file ){
+            imageURL = req.file.url
+        }
+        let { name , price , stock , category } = req.body;
+
+        let product = { name,price, stock, category }
+
+        if ( imageURL ) {
+            product = { name,price, stock, category , imageURL }
+        }
         Product.findOneAndUpdate(
             { _id : productId } ,
-            { name , price , stock , imageURL , category },
+            product,
             { runValidators : true }
         )
         .then( previousUpdatedProduct => {
-            res.status(200).json({ message : "Product Updated!"})
+            deleteFile( previousUpdatedProduct.imageURL )
+            res.status(200).json({ message : "Product Updated!" , previousUpdatedProduct})
         })
         .catch( next )
     }
@@ -35,6 +53,7 @@ class ProductController {
         const productId = req.params.id;
         Product.findByIdAndDelete( productId )
         .then( deletedProduct => {
+            deleteFile( deletedProduct.imageURL );
             res.status(200).json({ message: "Product Deleted!" , deletedProduct })
         })
         .catch( next )

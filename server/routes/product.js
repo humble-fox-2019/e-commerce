@@ -2,6 +2,7 @@ const express = require('express');
 const ProductController = require('../controllers/product');
 const authentication = require('../middleware/authentication');
 const { adminAuthorization , customerAuthorization , productOwner } = require('../middleware/authorization')
+const image = require('../helpers/image')
 
 const router = express.Router();
 
@@ -12,8 +13,8 @@ router.get('/' , ProductController.getAll );
 
 
 // Only user with role ADMIN can use this feature [CREATE , UPDATE , DELETE ] PRODUCT
-router.post  ('/'    , adminAuthorization, ProductController.create );
-router.put   ('/:id' , adminAuthorization, ProductController.update );
+router.post  ('/'    , adminAuthorization, image.multer.single('file'), image.sendUploadToGCS , ProductController.create );
+router.put   ('/:id' , adminAuthorization, image.multer.single('file'), image.sendUploadToGCS , ProductController.update );
 router.delete('/:id' , adminAuthorization, ProductController.delete );
 
 

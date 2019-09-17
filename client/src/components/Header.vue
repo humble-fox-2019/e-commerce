@@ -78,10 +78,11 @@ export default {
 }
 .menu a.active{
   font-weight: bold;
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(220, 255, 200);
+  color: #43ca34;
 }
 .menu a:hover{
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(220, 255, 200);
 }
 .menu a:not(:first-child){
   margin-left: 20px;

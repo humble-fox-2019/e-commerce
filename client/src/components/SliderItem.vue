@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .slider-item img{
   width: 100%;
@@ -26,7 +26,7 @@ export default {
   top: 50%;
   left: 100px;
   transform: translateY(-50%);
-  max-width: 500px;
+  width: 500px;
 }
 .text h1{
   color: #ffffff;
@@ -44,6 +44,7 @@ export default {
   box-shadow: 0 2px 4px rgba(13, 67, 7, .2);
   font-size: 10pt;
   font-weight: bold;
+  background-color: #ffffff;
 }
 
 </style>

@@ -12,15 +12,15 @@
       <transition name='slide'>
         <SliderItem v-if="index===0"
           :slide = "slides[index]"
-          :id="index">
+          :key="index">
         </SliderItem>
         <SliderItem v-else-if="index===1"
           :slide = "slides[index]"
-          :id="index">
+          :key="index">
         </SliderItem>
         <SliderItem v-else-if="index===2"
           :slide = "slides[index]"
-          :id="index">
+          :key="index">
         </SliderItem>
       </transition>
     </div>
@@ -58,7 +58,9 @@ export default {
 
 <style scoped>
 .slider{
-  max-width: 1100px;
+  width: 1100px;
+  height: 350px;
+  overflow: hidden;
   margin: 60px auto;
   padding: 20px;
   position: relative;
@@ -70,6 +72,7 @@ export default {
   box-shadow: 0 2px 4px rgba(11, 71, 5, .2);
   border-radius: 5px;
   cursor: pointer;
+  color: #43ca34;
 }
 .control button:focus{
   outline: none;
@@ -87,10 +90,10 @@ export default {
   transform: translateY(-50%);
 }
 .slide-enter-active{
-  animation: fadeInLeft 2s;
+  animation: slideInLeft .5s;
 }
 .slide-leave-active{
-  animation: fadeInRight .2s reverse;
+  animation: fadeOut .5s;
 }
 
 </style>

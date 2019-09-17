@@ -17,6 +17,18 @@ module.exports = {
             res.status(400).json({
                 errors
             });
+        } else if (err.name === 'CastError') {
+            console.log(err)
+
+            if (err.message.includes("Product")) {
+                res.status(400).json({
+                    errors: ["Product ID is not valid"]
+                })
+            } else {
+                res.status(400).json({
+                    errors: ["Cart ID is not valid"]
+                })
+            }
         } else {
             res.status(status).json({
                 errors: [message]

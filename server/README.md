@@ -40,7 +40,7 @@ http://localhost:3000
         name: String (required),
         email: String (required),
         password: String (required),
-        image: String (optional)
+        image: Image (optional)
     }
     ```
 
@@ -152,8 +152,6 @@ http://localhost:3000
      }
      ```
 
-     
-
    - 400 (Bad Request)
 
      ```javascript
@@ -164,7 +162,15 @@ http://localhost:3000
      }
      ```
 
-     
+  - 400 (Bad Request)
+
+    ```javascript
+    {
+        errors: [
+            "Product ID not found"
+        ]
+    }
+    ```
 
    - 403 (Not Authenticated)
 
@@ -200,9 +206,8 @@ http://localhost:3000
      [
           {
             "count": 12,
-            "status": false,
             "_id": "5d62123313555d735b1ea4ce",
-            "product": {
+            "ProductId": {
               "_id": "5d5ffbd47f4f75162e44d4be",
               "name": "Cheramics Bayat",
               "stock": 70,
@@ -212,25 +217,25 @@ http://localhost:3000
               "createdAt": "2019-08-23T14:44:36.440Z",
               "updatedAt": "2019-08-23T14:44:36.440Z"
             },
-            "total_payment": 110000
+            "subtotal": 110000
           }
         ]
     ```
-
     
 
-  - 403 (Not Authenticated)
-
-    ```javascript
+    
+- 403 (Not Authenticated)
+  
+  ```javascript
     {
         errors: [
             "You must login first"
         ]
     }
-    ```
-
-    
-
+  ```
+  
+  
+  
 + ### Checkout
 
   Method : `POST`<br>Endpoint : `/users/cart/checkout`
@@ -326,7 +331,7 @@ http://localhost:3000
 
     ```javascript
     {
-        message: 'Cart deleted.'
+        message: 'Cart deleted'
     }
     ```
 
@@ -429,7 +434,7 @@ http://localhost:3000
             "You must login first"
         ]
     }
-    ```
+  ```
   
 - 401 (Unauthorized)
   
@@ -439,7 +444,7 @@ http://localhost:3000
             "You haven't authorized"
         ]
     }
-    ```
+  ```
 
 
 + ### Find All

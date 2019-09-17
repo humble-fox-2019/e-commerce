@@ -22,7 +22,7 @@ const ProductSchema = new Schema({
         type: Number,
         required: [true, 'Stock field is required']
     }
-});
+}, { timestamps: true });
 
 const Product = mongoose.model('Product', ProductSchema);
 

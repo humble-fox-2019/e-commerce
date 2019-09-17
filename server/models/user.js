@@ -21,13 +21,13 @@ const UserSchema = new Schema({
             {
                 validator: function(email) {
                     return mongoose.models.User.findOne({ email })
-                        .then(user => {
-                            if (user) return false;
-                            else return true;
-                        })
-                        .catch(() => {
-                            return true;
-                        })
+                    .then(user => {
+                        if (user) return false;
+                        else return true;
+                    })
+                    .catch(() => {
+                        return true;
+                    })
                 },
                 msg: 'Email already registered'
             }
@@ -46,12 +46,18 @@ const UserSchema = new Schema({
         default: 'customer'
     }, 
     cart: [
-       {
-           type: Schema.Types.ObjectId,
-           ref: 'Product'
-       }
+        {
+            ProductId: {
+                type: Schema.Types.ObjectId,
+                ref: 'Product'
+            },
+            count: {
+                type: Number,
+                default: 1
+            }
+        }
     ] 
-});
+}, { timestamps: true });
 
 UserSchema.pre('save', function(next) {
     this.password = hashPasword(this.password);

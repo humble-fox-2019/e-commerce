@@ -3,22 +3,16 @@
     <form>
       <h1>Signin</h1>
       <div>
-        <Field name="email" type="text"></Field>
-        <Field name="password" type="text"></Field>
-        <BtnSubmit></BtnSubmit>
+        
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import Field from '../components/Field.vue'
-import BtnSubmit from '../components/BtnSubmit.vue'
 export default {
   name: 'Signin',
   components: {
-    Field,
-    BtnSubmit
   }
 }
 </script>

@@ -16,7 +16,23 @@
         </div>
       </form>
     </div>
-    <div class="menu">
+    <div class="user" v-if="$store.state.isLogin">
+      <router-link to="/">Home</router-link>
+      <router-link to="/product">Product</router-link>
+      <div class="divider"></div>
+      <router-link to="/account">My Account</router-link>
+      <h3>Josprima</h3>
+      <div class="cart">
+        <i class="fas fa-shopping-cart"></i>
+        <div class="cart-number">
+          <span>20</span>
+        </div>
+      </div>
+      <div class="logout" @click="showConfirmationLogout()">
+        <span><i class="fas fa-sign-out-alt"></i> Signout</span>
+      </div>
+    </div>
+    <div class="menu" v-else>
       <router-link to="/">Home</router-link>
       <router-link to="/product">Product</router-link>
       <router-link to="/signin">Signin</router-link>
@@ -27,7 +43,12 @@
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  methods: {
+    showConfirmationLogout() {
+      this.$store.commit('toggleConfirm')
+    }
+  }
 }
 </script>
 
@@ -70,7 +91,7 @@ export default {
   transform: translateY(-50%);
   color: rgba(0,0,0,.3);
 }
-.menu a{
+.menu a, .user a{
   display: inline-block;
   padding: 10px;
   border-radius: 5px;
@@ -81,10 +102,71 @@ export default {
   background-color: rgb(220, 255, 200);
   color: #43ca34;
 }
-.menu a:hover{
+.menu a:hover, .user a:hover{
   background-color: rgb(220, 255, 200);
 }
 .menu a:not(:first-child){
   margin-left: 20px;
+}
+.user{
+  display: flex;
+  align-items: center;
+}
+.user > *:not(:last-child) {
+  margin-right: 10px;
+}
+.user h3{
+  font-size: 12pt;
+}
+.cart{
+  background-color: #43ca34;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  position: relative;
+}
+.cart i{
+  color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.cart .cart-number{
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #43ca34;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+.cart-number span{
+  font-size: 9pt;
+  font-weight: bold;
+  color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);  
+}
+.divider{
+  margin: 0 20px;
+  width: 1px;
+  height: 30px;
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+.logout{
+  background-color: #afafaf;
+  margin-left: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 10pt;
+  cursor: pointer;
+  color: #5e5e5e;
+}
+.logout:hover{
+  background-color: #d3d3d3;
 }
 </style>

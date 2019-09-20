@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 const { hashPassword } = require('../helpers/bcrypt')
 
 const userSchema = new mongoose.Schema({
-    username: {
+    name: {
         type: String,
-        required: [true, 'username required'],
-        minlength: [4, 'username minimal 4 characters'],
-        maxlength: [20, 'Username max 20 characters']
+        required: [true, 'name required'],
+        minlength: [4, 'name minimal 4 characters'],
+        maxlength: [20, 'name max 20 characters']
     },
     email: {
         type: String,

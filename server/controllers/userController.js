@@ -25,7 +25,7 @@ class UserController {
                         if(comparePassword(password, user.password)) {
                             const payload = {
                                 id: user._id,
-                                username: user.username,
+                                name: user.name,
                                 email: user.email,
                             }
                             const token = sign(payload)
@@ -50,13 +50,13 @@ class UserController {
         }
 
     static signup(req, res, next) {
-        const { username, email, password } = req.body
+        const { name, email, password } = req.body
 
-        User.create({ username, email, password })
+        User.create({ name, email, password })
             .then(user => {
                 const payload = {
                     id: user._id,
-                    username: user.username,
+                    name: user.name,
                     email: user.email,
                 }
                 const token = sign(payload)
@@ -64,6 +64,14 @@ class UserController {
                         message: 'success signup',
                         token
                     })
+            })
+            .catch(next)
+    }
+
+    static getUserData(req, res, next) {
+        User.findById(req.decode.id)
+            .then(user => {
+                res.json(user)
             })
             .catch(next)
     }

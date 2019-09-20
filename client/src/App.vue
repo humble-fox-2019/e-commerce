@@ -5,17 +5,25 @@
       <router-view></router-view>
     </transition>
     <Footer></Footer>
+    <ConfirmationLogout v-if="$store.state.isShowConfirm"></ConfirmationLogout>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+import ConfirmationLogout from './components/ConfirmationLogout.vue'
 export default {
   name: 'App',
   components: {
     Header,
-    Footer
+    Footer,
+    ConfirmationLogout
+  },
+  created() {
+    if(localStorage.getItem('token')) {
+      this.$store.dispatch('getUserData')
+    }
   }
 }
 </script>

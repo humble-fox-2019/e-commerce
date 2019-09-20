@@ -1,6 +1,6 @@
 <template>
-  <div class="signin">
-    <form @submit.prevent="signup()">
+  <div class="signup">
+    <form @submit.prevent="signup()" spellcheck="off">
       <h1>Signup</h1>
       <transition name="shake">
         <div class="error" v-if="errors.length > 0">
@@ -54,14 +54,28 @@ export default {
       this.btnState = true
 
       axios.post('/user/signup', {
-        
+        name: this.name,
+        email: this.email,
+        password: this.password
+      })
+      .then(({data}) => {
+        localStorage.setItem('token', data.token)
+        this.$router.push('/product')
+      })
+      .catch(err => {
+        this.errors = err.response.data.errors
+        setTimeout(() => {
+          this.errors = []
+        }, 3000)
+      })
+      .finally(() => {
+        this.setDefaultState()
       })
     },
     setDefaultState() {
       this.name = ''
       this.email = ''
       this.password = ''
-      this.errors = []
       this.btnText = 'SIGN UP'
       this.btnState = false
     }
@@ -70,12 +84,12 @@ export default {
 </script>
 
 <style scoped>
-.signin{
+.signup{
   max-width: 350px;
   padding: 20px;
   margin: 50px auto;
 }
-.signin h1{
+.signup h1{
   padding-bottom: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid rgba(0,0,0,.1);
@@ -131,5 +145,11 @@ export default {
 }
 .error li{
   color: #fa1a1a;
+}
+.shake-enter-active{
+  animation: shake .5s;
+}
+.shake-leave-active{
+  animation: fadeOut .2s;
 }
 </style>

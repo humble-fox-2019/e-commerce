@@ -15,6 +15,18 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+      children: [
+        {
+          path: '/',
+          name: 'productList',
+          component: () => import('./views/ProductList.vue')
+        },
+        {
+          path: '/product/:id',
+          name: 'productDetail',
+          component: () => import('./views/ProductDetail.vue')
+        }
+      ]
     },
     {
       path: '/cart',

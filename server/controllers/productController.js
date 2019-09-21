@@ -20,7 +20,7 @@ class ProductController {
         })
             .then(product => {
                 res.status(201).json({
-                    product
+                    message: 'Success add product'
                 })
             })
             .catch(next)
@@ -50,6 +50,18 @@ class ProductController {
                 }
             })
             .catch(next)
+    }
+
+    static getMyProduct(req, res, next) {
+        Product.find({
+            store: req.decode.id
+        })
+        .then(products => {
+            res.json({
+                products
+            })
+        })
+        .catch(next)
     }
 
     static filterProduct(req, res, next) {

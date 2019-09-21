@@ -138,7 +138,7 @@ describe('Product', function() {
         it(`should return array of products with 200 status code`, function(done) {
             chai.request(app)
                 .get('/products')
-                .set('token', tokenCustomer)
+                // .set('token', tokenCustomer)
                 .end(function(err, res) {
                     // console.log(res.body)
                     expect(res).to.has.status(200);
@@ -149,16 +149,16 @@ describe('Product', function() {
                 })
         });
 
-        it(`should return 403 status code when there's no token header`, function(done) {
-            chai.request(app)
-                .get('/products')
-                .end(function(err, res) {
-                    // console.log(res.body)
-                    expect(res).to.has.status(403);
-                    expect(res.body.errors).to.be.an('array').that.includes('You must login first');
-                    done();
-                })
-        })
+        // it(`should return 403 status code when there's no token header`, function(done) {
+        //     chai.request(app)
+        //         .get('/products')
+        //         .end(function(err, res) {
+        //             // console.log(res.body)
+        //             expect(res).to.has.status(403);
+        //             expect(res.body.errors).to.be.an('array').that.includes('You must login first');
+        //             done();
+        //         })
+        // })
     });
 
     describe('Find One | GET /products/:ProductId', function() {
@@ -166,7 +166,7 @@ describe('Product', function() {
             
             chai.request(app)
                 .get(`/products/${ProductId}`)
-                .set('token', tokenCustomer)
+                // .set('token', tokenCustomer)
                 .end(function(err, res) {
                     // console.log(res.body);
                     expect(res).to.has.status(200);
@@ -175,16 +175,16 @@ describe('Product', function() {
                 })
         });
 
-        it(`should return 403 status code when there's no token header`, function(done) {
-            chai.request(app)
-                .get(`/products/${ProductId}`)
-                .end(function(err, res) {
-                    // console.log(res.body)
-                    expect(res).to.has.status(403);
-                    expect(res.body.errors).to.be.an('array').that.includes('You must login first');
-                    done();
-                })
-        })
+        // it(`should return 403 status code when there's no token header`, function(done) {
+        //     chai.request(app)
+        //         .get(`/products/${ProductId}`)
+        //         .end(function(err, res) {
+        //             // console.log(res.body)
+        //             expect(res).to.has.status(403);
+        //             expect(res.body.errors).to.be.an('array').that.includes('You must login first');
+        //             done();
+        //         })
+        // })
     });
 
 

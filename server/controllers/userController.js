@@ -5,7 +5,7 @@ const { bcrypt } = require('../helpers');
 class UserController {
     static registration(req, res, next) {
         const { name, email, password } = req.body
-
+        
         User.create({ name, email, password })
             .then(result => {
                 res.status(201).json(result)

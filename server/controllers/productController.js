@@ -9,8 +9,8 @@ class ProductController {
     }
 
     static store(req, res, next) {
-        const { name, price, description, category, stock } = req.body;
-        let data = { name, price, description, category, stock }
+        const { name, author, price, description, category, stock } = req.body;
+        let data = { name, author, price, description, category, stock }
 
         if (req.file) {
             data.image = req.file.cloudStoragePublicUrl;
@@ -32,8 +32,8 @@ class ProductController {
     }
 
     static update(req, res, next) {
-        const { name, price, description, image, category, stock } = req.body;
-        const data = { name, price, description, image, category, stock };
+        const { name, author, price, description, image, category, stock } = req.body;
+        const data = { name, author, price, description, image, category, stock };
 
         Product.findByIdAndUpdate({ _id: req.params.id }, data, { omitUndefined: true, runValidators: true })
             .then(data => {

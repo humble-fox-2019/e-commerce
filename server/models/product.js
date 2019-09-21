@@ -6,6 +6,10 @@ const productSchema = new Schema({
         type: String,
         required: [true, 'name is required']
     },
+    author: {
+        type: String,
+        required: [true, 'name is required']
+    },
     price: {
         type: Number,
         required: [true, 'price is required']

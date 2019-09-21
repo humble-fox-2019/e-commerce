@@ -5,11 +5,12 @@ const authentication = require('../middlewares/authentication');
 const isAdmin = require('../middlewares/isAdmin');
 const gcs = require('../helpers/gcs');
 
-router.use(authentication);
 router.get('/', ProductController.findAll);
+router.get('/:id', ProductController.findOne);
+
+router.use(authentication);
 router.post('/', isAdmin, gcs.multer.single('image'), gcs.sendUploadToGCS, ProductController.store);
 
-router.get('/:id', ProductController.findOne);
 router.patch('/:id', isAdmin, ProductController.update);
 router.delete('/:id', isAdmin, ProductController.delete);
 

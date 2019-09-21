@@ -81,11 +81,11 @@ class UserController {
 
     static getCart(req, res, next) {
         const { _id } = req.decoded;
-
+        // console.log(_id)
         User.findById(_id).populate('cart.ProductId').lean(true)
             .then(user => {
                 let carts = [];
-                console.log(user.cart)
+                // console.log(user.cart)
                 
                 user.cart.forEach(cart => {
                     cart.subtotal = cart.ProductId.price * cart.count
@@ -106,6 +106,10 @@ class UserController {
                 res.status(200).json('Cart deleted');
             })
             .catch(next)
+    }
+
+    static updateCart(req, res, next) {
+        
     }
 }
 

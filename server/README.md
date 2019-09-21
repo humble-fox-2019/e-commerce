@@ -266,9 +266,7 @@ http://localhost:3000
     {
         message: 'Success checkout.'
     }
-    ```
-
-    
+    ```  
 
   - 400 (Bad Request)
 
@@ -279,8 +277,6 @@ http://localhost:3000
         ]
     }
     ```
-
-    
 
   - 403 (Not Authenticated)
 
@@ -334,8 +330,6 @@ http://localhost:3000
         message: 'Cart deleted'
     }
     ```
-
-    
 
   - 400 (Bad Request)
 
@@ -426,24 +420,24 @@ http://localhost:3000
     }
     ```
     
-- 403 (Not Authenticated)
-  
-  ```javascript
-    {
-        errors: [
-            "You must login first"
-        ]
-    }
+  - 403 (Not Authenticated)
+    
+    ```javascript
+      {
+          errors: [
+              "You must login first"
+          ]
+      }
   ```
   
-- 401 (Unauthorized)
-  
-  ```javascript
-    {
-        errors: [
-            "You haven't authorized"
-        ]
-    }
+  - 401 (Unauthorized)
+    
+    ```javascript
+      {
+          errors: [
+              "You haven't authorized"
+          ]
+      }
   ```
 
 

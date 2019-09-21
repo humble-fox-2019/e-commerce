@@ -261,7 +261,7 @@ describe('User', function() {
         });
     });
 
-    describe('Delete Cart | DELETE /users/cart', function() {
+    describe('Delete Cart | DELETE /users/cart/:CartId', function() {
         it(`should return status code 200 when succesfully checkout`, function(done) {
             let CartId = '';
 
@@ -312,6 +312,23 @@ describe('User', function() {
                     done();
                 })
         });
+    });
+
+    describe('Update count of a Cart | PATCH /users/cart/:CartId', function() {
+        it('should return 200 when success update qty of a cart', function(done) {
+            let CartId = '';
+
+            chai.request(app)
+                .patch(`/users/cart/${CartId}`)
+                .set('token', token)
+                .end(function(err, res) {
+                    expect(res).to.have.status(200);
+                    expect(res.body.message).to.be.a('string').to.equal('Count of a cart updated');
+                    done();
+                })
+        })
     })
+
+
 
 });

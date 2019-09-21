@@ -15,7 +15,6 @@ router.post('/signin', UserController.signin);
 router.post('/cart', authentication, UserController.addCart);
 router.get('/cart', authentication, UserController.getCart);
 router.delete('/cart/:id', authentication, UserController.deleteCart);
-
-
+router.patch('/cart/:id', authentication, UserController.updateCart);
 
 module.exports = router;

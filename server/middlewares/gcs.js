@@ -15,7 +15,7 @@ const getPublicUrl = (filename) => {
 
 const sendUploadToGCS = (req, res, next) => {
     if (!req.file) {
-        return next()
+        return next({status: 400, message: 'Image is required'})
     }
 
     console.log(req.file)

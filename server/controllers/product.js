@@ -26,7 +26,7 @@ class ProductController {
     
     static create(req, res, next) {
         const { name, description, price, stock } = req.body;
-        const image = req.file.publicUrl;
+        const image = req.file ? req.file.publicUrl : DEFAULT_IMG;
         
         Product.create({ name, description, price, stock, image })
         .then(product => {

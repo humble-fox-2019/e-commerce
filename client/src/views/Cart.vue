@@ -71,7 +71,7 @@ export default {
               type: 'error',
               title: this.toggleStatus.message
             })
-            this.$router.push('/')
+            this.$router.push('/auth/signin')
             break;
         }
       }

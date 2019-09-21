@@ -136,7 +136,7 @@ export default new Vuex.Store({
         })
         .catch(console.log)
     },
-    signin(context, payload) {
+    signin (context, payload) {
       context.commit('toggleStatus', {type: null, message: null})
       console.log(payload, 'ini payloadnya')
       axios({
@@ -157,6 +157,28 @@ export default new Vuex.Store({
             console.log(err.response.data)
             err.response.data.errors.forEach(error => {
               context.commit('toggleStatus', {type: 'signin_failed', message: error})
+            })
+          }
+        })
+    },
+    signup (context, payload) {
+      context.commit('toggleStatus', {type: null, message: null})
+      let formData = new FormData() 
+      formData.append('name', payload.name)
+      formData.append('email', payload.email)
+      formData.append('password', payload.password)
+      axios({
+        url: `/users/signup`,
+        method: 'POST',
+        data: formData
+      })
+        .then(({ data }) => {
+          context.commit('toggleStatus', {type: 'signup_success', message: 'Signup success!'})
+        })
+        .catch(err => {
+          if(err.response) {
+            err.response.data.errors.forEach(error => {
+              context.commit('toggleStatus', {type: 'signup_failed', message: error})
             })
           }
         })

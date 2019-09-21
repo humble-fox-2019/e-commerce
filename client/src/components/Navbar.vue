@@ -14,10 +14,10 @@
                 <a class="nav-link" href="" @click.prevent="goToProducts">Products <span class="sr-only">(current)</span></a>
             </li>
             <li>
-                <a class="nav-link" href="">Transactions <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="" @click.prevent="goToCart">Cart <span class="sr-only">(current)</span></a>
             </li>
             <li>
-                <a class="nav-link" href="" @click.prevent="goToCart">Cart <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="">Transactions <span class="sr-only">(current)</span></a>
             </li>
             <li>
                 <a v-if="!auth.token" class="nav-link" href="" @click.prevent="goToLogin">Login <span class="sr-only">(current)</span></a>

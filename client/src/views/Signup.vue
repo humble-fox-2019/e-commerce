@@ -4,7 +4,7 @@
         <h2>Create an account</h2>
         <div class="or-seperator"></div>
     </div>
-    <form @submit.prevent="">
+    <form @submit.prevent="signup">
         <div class="form-group">
             <input type="text" class="form-control input-lg" name="fullname" id="fullname" placeholder="Full name" required="required" v-model="name">
         </div>
@@ -23,18 +23,55 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'Signup',
   data() {
     return {
       name: '',
       email: '',
-      passwod: ''
+      password: ''
     }
   },
+  computed: mapState(['toggleStatus']),
   methods: {
     goToLogin() {
       this.$router.push('/auth/signin')
+    },
+    signup() {
+      let payload = {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('signup', payload)
+    }
+  },
+  watch: {
+    'toggleStatus.type'() {
+      switch (this.toggleStatus.type) {
+        case 'signup_success':
+          this.$swal.mixin({
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+          }).fire({
+            type: 'success',
+            title: this.toggleStatus.message
+          })
+          this.$router.push('/auth/signin')
+          break;
+        case 'signup_failed':
+          this.$swal.mixin({
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+          }).fire({
+            type: 'error',
+            title: this.toggleStatus.message
+          })
+          break;
+      }
     }
   }
 

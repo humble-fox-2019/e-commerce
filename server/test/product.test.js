@@ -83,7 +83,7 @@ describe.only('GET /products/', function () {
     })
     const id = "5d7f740e4f581c50067fd772"
 
-    /* describe('Get all owner products', function () {
+    describe('Get all owner products', function () {
         it('#read(req, res, next)', function (done) {
             chai.request(app)
                 .get(`/products/user/${id}`)
@@ -98,5 +98,5 @@ describe.only('GET /products/', function () {
                 })
 
         })
-    }) */
+    })
 })

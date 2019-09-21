@@ -1,7 +1,9 @@
 <template>
   <nav>
     <v-toolbar color="teal" dark>
-      <v-toolbar-title>TiveStore</v-toolbar-title>
+      <router-link to="/" class="title">
+        <v-toolbar-title>TiveStore</v-toolbar-title>
+      </router-link>
 
       <div class="flex-grow-1"></div>
 
@@ -51,5 +53,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.title {
+  color: white;
+  text-decoration: none;
+}
 </style>

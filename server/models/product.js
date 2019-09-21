@@ -8,7 +8,7 @@ const productSchema = new Schema({
     },
     author: {
         type: String,
-        required: [true, 'name is required']
+        required: [true, 'author is required']
     },
     price: {
         type: Number,

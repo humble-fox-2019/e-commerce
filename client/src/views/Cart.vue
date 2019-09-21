@@ -59,7 +59,7 @@ export default {
           case 'delete_cart_success':
             this.$swal.mixin({
               toast: 'true',
-              position: 'top',
+              position: 'center',
               showConfirmButton: false,
               timer: 3000
             }).fire({

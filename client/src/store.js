@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     products: [],
+    product: {},
     cart: [],
     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg1N2JkNWJhOGU0ZDFiZmRkMGZiNzgiLCJuYW1lIjoiY3VzdG9tZXIgYmFydSIsImVtYWlsIjoiY3VzdG9tZXJiYXJ1QG1haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNTY5MDI5MTE3fQ.No5xKd5eHyA0zVkkIFDSffZEv34qeSpIKuM2kuMsej0',
     toggleStatus: null
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
     fetchProducts (state, data) {
       state.products = data
+    },
+    getProduct (state, product) {
+      state.product = product
     },
     fetchCart(state, data) {
       state.cart = data
@@ -40,7 +44,18 @@ export default new Vuex.Store({
         })
         .catch(console.log)
     },
-
+    getProduct (context, ProductId) {
+      axios({
+        url: `/products/${ProductId}`,
+        method: 'GET',
+        headers: {
+          token: context.state.token
+        }
+      })
+        .then(({ data }) => {
+          context.commit('getProduct', data)
+        })
+    },
     fetchCart(context) {
       axios({
         url: '/users/cart',

@@ -1,47 +1,19 @@
 <template>
   <div class="products" style="">
     <div class="container">
-      <div class="row">
-        <div class="col-3 mb-3" v-for="product in products" :key="product._id">
-          <Card :product="product"></Card>
-        </div>
-      </div>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import Card from '@/components/Card'
+import ProductList from '@/views/ProductList'
+import Detail from '@/views/Detail'
 import { mapState } from 'vuex';
 
 export default {
   name: 'Products',
-  components: { Card },
-  computed: mapState(['products', 'toggleStatus '])
-  ,
-  created () {
-    this.$store.dispatch('fetchProducts')
-    this.$store.dispatch('fetchCart')
-  },
-  watch: {
-    toggleStatus() {
-      switch(this.toggleStatus) {
-        case 'add_cart_success':
-          this.$swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 3000
-          }).fire({
-            type: 'success',
-            title: 'Added to your cart!'
-          })
-          break;
-       
-      }
-    }
-  }
-
+  components: { ProductList, Detail },
 }
 </script>
 

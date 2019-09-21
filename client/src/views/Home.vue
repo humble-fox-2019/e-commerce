@@ -2,30 +2,7 @@
   <div class="home" style="">
     <div class="container">
       <div class="row">
-        <div class="col-3 mb-3">
-          <Card></Card>
-        </div>
-        <div class="col-3 mb-3">
-          <Card></Card>
-        </div>
-        <div class="col-3 mb-3">
-          <Card></Card>
-        </div>
-        <div class="col-3 mb-3">
-          <Card></Card>
-        </div>
-        <div class="col-3 mb-3">
-          <Card></Card>
-        </div>
-        <div class="col-3 mb-3">
-          <Card></Card>
-        </div>
-        <div class="col-3 mb-3">
-          <Card></Card>
-        </div>
-        <div class="col-3 mb-3">
-          <Card></Card>
-        </div>
+        <h1>Ini home</h1>
       </div>
     </div>
   </div>

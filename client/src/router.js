@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+import FrontEnd from './views/template/FrontEnd.vue';
 import Cart from './views/Cart.vue';
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
@@ -13,18 +13,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'frontEnd',
+      component: FrontEnd,
       children: [
         {
           path: '/',
           name: 'productList',
-          component: () => import('./views/ProductList.vue')
+          component: () => import('./views/products/ProductList.vue')
         },
         {
           path: '/product/:id',
           name: 'productDetail',
-          component: () => import('./views/ProductDetail.vue')
+          component: () => import('./views/products/ProductDetail.vue')
         }
       ]
     },

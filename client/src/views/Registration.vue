@@ -1,12 +1,12 @@
 <template>
-  <div class="register">
+  <div class="Registration">
       <v-content>
-      <v-container class="fill-height container" fluid>
+      <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
               <v-toolbar color="success" dark flat>
-                <v-toolbar-title>Register form</v-toolbar-title>
+                <v-toolbar-title>Registration form</v-toolbar-title>
                 <div class="flex-grow-1"></div>
               </v-toolbar>
               <v-card-text>
@@ -24,9 +24,11 @@
                   ></v-text-field>
                 </v-form>
               </v-card-text>
-              <v-card-actions>
-                <div class="flex-grow-1"></div>
-                <v-btn color="success">Register</v-btn>
+              <v-card-actions style="display:flex;justify-content:center; padding-bottom:30px">
+                <div style="display:flex;flex-direction:column;">
+                <v-btn color="success" style="margin-bottom:10px">Registration</v-btn>
+                <v-btn to="/login">Already have account?</v-btn>
+                </div>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -38,13 +40,10 @@
 
 <script>
 export default {
+  name: 'registration'
 
 }
 </script>
 
 <style scoped>
-.container {
-  height: 100vh;
-  background-image: url('http://eskipaper.com/images/blurred-background-1.jpg')
-}
 </style>

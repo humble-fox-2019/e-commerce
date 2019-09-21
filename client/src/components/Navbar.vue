@@ -32,8 +32,8 @@
         <v-list-item route to='/login'>
           <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
-        <v-list-item route to='/register'>
-          <v-list-item-title>Register</v-list-item-title>
+        <v-list-item route to='/registration'>
+          <v-list-item-title>Registration</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

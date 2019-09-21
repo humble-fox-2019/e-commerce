@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import FrontEnd from './views/template/FrontEnd.vue';
 import Cart from './views/Cart.vue';
 import Login from './views/Login.vue';
-import Register from './views/Register.vue';
+import Registration from './views/Registration.vue';
 
 Vue.use(Router);
 
@@ -51,9 +51,14 @@ export default new Router({
       }]
     },
     {
-      path: '/register',
-      name: 'register',
-      component: Register,
+      path: '/cart',
+      name: 'frontEnd',
+      component: FrontEnd,
+      children: [{
+        path: '/registration',
+        name: 'registration',
+        component: Registration
+      }]
     },
     {
       path: '/about',

@@ -25,7 +25,7 @@
               <v-card-actions style="display:flex;justify-content:center; padding-bottom:30px">
                 <div style="display:flex;flex-direction:column;">
                 <v-btn color="success" style="margin-bottom:10px">Login</v-btn>
-                <v-btn to="/register">register</v-btn>
+                <v-btn to="/registration">register</v-btn>
                 </div>
               </v-card-actions>
             </v-card>

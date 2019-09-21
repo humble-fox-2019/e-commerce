@@ -1,19 +1,17 @@
 const Cart = require('../models/cart');
 
 class CartController {
-    static findAll(req, res, next) {
-        let where = {};
-        if (req.query.productid) {
-            where = { "productid": { $regex: '.*' + req.query.productid + '.*' } }
-        }
-        Cart.find(where)
-            .then(carts => {
-                res.status(200).json(carts);
-            }).catch(next);
+    static getMyCart(req, res, next) {
+        Cart.find({
+            userid: req.decode.id
+        }).then(carts => {
+            res.status(200).json(carts);
+        }).catch(next);
     }
 
     static store(req, res, next) {
-        const { productid, userid, qty } = req.body;
+        const { productid, qty } = req.body;
+        let userid = req.decode.id
         Cart.create(
             { productid, userid, qty }
         ).then(cart => {
@@ -21,19 +19,12 @@ class CartController {
         }).catch(next);
     }
 
-    static findOne(req, res, next) {
-        Cart.findOne({
-            _id: req.params.id
-        }).then(cart => {
-            res.status(200).json(cart);
-        }).catch(next);
-    }
-
     static update(req, res, next) {
-        const { productid, userid, qty } = req.body;
-        const data = { productid, userid, qty };
+        const { qty } = req.body;
+        const data = { qty };
+        let userid = req.decode.id
 
-        Cart.findOneAndUpdate({ _id: req.params.id }, data, { omitUndefined: true, runValidators: true })
+        Cart.findOneAndUpdate({ _id: req.params.id, userid }, data, { omitUndefined: true, runValidators: true })
             .then(data => {
                 res.status(200).json({ message: 'successfully updated', data });
             })
@@ -41,10 +32,13 @@ class CartController {
     }
 
     static delete(req, res, next) {
-        Cart.findByIdAndDelete(req.params.id)
-            .then(data => {
-                res.status(200).json({ message: 'successfully deleted', data });
-            })
+        let userid = req.decode.id
+
+        Cart.findByIdAndDelete({
+            _id: req.params.id, userid
+        }).then(data => {
+            res.status(200).json({ message: 'successfully deleted', data });
+        })
             .catch(next);
     }
 }

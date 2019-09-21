@@ -53,7 +53,7 @@
               </template>
             </v-simple-table>
             <div class="py-5">
-            <v-list-item-title class="d-flex justify-center"  >
+            <v-list-item-title class="d-flex justify-center" v-if="cekToken" >
               <v-btn color="primary" dark><v-icon left>mdi-cart</v-icon> Buy</v-btn>
             </v-list-item-title>
             </div>
@@ -95,6 +95,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    }
+  },
+  computed: {
+    cekToken() {
+      return this.$store.state.token
     }
   },
   created() {

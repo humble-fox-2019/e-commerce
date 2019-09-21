@@ -68,6 +68,11 @@ export default {
         }
       ]
     }
+  },
+  created() {
+    if(!this.$store.state.token) {
+      this.$router.push('/login');
+    }
   }
 };
 </script>

@@ -15,7 +15,7 @@
 
         <v-divider inset vertical></v-divider>
 
-        <v-btn text route to='/cart'>
+        <v-btn text route to='/cart' v-if="cekToken">
             <v-icon left>mdi-basket</v-icon>
             <span>Cart</span>
         </v-btn>

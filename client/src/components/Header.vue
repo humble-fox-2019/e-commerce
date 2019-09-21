@@ -1,42 +1,61 @@
 <template>
-  <div class="header">
-    <div class="logo">
-      <img src="../assets/tokopadia.png" alt="" srcset="">
-    </div>
-    <div class="search-box">
-      <form>
-        <div class="input-search">
-          <label for="search">
-            <i class="fa fa-search" aria-hidden="true"></i>
-          </label>
-          <input
-            type="text"
-            placeholder="Search product"
-            id="search">
+  <div>
+    <div class="header" v-if="$store.state.role == 'costumer'">
+      <div class="logo">
+        <img src="../assets/tokopadia.png" alt="" srcset="">
+      </div>
+      <div class="search-box">
+        <form>
+          <div class="input-search">
+            <label for="search">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </label>
+            <input
+              type="text"
+              placeholder="Search product"
+              id="search">
+          </div>
+        </form>
+      </div>
+      <div class="user" v-if="$store.state.isLogin">
+        <router-link to="/">Home</router-link>
+        <router-link to="/product">Product</router-link>
+        <div class="divider"></div>
+        <router-link to="/account">My Account</router-link>
+        <h3>{{ $store.state.user.name }}</h3>
+        <div class="cart">
+          <i class="fas fa-shopping-cart"></i>
+          <div class="cart-number">
+            <span>20</span>
+          </div>
         </div>
-      </form>
-    </div>
-    <div class="user" v-if="$store.state.isLogin">
-      <router-link to="/">Home</router-link>
-      <router-link to="/product">Product</router-link>
-      <div class="divider"></div>
-      <router-link to="/account">My Account</router-link>
-      <h3>Josprima</h3>
-      <div class="cart">
-        <i class="fas fa-shopping-cart"></i>
-        <div class="cart-number">
-          <span>20</span>
+        <div class="logout" @click="showConfirmationLogout()">
+          <span><i class="fas fa-sign-out-alt"></i> Signout</span>
         </div>
       </div>
-      <div class="logout" @click="showConfirmationLogout()">
-        <span><i class="fas fa-sign-out-alt"></i> Signout</span>
+      <div class="menu" v-else>
+        <router-link to="/">Home</router-link>
+        <router-link to="/product">Product</router-link>
+        <router-link to="/signin">Signin</router-link>
+        <router-link to="/signup">Signup</router-link>
       </div>
     </div>
-    <div class="menu" v-else>
-      <router-link to="/">Home</router-link>
-      <router-link to="/product">Product</router-link>
-      <router-link to="/signin">Signin</router-link>
-      <router-link to="/signup">Signup</router-link>
+    <div class="header" v-else>
+      <div class="logo">
+        <img src="../assets/tokopadia.png" alt="" srcset="">
+      </div>
+      <div class="user">
+        <div class="menu-store">
+          <router-link to="/myproduct">My product</router-link>
+          <router-link to="/new-product">Add new product</router-link>
+          <router-link to="/transaction">Transaction</router-link>
+        </div>
+        <div class="divider"></div>
+        <h3>{{ $store.state.seller.name }}</h3>
+        <div class="logout" @click="showConfirmationLogout()">
+          <span><i class="fas fa-sign-out-alt"></i> Signout</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>

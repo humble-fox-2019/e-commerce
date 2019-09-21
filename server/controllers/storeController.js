@@ -31,7 +31,8 @@ class StoreController {
                             const token = sign(payload)
                             res.json({
                                 token,
-                                message: 'success signin'
+                                message: 'success signin',
+                                role: 'store',
                             })
                         }else {
                             return next({
@@ -50,9 +51,9 @@ class StoreController {
         }
 
     static signup(req, res, next) {
-        const { name, email, password, city, province } = req.body
+        const { name, email, password, province, city } = req.body
 
-        Store.create({ name, email, password, city, province })
+        Store.create({ name, email, password, province, city })
             .then(store => {
                 const payload = {
                     id: store._id,
@@ -61,9 +62,18 @@ class StoreController {
                 }
                 const token = sign(payload)
                     res.status(201).json({
-                        message: 'success signup',
+                        message: 'success open store',
+                        role: 'store',
                         token
                     })
+            })
+            .catch(next)
+    }
+
+    static getStoreData(req, res, next) {
+        Store.findById(req.decode.id)
+            .then(store => {
+                res.json(store)
             })
             .catch(next)
     }

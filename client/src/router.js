@@ -4,6 +4,11 @@ import Home from './views/Home'
 import Product from './views/Product'
 import Signin from './views/Signin'
 import Signup from './views/Signup'
+import StoreSignin from './views/StoreSignin'
+import StoreSignup from './views/StoreSignup'
+import MyProduct from './views/MyProduct'
+import NewProduct from './views/AddNewProduct'
+import Transaction from './views/Transaction'
 
 Vue.use(Router)
 
@@ -30,6 +35,52 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: Signup
+    },
+    {
+      path: '/open-store',
+      name: 'StoreSignup',
+      component: StoreSignup
+    },
+    {
+      path: '/store-signin',
+      name: 'StoreSignin',
+      component: StoreSignin
+    },
+    {
+      path: '/myproduct',
+      name: 'MyProduct',
+      component: MyProduct,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('token') && localStorage.getItem('role') == 'store') {
+          next()
+        }else {
+          next('/')
+        }
+      }
+    },
+    {
+      path: '/new-product',
+      name: 'NewProduct',
+      component: NewProduct,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('token') && localStorage.getItem('role') == 'store') {
+          next()
+        }else {
+          next('/')
+        }
+      }
+    },
+    {
+      path: '/transaction',
+      name: 'Transaction',
+      component: Transaction,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('token') && localStorage.getItem('role') == 'store') {
+          next()
+        }else {
+          next('/')
+        }
+      }
     }
   ]
 })

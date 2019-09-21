@@ -22,7 +22,11 @@ export default {
   },
   created() {
     if(localStorage.getItem('token')) {
-      this.$store.dispatch('getUserData')
+      if(localStorage.getItem('role') == 'costumer') {
+        this.$store.dispatch('getUserData')
+      }else{
+        this.$store.dispatch('getStoreData')
+      }
     }
   }
 }

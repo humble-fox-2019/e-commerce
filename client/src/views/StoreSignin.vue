@@ -1,7 +1,7 @@
 <template>
   <div class="signin">
     <form @submit.prevent="signin()" spellcheck="off">
-      <h1>Signin</h1>
+      <h1>Signin to your store !</h1>
       <transition name="shake">
         <div class="error" v-if="errors.length > 0">
           <ul>
@@ -31,7 +31,7 @@
 import axios from '../api/server.js'
 
 export default {
-  name: 'Signin',
+  name: 'StoreSignin',
   components: {
   },
   data() {
@@ -48,14 +48,14 @@ export default {
       this.btnText = 'Loading...'
       this.btnState = true
 
-      axios.post('/user/signin', {
+      axios.post('/store/signin', {
         email: this.email,
-        password: this.password
+        password: this.password,
       })
       .then(({data}) => {
         localStorage.setItem('token', data.token)
         localStorage.setItem('role', data.role)
-        this.$store.dispatch('getUserData')
+        this.$store.dispatch('getStoreData')
       })
       .catch(err => {
         this.errors = err.response.data.errors
@@ -116,6 +116,7 @@ export default {
   width: 100%;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 20px;
 }
 .input-submit button:hover{
   background-color: #5adb4c;

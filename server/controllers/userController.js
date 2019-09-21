@@ -31,6 +31,7 @@ class UserController {
                             const token = sign(payload)
                             res.json({
                                 token,
+                                role: 'costumer',
                                 message: 'success signin'
                             })
                         }else {
@@ -61,6 +62,7 @@ class UserController {
                 }
                 const token = sign(payload)
                     res.status(201).json({
+                        role: 'costumer',
                         message: 'success signup',
                         token
                     })

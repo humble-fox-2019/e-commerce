@@ -60,7 +60,8 @@ export default {
       })
       .then(({data}) => {
         localStorage.setItem('token', data.token)
-        this.$router.push('/product')
+        localStorage.setItem('role', data.role)
+        this.$store.dispatch('getUserData')
       })
       .catch(err => {
         this.errors = err.response.data.errors

@@ -1,9 +1,16 @@
 <template>
-  <div class="footer">
-    <router-link to="/">Home</router-link>
-    <router-link to="/">About</router-link>
-    <router-link to="/">Contact</router-link>
-    <router-link to="/"><img src="https://storage.cloud.google.com/image-ecommerce-josprima-site/favicon.png"> Become a seller</router-link>
+  <div>
+    <div class="footer" v-if="$store.state.role == 'costumer'">
+      <router-link to="/">Home</router-link>
+      <router-link to="/">About</router-link>
+      <router-link to="/">Contact</router-link>
+      <router-link to="/open-store"><img src="https://storage.cloud.google.com/image-ecommerce-josprima-site/favicon.png"> Become a seller</router-link>
+    </div>
+    <div class="footer" v-else>
+      <router-link to="/">Home</router-link>
+      <router-link to="/">About</router-link>
+      <router-link to="/">Contact</router-link>
+    </div>
   </div>
 </template>
 

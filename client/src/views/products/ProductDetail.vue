@@ -18,12 +18,9 @@
                 {{author}}
               </v-chip>
             </v-list-item-title>
-  
-            <p class="py-4 my-3 paragraf">
-              {{description}}
-            </p>
 
-  
+            <p class="py-4 my-3 paragraf">{{description}}</p>
+
             <v-list-item-title class="subtitle-1 pt-5">Detail:</v-list-item-title>
 
             <v-simple-table>
@@ -53,15 +50,28 @@
               </template>
             </v-simple-table>
             <div class="py-5">
-            <v-list-item-title class="d-flex justify-center" v-if="cekToken" >
-              <v-btn color="primary" dark><v-icon left>mdi-cart</v-icon> Buy</v-btn>
-            </v-list-item-title>
+              <v-list-item-title class="d-flex justify-center" v-if="cekToken">
+                <v-btn color="primary" dark @click="addToCart()">
+                  <v-icon left>mdi-cart</v-icon>Buy
+                </v-btn>
+              </v-list-item-title>
             </div>
-            
           </v-list-item-content>
         </v-list-item>
       </v-card>
     </v-col>
+
+    <v-snackbar
+      v-model="snackBar"
+      :color="snackColor"
+      multi-line="multi-line"
+      right="right"
+      top="top"
+      style="white-space: pre-line;"
+    >
+      {{ snackMsg }}
+      <v-btn dark text @click="snackBar = false">Close</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -77,7 +87,10 @@ export default {
       author: "",
       name: "",
       artist: "",
-      description: ""
+      description: "",
+      snackMsg: "",
+      snackColor: "error",
+      snackBar: false
     };
   },
   methods: {
@@ -95,11 +108,38 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    addToCart() {
+      axios
+        .post(
+          "/cart",
+          { productid: this.$route.params.id, qty: 1 },
+          {
+            headers: {
+              access_token: this.$store.state.token
+            }
+          }
+        )
+        .then(({ data }) => {
+          this.snackMsg = "Add book to cart success";
+          this.snackColor = "success";
+          this.snackBar = true;
+        })
+        .catch(err => {
+          if (err.response.data) {
+            this.snackMsg = err.response.data.message.join("\n");
+            this.snackColor = "error";
+            this.snackBar = true;
+          } else {
+            console.log(err);
+          }
+        })
+        .finally(() => {});
     }
   },
   computed: {
     cekToken() {
-      return this.$store.state.token
+      return this.$store.state.token;
     }
   },
   created() {
@@ -112,5 +152,4 @@ export default {
 .paragraf {
   line-height: 30px;
 }
-
 </style>

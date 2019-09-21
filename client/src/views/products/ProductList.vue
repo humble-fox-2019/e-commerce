@@ -23,11 +23,23 @@
               <v-icon class="red--text">mdi-heart</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn outlined v-if="token">Buy</v-btn>
+            <v-btn outlined v-if="token" @click="addToCart(product._id)">Buy</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
+
+    <v-snackbar
+      v-model="snackBar"
+      :color="snackColor"
+      multi-line="multi-line"
+      right="right"
+      top="top"
+      style="white-space: pre-line;"
+    >
+      {{ snackMsg }}
+      <v-btn dark text @click="snackBar = false">Close</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -48,7 +60,10 @@ export default {
     width: 344,
     height: undefined,
     products: [],
-    token: ''
+    token: "",
+    snackMsg: "",
+    snackColor: "error",
+    snackBar: false
   }),
   methods: {
     getProducts() {
@@ -71,6 +86,32 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    addToCart(productid) {
+      db.post(
+        "/cart",
+        { productid, qty: 1 },
+        {
+          headers: {
+            access_token: this.$store.state.token
+          }
+        }
+      )
+        .then(({ data }) => {
+          this.snackMsg = "Add book to cart success";
+          this.snackColor = "success";
+          this.snackBar = true;
+        })
+        .catch(err => {
+          if(err.response.data) {
+            this.snackMsg = err.response.data.message.join("\n");
+            this.snackColor = "error";
+            this.snackBar = true;
+          } else {
+            console.log(err);
+          }
+        })
+        .finally(() => {});
     }
   },
   created() {

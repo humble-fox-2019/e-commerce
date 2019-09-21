@@ -4,15 +4,17 @@ const {getToken} = require('../helpers/jwt')
 
 class UserController {
   static create(req, res, next) {
-    const { name, address, email, password, role } = req.body
+    console.log('here');
+    const { name, address, email, password} = req.body
+    console.log(req.body);
     User.create({
       name,
       address,
       email,
-      password,
-      role,
+      password
     })
-      .then(data => {
+    .then(data => {
+      console.log(name +' '+ address+' '+  email+' '+ password);
         res.status(200).json({
           message: "Success Create User",
           data: data

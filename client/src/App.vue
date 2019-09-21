@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
-    <Navbar></Navbar>
-    <router-view />
+    <Navbar :token="token" :buyItem="buyItem"></Navbar>
+    <router-view @newToken="getToken" @toCart="toCart"/>
   </div>
 </template>
 
@@ -10,12 +10,30 @@ import Navbar from '@/components/Navbar'
 export default {
   data () {
     return {
-      message: 'hei'
+      message: 'hei',
+      token : '',
+      buyItem : false
     }
   },
   components: {
     Navbar
-  }
+  },
+  methods:{
+    getToken(){
+      this.token = localStorage.token
+      this.$router.push({path :`/products`});
+    },
+    toCart(input){
+      this.buyItem = input
+    }
+  },
+  created() {
+    // if (localStorage.token){
+    //   this.token = localStorage.token
+    // }
+    
+    // console.log(this.token, '<<< app');
+  },
 }
 </script>
 

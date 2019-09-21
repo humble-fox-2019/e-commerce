@@ -38,11 +38,13 @@ const userSchema = mongoose.Schema({
 
 
 userSchema.pre('save', function () {
+  console.log('herooo?');
  this.password = hashPassword(this.password)
   next()
 })
 
 userSchema.path('email').validate(function (value) {
+  console.log('here?');
   return User.findOne({ email: value })
       .then(isFound => {
           if (isFound) return false

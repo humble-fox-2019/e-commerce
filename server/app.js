@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const PORT = 3005
+const PORT = 3000
 const cors = require('cors')
 const mongoose = require('mongoose')
 const database = 'mongodb://localhost:27017/e-commerce'
@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended : false}))
 app.use('/', index)
 
 mongoose.connect(database, {
-  useNewUrlParser : true
+  useNewUrlParser : true, useUnifiedTopology: true 
 }, function(err){
   if(err) {
     console.log(err)
@@ -29,7 +29,7 @@ mongoose.connect(database, {
 app.use(errHandler)
 
 app.listen(PORT, function(){
-  console.log(`Hello from port PORT`);
+  console.log(`Hello from port ${PORT}`);
 })
 
 module.exports = app

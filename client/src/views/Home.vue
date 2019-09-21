@@ -1,6 +1,7 @@
 <template>
     <div class="home">
-        <ProductList @fetchProducts='fetchProducts' :products='products' :role='role'></ProductList>
+        <!-- <ProductList :products='products' :role='role'></ProductList> -->
+        <router-view :products='products' :role='role'></router-view>
     </div>
 </template>
 
@@ -24,22 +25,12 @@ export default {
         ProductList
     },
     methods : {
-        fetchProducts(){
-            axiosInstance({
-                method:"GET",
-                url: '/products'
-            })
-            .then( response => {
-                this.products = response.data
-            })
-            .catch( err => {
-                console.log( err.response )
-            })
-        }
+        
     },
     created: function() {
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
+        this.$store.commit('setRole' , role )
         this.role = role;
         if( token ) {
             this.isLogin = true;

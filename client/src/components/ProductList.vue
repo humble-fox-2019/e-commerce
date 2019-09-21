@@ -2,8 +2,8 @@
     <div id="productList">
         <h1>Product List</h1>
         <div class="row" style="display: flex; justify-content: center">
-            <div v-for="product in products" :key="product._id">
-                <Product :product="product" @fetchProducts="fetchProducts" :role='role'></Product>
+            <div v-for="product in $store.state.products" :key="product._id">
+                <Product :product="product" :role='role'></Product>
             </div>
         </div>
     </div>
@@ -20,17 +20,15 @@ export default {
             
         }
     },
-    props: ['products' , 'role'],
+    props: ['role'],
     components: {
         Product
     },
     methods: {
-        fetchProducts() {
-            this.$emit('fetchProducts')
-        }
+        
     },
     created () {
-        this.fetchProducts();
+        this.$store.dispatch('fetchProduct')
     }
 }
 </script>

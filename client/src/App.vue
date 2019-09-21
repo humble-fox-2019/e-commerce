@@ -28,20 +28,21 @@ export default {
         },
         reset () {
             this.isLogin = false;
-            this.role= null
+            this.role = null
         }
     },
     created : function () {
         const token = localStorage.getItem('token')
+        
         if ( token ) {
             this.changeLoginStatus( true )
             this.role = localStorage.getItem('role');
-            this.$router.push('/')
         } else {
             this.changeLoginStatus ( false )
-            this.$router.push('/login')
             this.reset()
         }
+            this.$router.push('/').catch( _ => {})
+
     },
     components: {
         Navbar

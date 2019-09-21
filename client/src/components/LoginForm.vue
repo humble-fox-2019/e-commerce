@@ -4,11 +4,11 @@
         <div class="form-container sign-in-container">
             <form @submit.prevent="login()">
                 <h1>Sign in</h1>
-                <div class="social-container">
+                <!-- <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                 </div>
 
-                <span>or use your account</span>
+                <span>or use your account</span> -->
 
                 <input type="email" placeholder="Email" v-model="email" />
                 <input type="password" placeholder="Password" v-model="password"/>
@@ -57,7 +57,7 @@ export default {
             })
             .then( response => {
 				const { token , user } = response.data 
-				console.log( user.role )
+				console.log( user.role , "role" )
                 localStorage.setItem('token' , token );
                 localStorage.setItem('username' , user.username );
                 localStorage.setItem('email' , user.email );
@@ -66,14 +66,15 @@ export default {
 				
 				Swal.fire('Login' , 'Success!' , 'success')
 				this.$emit('changeLoginStatus', true )
-                this.$router.push('/');
+                this.$router.push('/').catch( _ => {})
             })
             .catch( err => {
-                this.$buefy.toast.open({
-                    duration: 4000,
-                    message: err.response.data,
-                    type: 'is-danger'
-                })  
+                // this.$buefy.toast.open({
+                //     duration: 4000,
+                //     message: err.response.data,
+                //     type: 'is-danger'
+				// })  
+				Swal.fire('Login' , err.response.data , 'error') 
             })
         }
     },

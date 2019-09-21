@@ -17,7 +17,8 @@ const productSchema = new mongoose.Schema({
     },
     description : {
         type : String,
-        required: [true, "Description is required"]
+        required: [true, "Description is required"],
+        maxlength: [100 , "Description Max(100)Character"]
     },
     imageURL : {
         type : String,

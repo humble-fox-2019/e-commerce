@@ -2,15 +2,15 @@
   <div id="register-form">
     <div class="container right-panel-active"> 
         <div class="form-container sign-up-container">
-            <form action="#">
+            <form @submit.prevent="register()">
                 <h1>Create Account</h1>
-                <div class="social-container">
+                <!-- <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                 </div>
-                <span>or use your email for registration</span>
-                <input type="text" placeholder="Username" />
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
+                <span>or use your email for registration</span> -->
+                <input type="text" placeholder="Username" v-model="username"/>
+                <input type="email" placeholder="Email" v-model="email"/>
+                <input type="password" placeholder="Password" v-model="password"/>
                 <button>Register</button>
             </form>
         </div>
@@ -31,8 +31,41 @@
 </template>
 
 <script>
+import axiosInstance from '../api/axios'
+import Swal from 'sweetalert2'
 export default {
-  name: "LoginForm"
+	name: "LoginForm",
+	data: function() {
+		return {
+			username:"",
+			email : "",
+			password: ""
+		}
+	},
+  	methods: {
+		register() {
+			axiosInstance({
+				method: "POST",
+				url : "/register",
+				data : {
+					username : this.username,
+					email : this.email,
+					password : this.password
+				}
+			})
+			.then ( response => {
+					this.username = "";
+					this.email = "";
+					this.password = "";
+					Swal.fire('Register Success', 'Your account already registered! please login to continue' , 'success')
+			})
+			.catch( err => {
+				console.log(JSON.stringify( err.response.data , null , 2))
+				Swal.fire('Error', err.response.data[0] , 'error')
+			})
+		  
+		}
+  	}
 };
 </script>
 

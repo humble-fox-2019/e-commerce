@@ -1,6 +1,6 @@
 function errorHandler ( err , req ,res , next ) {
     console.log("SERVER ERROR")
-    console.log ( err );
+    // console.log ( err );
     console.log()
     console.log()
     let status = err.status || 500;

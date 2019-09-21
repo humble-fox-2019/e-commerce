@@ -7,8 +7,8 @@ const app = require('../app');
 const expect = chai.expect;
 
 const customerLogin = {
-    email : "test123@test.com",
-    password : "test123"
+    "email" : "newUser@test.com",
+    "password" : "newUser"
 }
 const adminLogin = {
     email : "admin@admin.com",
@@ -19,7 +19,18 @@ chai.use( chaiHttp );
 
 // User Login Register
 describe('User' , function () {
-
+    before('create admin account',function( done ) {
+        chai.request(app)
+        .post('/register')
+        .send({
+            "username" : "admin",
+            "email" : "admin@admin.com",
+            "password" : "admin"
+        })
+        .end( function( err , res ) {
+            done()
+        })
+    })  
     describe('Register' , function() {
         it('it should return error message as an array' , function (done ) {
             chai.request(app)
@@ -160,13 +171,15 @@ const product = {
     "name" : "Kamado Tanjirou",
     "price" : 300000,
     "stock" : 30,
-    "category" : "exclusive"
+    "category" : "exclusive",
+    "description" : "AYAMas"
 }
 const updateProduct = {
     "name" : "Update Tanjirou",
     "price" : 304000,
     "stock" : 20,
-    "category" : "special"
+    "category" : "special",
+    "description" : "AYAMas"
 }
 let productId;
 let products = []
@@ -186,7 +199,7 @@ describe('Product Admin CRUD' , function() {
     // CREATE
     describe('Create A Product' , function( ) {
         it('it should return created product' , function( done ) {
-            this.timeout(5000)
+            this.timeout(10000)
             chai.request(app)
             .post('/products')
             .type('form')
@@ -196,9 +209,10 @@ describe('Product Admin CRUD' , function() {
             .field ("price" , 300000 )
             .field ("stock" , 30 )
             .field ("category" , "exclusive")
+            .field ("description" , "description")
             // .send( product )
             .end( function( err, res ) {
-                expect( res.body ).to.include.all.keys('name', 'price','stock' , 'category')
+                expect( res.body ).to.include.all.keys('name', 'price','stock' , 'category', 'description')
                 expect( res.body.name ).to.be.equal( product.name ) 
                 expect( res.body.price ).to.be.equal( product.price ) 
                 expect( res.body.stock ).to.be.equal( product.stock ) 
@@ -227,13 +241,12 @@ describe('Product Admin CRUD' , function() {
     // UPDATE 
     describe('Update Product' , function() {
         it('it should return update message' , function( done ) {
-            
             chai.request(app)
             .put(`/products/${productId}`)
             .set( 'token' , token )
             .send( updateProduct )
             .end( function ( err, res ) {
-                expect( res.body).to.include.keys('message')
+                expect( res.body ).to.include.keys('message')
                 expect( res.body.message ).to.be.equal( "Product Updated!")
                 done();
             })
@@ -250,11 +263,13 @@ describe('Product Admin CRUD' , function() {
                 expect( res.body ).to.include.all.keys('message' , 'deletedProduct')
                 expect( res.body.message).to.be.equal( 'Product Deleted!' )
                 expect( res.body.deletedProduct ).to.be.an('object')
-                expect( res.body.deletedProduct ).to.include.all.keys('name' , 'price' , 'stock', 'category')
+                expect( res.body.deletedProduct ).to.include.all.keys('name' , 'price' , 'stock', 'category' , "description")
                 expect( res.body.deletedProduct.name ).to.be.equal( updateProduct.name ) 
                 expect( res.body.deletedProduct.price ).to.be.equal( updateProduct.price ) 
                 expect( res.body.deletedProduct.stock ).to.be.equal( updateProduct.stock ) 
                 expect( res.body.deletedProduct.category ).to.be.equal( updateProduct.category ) 
+                expect( res.body.deletedProduct.description ).to.be.equal( updateProduct.description ) 
+                
                 done()
             })
         })
@@ -270,6 +285,7 @@ describe('Product Admin CRUD' , function() {
         .field ("price" , 300000 )
         .field ("stock" , 30 )
         .field ("category" , "exclusive")
+        .field ("description" , "askdjlkadjlka")
         .end( function( err, res ) {
             done()
         })
@@ -300,8 +316,9 @@ describe('Product Customer' , function() {
                 "name" : "Kamado Tanjirou",
                 "price" : 300000,
                 "stock" : 30,
-                "category" : "exclusive"
-            }
+                "category" : "exclusive",
+                "description" : "SOmething"
+            }  
             
             chai.request(app)
             .post('/products')
@@ -321,7 +338,6 @@ describe('Product Customer' , function() {
             .get('/products')
             .set( 'token' , token )
             .end( function( err, res ) {
-                console.log( res.body )
                 expect( res.body ).to.be.an('array');
                 tempProduct = res.body[0];
                 done();
@@ -337,8 +353,9 @@ describe('Product Customer' , function() {
             .set( 'token' , token )
             .send({ productId : tempProduct._id , quantity : 2 })
             .end ( function ( err , res ) {
+                console.log( res.body , " < << < < << < << < << ")
                 expect( res.body ).to.include.all.keys('message' , 'cart')
-                expect( res.body.message ).to.be.equal('Cart Created');
+                expect( res.body.message ).to.be.equal('Added to Cart');
                 expect( res.body.cart ).to.be.an('object')
                 expect( res.body.cart ).to.include.all.keys('_id' ,'userId' , 'productId', 'quantity' , 'createdAt' , 'updatedAt' );
                 expect( res.body.cart.userId ).to.be.equal( user.id )
@@ -352,6 +369,7 @@ describe('Product Customer' , function() {
     // Update qty of item in Cart
     describe ('Update Product Quantity from cart' , function () {
         it ('should return message and previous updated cart ' , function ( done ) {
+            console.log( cartId , " < << <<<< < < <")
             chai.request(app)
             .patch(`/products/cart/${cartId}`)
             .set( 'token' , token )
@@ -417,3 +435,11 @@ describe('Product Customer' , function() {
 
     
 })
+
+
+
+// npm run test
+
+// update role newUser jadi admin di database
+
+// npm run test

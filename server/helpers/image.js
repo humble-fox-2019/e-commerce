@@ -13,7 +13,8 @@ const sendUploadToGCS = (req, res, next) => {
     if (!req.file) {
         return next();
     }
-    const gcsname = Date.now() + req.file.originalname;
+    const gcsname = Date.now() + req.file.originalname.replace(/\s/g,'')
+    
     const file = bucket.file(gcsname);
     const stream = file.createWriteStream({
         metadata: {
@@ -51,14 +52,16 @@ const deleteFile = ( url ) => {
         console.log("File Deleted")
     })
     .catch( err => {
+        console.log( err );
         console.log( "Delete file failed")
     })
 }
 const Multer = require('multer'),
 multer = Multer({
     fileFilter: function (req, file, next) {
-        if ( !file ) 
+        if ( !file ) {
             next(null, true);
+        }
         if( file.mimetype === "image/png" | file.mimetype === "image/jpg" || file.mimetype === 'image/jpeg' ) {
             next(null, true);
         } else {

@@ -6,7 +6,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const errorHandler = require('./helpers/errorHandler');
+const errorHandler = require('./middleware/errorHandler');
 const userRouter = require('./routes/user');
 const productRouter = require('./routes/product')
 

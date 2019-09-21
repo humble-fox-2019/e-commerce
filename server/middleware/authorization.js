@@ -29,9 +29,9 @@ function customerAuthorization ( req, res, next ){
 function productOwner ( req ,res ,next ) {
     const userId = req.decode.id;
     const cartId = req.params.id;
-    Cart.findById({ _id : cartId })
+    Cart.findById( cartId )
     .then( cart => {
-        if (cart.userId == userId ) {
+        if ( cart.userId == userId ) {
             next()
         } else {
             next({ status: 401 , message: "Not Authorized!"})

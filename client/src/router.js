@@ -10,8 +10,27 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      component: Home,
+      children: [
+        { 
+          path : '/' ,
+          name : "ListProduct",
+          component: () =>
+            import(/* webpackChunkName: "login" */ "./views/ListProduct.vue")
+        },
+        {
+          path:"/detail/:id",
+          name : "detail",
+          component: () => 
+            import(/* webpackChunkName: "login" */ "./views/Detail.vue")
+        },
+        {
+          path:"/cart",
+          name : "Cart",
+          component: () => 
+            import(/* webpackChunkName: "login" */ "./views/UserCart.vue")
+        }
+      ]
     },
     {
       path: "/login",
@@ -24,6 +43,12 @@ export default new Router({
       name : "register",
       component: () => 
         import(/* webpackChunkName: "login" */ "./views/Register.vue")
-    }
+    },
+    // {
+    //   path:"/detail/:id",
+    //   name : "detail",
+    //   component: () => 
+    //     import(/* webpackChunkName: "login" */ "./views/Detail.vue")
+    // }
   ]
 });

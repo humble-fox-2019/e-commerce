@@ -1,6 +1,5 @@
 <template>
   <div class="cart">
-    <v-container class="my-5">
       <h2 class="subheading grey--text">Cart</h2>
       <v-row>
         <v-col cols="12" sm="12">
@@ -33,7 +32,6 @@
           </v-simple-table>
         </v-col>
       </v-row>
-    </v-container>
   </div>
 </template>
 

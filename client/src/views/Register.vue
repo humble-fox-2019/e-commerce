@@ -1,7 +1,7 @@
 <template>
   <div class="register">
       <v-content>
-      <v-container class="fill-height" fluid>
+      <v-container class="fill-height container" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
@@ -42,6 +42,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.container {
+  height: 100vh;
+  background-image: url('http://eskipaper.com/images/blurred-background-1.jpg')
+}
 </style>

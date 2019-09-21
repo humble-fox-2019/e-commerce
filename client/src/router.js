@@ -30,13 +30,25 @@ export default new Router({
     },
     {
       path: '/cart',
-      name: 'cart',
-      component: Cart,
+      name: 'frontEnd',
+      component: FrontEnd,
+      children: [
+        {
+          path: '/cart',
+          name: 'cart',
+          component: Cart,
+        }
+      ]
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
+      path: '/cart',
+      name: 'frontEnd',
+      component: FrontEnd,
+      children: [{
+        path: '/login',
+        name: 'login',
+        component: Login,
+      }]
     },
     {
       path: '/register',

@@ -3,7 +3,7 @@
     <v-content>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
+          <v-col cols="12" sm="8" md="4"  >
             <v-card class="elevation-12">
               <v-toolbar color="success" dark flat>
                 <v-toolbar-title>Login form</v-toolbar-title>
@@ -22,9 +22,11 @@
                   ></v-text-field>
                 </v-form>
               </v-card-text>
-              <v-card-actions>
-                <div class="flex-grow-1"></div>
-                <v-btn color="success">Login</v-btn>
+              <v-card-actions style="display:flex;justify-content:center; padding-bottom:30px">
+                <div style="display:flex;flex-direction:column;">
+                <v-btn color="success" style="margin-bottom:10px">Login</v-btn>
+                <v-btn to="/register">register</v-btn>
+                </div>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -38,5 +40,6 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
+
 </style>

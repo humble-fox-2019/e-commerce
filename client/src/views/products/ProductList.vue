@@ -2,7 +2,7 @@
   <div class="productList">
     <h2 class="subheading grey--text">Komik</h2>
     <v-row>
-      <v-col v-for="product in products" :key="product._id" cols="12" sm="2">
+      <v-col v-for="product in products" :key="product._id" cols="12" sm="2" xm="12">
         <v-card
           class="mx-auto"
           :flat="flat"

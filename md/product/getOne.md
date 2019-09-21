@@ -2,9 +2,9 @@
 
 Fetch specific product data from database.
 
-**URL** : `products/:id`
+**URL** : `/products/:id/`
 
-**URL Params** : `id=[integer]` where `id` is the ID of the product.
+**URL Params** : `id=[integer]` where `id` is the ID of the Product.
 
 **Method** : `GET`
 
@@ -28,7 +28,7 @@ headers:
 {
     "name": "Fender Stratocaster",
     "stock": 5,
-    "sellerId": 
+    "sellerId": "5d8338e4b801a9bc9d9c39bc"
 }
 ```
 

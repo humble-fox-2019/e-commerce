@@ -1,8 +1,9 @@
 const { Product } = require('../models')
+const { deleteFromGCS } = require('../middlewares/images')
 
 class ProductController {
   static getAll(req, res, next) {
-    Product.find()
+    Product.find().sort('-createdAt')
       .then(products => {
         res.status(200).json({ products })
       })
@@ -10,9 +11,14 @@ class ProductController {
   }
 
   static create(req, res, next) {
-    const { name, stock } = req.body
+    const image = req.file ? req.file.cloudStoragePublicUrl : ''
+    const { name, description, price, stock } = req.body
     const sellerId = req.decode.id
-    Product.create({ name, stock, sellerId })
+
+    // console.log(image)
+    // console.log(req.file)
+    // console.log(req.body)
+    Product.create({ name, description, price, stock, sellerId, image })
       .then(product => {
         res.status(201).json({ product })
       })

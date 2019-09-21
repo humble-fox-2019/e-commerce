@@ -4,8 +4,8 @@ const { compareHash } = require('../helpers/bcrypt')
 
 class UserController {
   static register(req, res, next) {
-    const { email, password } = req.body
-    User.create({ email, password })
+    const { name, email, password } = req.body
+    User.create({ name, email, password })
       .then(user => {
         res.status(201).json({ user, token: generateToken({ id: user._id, email: user.email }) })
       })
@@ -23,6 +23,19 @@ class UserController {
             next({ status: 400, message: 'Invalid login or password' })
           }
         } else next({ status: 400, message: 'Invalid login or password' })
+      })
+      .catch(next)
+  }
+
+  static getOne(req, res, next) {
+    const { id } = req.decode
+    User.findById(id)
+      .then(user => {
+        if (user) {
+          res.status(200).json(user)
+        } else {
+          next({ status: 400, message: 'Bad request' })
+        }
       })
       .catch(next)
   }

@@ -2,9 +2,9 @@
 
 Update single product data.
 
-**URL** : `products/:id`
+**URL** : `/products/:id/`
 
-**URL Params** : `id=[integer]` where `id` is the ID of the product.
+**URL Params** : `id` is the ID of the Product.
 
 **Method** : `PUT`
 
@@ -18,11 +18,7 @@ headers:
 }
 ```
 
-**Authorization**
-
-
-
-
+**Authorization** : Product `userId` equal to `_id` of User.
 
 ## Success Response
 
@@ -33,8 +29,8 @@ headers:
 ```json
 {
     "name": "Fender Stratocaster",
-    "stock": 5,
-    "sellerId": 
+    "stock": 7,
+    "sellerId": "5d8338e4b801a9bc9d9c39bc"
 }
 ```
 

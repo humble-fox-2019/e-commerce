@@ -2,19 +2,14 @@
 
 Fetch all products data from database.
 
-**URL** : `products`
+**URL** : `/products/`
 
 **Method** : `GET`
 
 **Authentication**
 
-headers:
+`headers: [valid JWT]`
 
-```json
-{
-		"token": "93144b288eb1fdccbe46d6fc0f241a51766ecd3d"
-}
-```
 
 ## Success Response
 
@@ -27,12 +22,12 @@ headers:
 		{
         "name": "Fender Stratocaster",
         "stock": 5,
-      	"sellerId": 
+      	"sellerId": "5d8338e4b801a9bc9d9c39bc"
 		},
   	{
       	"name": "Fender Telecaster",
       	"stock": 7,
-        "sellerId": 
+        "sellerId": "5d8338e4b801a9bc9d9c39bc"
     }
 ]
 ```

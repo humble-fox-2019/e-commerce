@@ -13,7 +13,6 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'frontEnd',
       component: FrontEnd,
       children: [
         {
@@ -30,7 +29,6 @@ export default new Router({
     },
     {
       path: '/cart',
-      name: 'frontEnd',
       component: FrontEnd,
       children: [
         {
@@ -41,8 +39,7 @@ export default new Router({
       ]
     },
     {
-      path: '/cart',
-      name: 'frontEnd',
+      path: '/login',
       component: FrontEnd,
       children: [{
         path: '/login',
@@ -51,8 +48,7 @@ export default new Router({
       }]
     },
     {
-      path: '/cart',
-      name: 'frontEnd',
+      path: '/registration',
       component: FrontEnd,
       children: [{
         path: '/registration',

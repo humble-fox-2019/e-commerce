@@ -29,11 +29,18 @@
       </template>
 
       <v-list>
-        <v-list-item route to='/login'>
+        <v-list-item route to='/login' v-if="!cekToken">
           <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
-        <v-list-item route to='/registration'>
+        <v-list-item route to='/registration' v-if="!cekToken">
           <v-list-item-title>Registration</v-list-item-title>
+        </v-list-item>
+        
+        <v-list-item route to='/dashboard' v-if="cekToken">
+          <v-list-item-title>dashboard</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="cekToken" @click="logout">
+          <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -49,6 +56,20 @@ export default {
     return {
       drawer: false
     };
+  },
+  computed: {
+    cekToken() {
+      return this.$store.state.token
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$store.commit('setToken', '');
+      this.$store.commit('setUserData', {});
+    
+      this.$router.push('login');
+    }
   }
 };
 </script>

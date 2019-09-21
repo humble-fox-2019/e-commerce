@@ -3,7 +3,7 @@
       <h2 class="subheading grey--text">Cart</h2>
       <v-row>
         <v-col cols="12" sm="12">
-          <v-simple-table :dense="dense" :fixed-header="fixedHeader" :height="height">
+          <v-simple-table>
             <thead>
               <tr>
                 <th class="text-left">Product</th>
@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: "Cart",
+  name: "cart",
   data() {
     return {
       products: [

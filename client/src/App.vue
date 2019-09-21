@@ -6,6 +6,12 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  created(){
+    if(localStorage.getItem('token')) {
+      this.$store.commit('setToken', localStorage.getItem('token'));
+      this.$store.commit('setUserData', localStorage.getItem('userData')); 
+    }
+  }
 };
 </script>

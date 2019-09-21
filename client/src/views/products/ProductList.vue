@@ -23,7 +23,7 @@
               <v-icon class="red--text">mdi-heart</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn outlined>Buy</v-btn>
+            <v-btn outlined v-if="token">Buy</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -47,7 +47,8 @@ export default {
     raised: false,
     width: 344,
     height: undefined,
-    products: []
+    products: [],
+    token: ''
   }),
   methods: {
     getProducts() {
@@ -74,6 +75,7 @@ export default {
   },
   created() {
     this.getProducts();
+    this.token = this.$store.state.token;
   }
 };
 </script>

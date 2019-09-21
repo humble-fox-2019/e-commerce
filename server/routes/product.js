@@ -2,15 +2,13 @@
 
 const router = require('express').Router()
 const { ProductController } = require('../controllers')
-// const { authorization } = require('../middlewares/authorization')
-// const { multer, sendUploadToGCS } = require('../middlewares/gcs')
+const { admin } = require('../middlewares/authorization')
+const { multer, sendUploadToGCS } = require('../middlewares/image')
 
 router.get('/', ProductController.findAll)
-router.post('/', ProductController.create)
-// router.post('/search', ArticleController.search)
-router.patch('/:id', ProductController.edit)
-router.delete('/:id', ProductController.remove)
+router.post('/', admin, multer.single('file'), sendUploadToGCS, ProductController.create)
+router.get('/:id', ProductController.findOne)
+router.patch('/:id', multer.single('file'), sendUploadToGCS, admin, ProductController.edit)
+router.delete('/:id', admin, ProductController.remove)
 
 module.exports = router
-
-// multer.single('image'), sendUploadToGCS,

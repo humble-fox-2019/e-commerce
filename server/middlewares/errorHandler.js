@@ -5,7 +5,7 @@ module.exports = (err, req, res, next) => {
   let status = null
   let message = null
 
-  if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+  if (err.name === 'JsonWebTokenError') {
     status = 401
     message = 'Please login first, you are not logged in yet!'
   } else if (err.name === 'TokenExpiredError') {

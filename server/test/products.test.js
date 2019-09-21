@@ -15,9 +15,9 @@ const adminLogin = {
 
 const product = {
   name: 'Final Fantasy XV',
-  price: 560000,
+  price: 50,
   quantity: 56,
-  description: 'Final Fantasy XV is an action role-playing game developed and published by Square Enix as part of the long-running Final Fantasy series. It was released for the PlayStation 4 and Xbox One in 2016'
+  description: 'Final Fantasy XV is an action role-playing game developed and published by Square Enix as part of the long-running Final Fantasy series. It was released for the PlayStation 4 in 2016.'
 }
 
 const updateProduct = {

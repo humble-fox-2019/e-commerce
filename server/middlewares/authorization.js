@@ -1,21 +1,26 @@
 'use strict'
 
-const User = require('../models/user')
+const { Transaction } = require('../models')
 
 module.exports = {
-  admin: async function (req, res, next) {
-    const userId = req.user
-    if (userId) {
-      const user = await User.findOne({ _id: userId }).exec()
-      if (user.isAdmin) {
-        next()
-      } else {
-        console.log('not authorized')
-        next({ code: 401, msg: 'not authorized' })
-      }
+  admin: function (req, res, next) {
+    if (req.decoded.email === 'admin@e-commerce.com') {
+      next()
     } else {
-      console.log('not authorized')
-      next({ code: 401, msg: 'not authorized' })
+      console.log('Authorization failed')
+      next({ status: 403, message: 'Unauthorized process' })
     }
+  },
+  transaction: function (req, res, next) {
+    const id = req.params.id
+    Transaction.findById(id)
+      .then((transaction) => {
+        if (String(transaction.buyer) === String(req.decoded.id)) {
+          next()
+        } else {
+          console.log('Authorization failed!')
+          next({ status: 403, message: 'Unauthorized process' })
+        }
+      }).catch(next)
   }
 }

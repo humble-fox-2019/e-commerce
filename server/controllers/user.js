@@ -3,7 +3,7 @@
 const { OAuth2Client } = require('google-auth-library')
 const { generateToken } = require('../helpers/jwt')
 const { checkPassword } = require('../helpers/bcryptjs')
-const { User } = require('../models')
+const { User, Product, Transaction } = require('../models')
 
 class UserController {
   static findAll (req, res, next) {
@@ -16,7 +16,6 @@ class UserController {
   static register (req, res, next) {
     console.log(`Registering ${req.body.email}`)
     const { name, email, password } = req.body
-    // console.log(newUser) -> name: "Admin", email: "admin@fancytodo.com", password:"admin"
     User.create({ name, email, password })
       .then((user) => {
         // console.log(user) // -> balikannya Object User dengan password yang sudah di hash
@@ -97,6 +96,62 @@ class UserController {
           email: user.email,
           admin: user.admin
         })
+      })
+      .catch(next)
+  }
+
+  static getCart (req, res, next) {
+    const id = req.decoded.id
+    User.findById(id).populate('cart.productId')
+      .then((user) => {
+        res.status(200).json(user.cart)
+      }).catch(next)
+  }
+
+  static checkout (req, res, next) {
+    const id = req.decoded.id
+    User.findById(id).populate('cart.productId')
+      .then((user) => {
+        let isStockAvailable = true
+        for (const item of user.cart) {
+          console.log(`"${item.productId.name}" Stock: ${item.productId.stock}, inCart: ${item.qty}`)
+          if (item.quantity > item.productId.quantity) {
+            isStockAvailable = false
+          }
+          if (!isStockAvailable) {
+            const error = { status: 400, message: 'Insufficient stock to checkout' }
+            throw error
+          } else {
+            const promises = []
+            // Doing a second loop makes sure that: either ALL db updates run or NO db upadetes run (no in between).
+            // Pushing the promise to the promises array runs the starts the update.
+            for (const item of user.cart) {
+              // Query to decrement stock of a product by qty of that product in cart
+              promises.push(
+                Product.findByIdAndUpdate(item.productId._id, { $inc: { stock: -item.qty } }, { new: true }).exec()
+              )
+            }
+            // Create transaction recording list of products and qty purchased
+            promises.push(Transaction.create({
+              products: user.cart,
+              buyer: user._id
+            }))
+            return Promise.all(promises)
+          }
+        }
+      }).then(results => {
+        let transaction
+        for (const result of results) {
+          if (result.buyer) { // Only the result from the Transaction.create() promise has property 'buyer'
+            transaction = result
+          }
+        }
+        User.findByIdAndUpdate(req.userData.id, { $set: { cart: [] } }) // Empty cart
+          .exec()
+          .then(() => {
+            res.status(201).json(transaction)
+          })
+          .catch(next)
       })
       .catch(next)
   }

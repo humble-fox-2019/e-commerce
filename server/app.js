@@ -25,7 +25,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 
 // Load router module on the app.js
-
 app.use('/', router)
 
 // Error handler

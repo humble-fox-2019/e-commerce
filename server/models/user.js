@@ -23,7 +23,14 @@ const userSchema = new Schema({
   isAdmin: {
     type: Boolean,
     default: false
-  }
+  },
+  cart: [{
+    productId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Product'
+    },
+    quantity: Number
+  }]
 }, {
   timestamps: true
 })

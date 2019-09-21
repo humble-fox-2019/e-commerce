@@ -6,15 +6,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    auth: {},
     products: [],
     product: {},
     cart: [],
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg1N2JkNWJhOGU0ZDFiZmRkMGZiNzgiLCJuYW1lIjoiY3VzdG9tZXIgYmFydSIsImVtYWlsIjoiY3VzdG9tZXJiYXJ1QG1haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNTY5MDI5MTE3fQ.No5xKd5eHyA0zVkkIFDSffZEv34qeSpIKuM2kuMsej0',
-    toggleStatus: null
+    toggleStatus: {
+      type: null,
+      message: null
+    }
   },
   mutations: {
-    toggleStatus (state, status) {
-      state.toggleStatus = status
+    toggleStatus (state, {type, message}) {
+      state.toggleStatus.type = type
+      state.toggleStatus.message = message
     },
     fetchProducts (state, data) {
       state.products = data
@@ -27,6 +31,19 @@ export default new Vuex.Store({
     },
     addToCart (state, product) {
       state.cart.push(product)
+    }, 
+    setAuth (state, data) {
+      state.auth = data
+    },
+    setLocalStorage(state, data) {
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('name', data.payload.name)
+      localStorage.setItem('email', data.payload.email)
+      localStorage.setItem('role', data.payload.role)
+    },
+    signout (state) {
+      localStorage.clear()
+      state.auth = {}
     }
   },
   actions: {
@@ -35,7 +52,7 @@ export default new Vuex.Store({
         url: '/products',
         method: 'get',
         headers: {
-          token: context.state.token
+          token: context.state.auth.token
         }
       })
         .then(({ data }) => {
@@ -49,7 +66,7 @@ export default new Vuex.Store({
         url: `/products/${ProductId}`,
         method: 'GET',
         headers: {
-          token: context.state.token
+          token: context.state.auth.token
         }
       })
         .then(({ data }) => {
@@ -57,59 +74,99 @@ export default new Vuex.Store({
         })
     },
     fetchCart(context) {
+      context.commit('toggleStatus', {type: null, message: null})
       axios({
         url: '/users/cart',
         method: 'GET',
         headers: {
-          token: context.state.token
+          token: context.state.auth.token
         }
       })
         .then(({ data }) => {
           console.log(data)
           context.commit('fetchCart', data)
         })
-        .catch(console.log)
+        .catch(err => {
+          if(err.response) {
+            err.response.data.errors.forEach(error => {
+              context.commit('toggleStatus', {type: 'not_authenticated', message: error})
+            })
+          }
+        })
     },
     addToCart (context, {product, count}) {
-      context.commit('toggleStatus', null)
+      context.commit('toggleStatus', {type: null, message: null})
       axios({
         url: '/users/cart',
         method: 'post',
         headers: {
-          token: context.state.token
+          token: context.state.auth.token
         },
         data: {
-            ProductId: product._id,
-            count: count
+          ProductId: product._id,
+          count: count
         }
       })
       .then(({ data }) => {
-        context.commit('toggleStatus', 'add_cart_success')
+        // console.log(data)
         context.dispatch('fetchCart')
+        context.commit('toggleStatus', {type: 'add_cart_success', message: data})
       })
-      .catch(console.log)
+      .catch(err => {
+        if(err.response) {
+          console.log(err.response.data.errors)
+          err.response.data.errors.forEach(error => {
+            context.commit('toggleStatus', {type: 'add_cart_failed', message: error})
+          })
+        }
+      })
     },
     deleteCart (context, CartId) {
-      context.commit('toggleStatus', null)
+      context.commit('toggleStatus', {type: null, message: null})
       axios({
         url: `/users/cart/${CartId}`,
         method: 'DELETE',
         headers: {
-          token: context.state.token
+          token: context.state.auth.token
         }
       })
         .then(({ data }) => {
-          context.commit('toggleStatus', 'delete_cart_success')
+          context.commit('toggleStatus', {type: 'delete_cart_success', message: data})
           context.dispatch('fetchCart')
         })
         .catch(console.log)
+    },
+    signin(context, payload) {
+      context.commit('toggleStatus', {type: null, message: null})
+      console.log(payload, 'ini payloadnya')
+      axios({
+        url: `/users/signin`,
+        method: 'POST',
+        data: {
+          email: payload.email,
+          password: payload.password
+        }
+      })
+        .then(({ data }) => {
+          context.commit('toggleStatus', {type: 'signin_success', message: 'Success login!'})
+          context.commit('setAuth', data)
+          context.commit('setLocalStorage', data)
+        })
+        .catch(err => {
+          if (err.response) {
+            console.log(err.response.data)
+            err.response.data.errors.forEach(error => {
+              context.commit('toggleStatus', {type: 'signin_failed', message: error})
+            })
+          }
+        })
     },
     min(context, CartId) {
       axios({
         url: `/users/cart/${CartId}`,
         method: 'PATCH',
         headers: {
-          token: context.state.token
+          token: context.state.auth.token
         }
       })
         .then(({ data }) => {

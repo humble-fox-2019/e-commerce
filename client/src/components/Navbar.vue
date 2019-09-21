@@ -20,7 +20,8 @@
                 <a class="nav-link" href="" @click.prevent="goToCart">Cart <span class="sr-only">(current)</span></a>
             </li>
             <li>
-                <a class="nav-link" href="">Signout <span class="sr-only">(current)</span></a>
+                <a v-if="!auth.token" class="nav-link" href="" @click.prevent="goToLogin">Login <span class="sr-only">(current)</span></a>
+                <a v-else class="nav-link" href="" @click.prevent="signout">Logout <span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
@@ -28,17 +29,37 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     name: 'Navbar',
+    computed: mapState(['auth']),
     methods: {
         goToHome() {
-            this.$router.push('/')
+          this.$router.push('/')
         },
         goToProducts() {
-            this.$router.push('/products')
+          this.$router.push('/')
         },
         goToCart() {
-            this.$router.push('/cart')
+          this.$router.push('/cart')
+        },
+        goToLogin() {
+          this.$router.push('/auth/signin')
+        },
+        signout() {
+          this.$swal.fire({
+            title: 'Are you sure want to Logout?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Logout!'
+          }).then((result) => {
+            if (result.value) {
+              this.$store.commit('signout')
+              this.$router.push('/auth/signin')
+            }
+          })
         }
     }
 }

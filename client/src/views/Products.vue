@@ -1,9 +1,7 @@
 <template>
-  <div class="products" style="">
     <div class="container">
       <router-view></router-view>
     </div>
-  </div>
 </template>
 
 <script>
@@ -18,7 +16,7 @@ export default {
 </script>
 
 <style scoped>
-    .products{
-        margin: 80px;
+    .container{
+        padding-top: 80px;
     }
 </style>

@@ -17,22 +17,32 @@ export default {
   ,
   created () {
     this.$store.dispatch('fetchProducts')
-    this.$store.dispatch('fetchCart')
   },
   watch: {
-    toggleStatus() {
-      switch(this.toggleStatus) {
+    'toggleStatus.type'() {
+      console.log('toggleBerubah')
+      switch(this.toggleStatus.type) {
         case 'add_cart_success':
+          console.log('add_cart_success')
           this.$swal.mixin({
             position: 'center',
             showConfirmButton: false,
             timer: 3000
           }).fire({
             type: 'success',
-            title: 'Added to your cart!'
+            title: this.toggleStatus.message
           })
           break;
-       
+        case 'add_cart_failed':
+          this.$swal.mixin({
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+          }).fire({
+            type: 'error',
+            title: this.toggleStatus.message
+          })
+          break;
       }
     }
   }

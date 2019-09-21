@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
-    <Navbar></Navbar>
-    <router-view/>
+    <div>
+      <Navbar ></Navbar>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -17,7 +15,20 @@ export default {
   },
   data () {
     return {
-
+      auth: null
+    }
+  },
+  mounted() {
+    let token = localStorage.getItem('token')
+    let payload = {
+      name : localStorage.getItem('name'),
+      email : localStorage.getItem('email'),
+      role : localStorage.getItem('role')
+    }
+    if (token) {
+      this.$store.state.auth = {
+        token, payload
+       }
     }
   }
 }
@@ -25,12 +36,12 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700&display=swap');
-
 #app {
   font-family: 'Quicksand', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  min-height: 100%; 
   color: #2c3e50;
 }
 #nav {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="margin-top: 80px">
+  <div class="container">
     <h3>Shopping Cart</h3>
     <div class="cart mt-4 d-flex flex-column">
       <table class="table">
@@ -47,15 +47,10 @@ export default {
         return totalResult
       },
       ...mapState(['cart', 'toggleStatus'])
-    }, 
-    // computed: {
-    //   cartItems() {
-    //     return this.$store.state.cart
-    //   }
-    // },
+    },
     watch: {
-      toggleStatus() {
-        switch(this.toggleStatus){
+      'toggleStatus.type'() {
+        switch(this.toggleStatus.type){
           case 'delete_cart_success':
             this.$swal.mixin({
               toast: 'true',
@@ -64,18 +59,38 @@ export default {
               timer: 3000
             }).fire({
               type: 'success',
-              title: 'Deleted from your cart!'
+              title: this.toggleStatus.message
             })
+            break;
+          case 'not_authenticated':
+            this.$swal.mixin({
+              position: 'center',
+              showConfirmButton: false,
+              timer: 3000
+            }).fire({
+              type: 'error',
+              title: this.toggleStatus.message
+            })
+            this.$router.push('/')
             break;
         }
       }
     },
-    created() {
+    mounted() {
       this.$store.dispatch('fetchCart')
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        // if(!localStorage.getItem('token')) {
+        //   vm.$router.push('/')
+        // }
+      })
     }
 }
 </script>
 
 <style>
-
+  .container {
+    padding-top: 80px;
+  }
 </style>

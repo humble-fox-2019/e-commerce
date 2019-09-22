@@ -7,13 +7,13 @@
       Rp {{ itemCart.ProductId.price }}
     </td>
     <td> 
-      <span class="fa" @click="min">
+      <!-- <span class="fa" @click="min">
         <font-awesome-icon class="mx-2" icon="minus" size="xs"/>
-      </span> 
+      </span>  -->
       {{ itemCart.count }} 
-      <span class="fa" @click="plus"> 
+      <!-- <span class="fa" @click="plus"> 
         <font-awesome-icon class="mx-2" icon="plus" size="xs" /> 
-      </span> 
+      </span>  -->
     </td>
     <td>Rp {{ itemCart.ProductId.price * itemCart.count }}</td>
     <td> <span class="fa" @click="deleteCart"> <font-awesome-icon icon="trash-alt"/> </span> </td>

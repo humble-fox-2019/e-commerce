@@ -1,7 +1,7 @@
 <template>
-  <div class="add-product">
-    <form @submit.prevent="addProduct()" spellcheck="off">
-      <h1>Add new product</h1>
+  <div class="update-product">
+    <form @submit.prevent="updateProduct()" spellcheck="off">
+      <h1>Update your product</h1>
       <div>
         <div class="input-group">
           <label for="name">Product Name</label>
@@ -16,9 +16,9 @@
             <span>Add thumbnail image</span>
             <i class="fas fa-camera"></i>
           </div>
-          <div class="preview-picture" id="thumb-image">
+          <div class="preview-picture" id="thumb-image" :style="`background-image: url('${image}')`">
           </div>
-          <input type="file" accept="image/*" class="form-control-file" ref="image" v-on:change="handleImage" required>
+          <input type="file" accept="image/*" class="form-control-file" ref="image" v-on:change="handleImage()">
         </div>
         <div class="input-group">
           <label for="price">Price</label>
@@ -48,7 +48,7 @@
 import axios from '../api/server.js'
 
 export default {
-  name: 'Signup',
+  name: 'UpdateProduct',
   components: {
   },
   data() {
@@ -59,7 +59,7 @@ export default {
       price: '',
       stock: '',
       errors: [],
-      btnText: 'ADD PRODUCT',
+      btnText: 'UPDATE PRODUCT',
       btnState: false
     }
   },
@@ -72,18 +72,19 @@ export default {
       reader.readAsDataURL(this.$refs.image.files[0])
       this.image = this.$refs.image.files[0]
     },
-    addProduct() {
+    updateProduct() {
       this.btnState = true
       this.btnText = 'Loading...'
 
       let formData = new FormData()
+      
       formData.append('name', this.name)
       formData.append('description', this.description)
       formData.append('image', this.image)
       formData.append('price', this.price)
       formData.append('stock', this.stock)
 
-      axios.post('/product', formData, {
+      axios.put(`/product/${this.$route.params.id}`, formData, {
         headers: {
           token: localStorage.getItem('token')
         }
@@ -99,7 +100,7 @@ export default {
         })
         .finally(() => {
           this.btnState = false
-          this.btnText = 'ADD PRODUCT'
+          this.btnText = 'UPDATE PRODUCT'
         })
     },
     setDefaultState() {
@@ -110,17 +111,30 @@ export default {
       this.stock = ''
       this.errors = []
     }
+  },
+  created() {
+    axios.get(`/product/${this.$route.params.id}`)
+      .then(({data}) => {
+        this.name = data.product.name
+        this.description = data.product.description
+        this.image = data.product.image
+        this.price = data.product.price
+        this.stock = data.product.stock
+      })
+      .catch(err => {
+        this.$router.push('/')
+      })
   }
 }
 </script>
 
 <style scoped>
-.add-product{
+.update-product{
   max-width: 500px;
   padding: 20px;
   margin: 50px auto;
 }
-.add-product h1{
+.update-product h1{
   padding-bottom: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid rgba(0,0,0,.1);

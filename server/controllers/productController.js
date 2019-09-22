@@ -28,6 +28,7 @@ class ProductController {
 
     static getAll(req, res, next) {
         Product.find({})
+            .populate('store', 'name city province')
             .then(products => {
                 res.json({
                     products
@@ -38,6 +39,7 @@ class ProductController {
 
     static getOne(req, res, next) {
         Product.findById(req.params.id)
+            .populate('store', 'name province city')
             .then(product => {
                 if(product) {
                     res.json({
@@ -64,15 +66,60 @@ class ProductController {
         .catch(next)
     }
 
+    static getFeatured(req, res, next) {
+        Product
+        .find()
+        .limit(4)
+        .populate('store', 'name city province')
+        .then(products => {
+            res.json({ products })
+        })
+    }
+
     static filterProduct(req, res, next) {
         
     }
 
     static deleteProduct(req, res, next) {
-
+        Product.findByIdAndDelete(req.params.id)
+            .then(data => {
+                res.json({
+                    message: 'Success delete data'
+                })
+            })
+            .catch(next)
     }
 
     static updateProduct(req, res, next) {
+
+        const { name, description, price, stock } = req.body
+
+        Product.findById(req.params.id)
+        .then(product => {
+            let image = null
+            if(req.file) {
+                image = req.file.cloudStoragePublicUrl
+            }else {
+                image = product.image
+            }
+            return Product.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    name,
+                    description,
+                    image,
+                    price,
+                    stock
+                }
+            }, {
+                new: true,
+                runValidators: true,
+                useFindAndModify: false
+            })
+        })
+        .then(product => {
+            res.json({ product })
+        })
+        .catch(next)
 
     }
 

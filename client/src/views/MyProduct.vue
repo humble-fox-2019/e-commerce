@@ -8,7 +8,7 @@
           <th>Price</th>
           <th>Stock</th>
           <th style="width: 80px">Image</th>
-          <th style="width: 200px;">Action</th>
+          <th style="width: 150px;">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -21,13 +21,17 @@
           <img :src="product.image">
           </td>
           <td class="action">
-            <button class="detail" @click="detail(product._id)">Detail</button>
-            <button class="update" @click="update(product._id)">Update</button>
-            <button class="delete" @click="remove(product._id)">Delete</button>
+            <button class="update" @click="$router.push(`/update/${product._id}`)">Update</button>
+            <button class="delete" @click="showConfirmationDelete(product._id)">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <div class="confirmation" v-if="isShowConfirm">
+      <h3>Are you sure want to delete ?</h3>
+      <button class="yes" @click="deleteProduct()">Yes</button>
+      <button class="no" @click="hideConfirm()">Cancel</button>
+    </div>
   </div>
 </template>
 
@@ -39,22 +43,61 @@ export default {
   name: 'MyProduct',
   data() {
     return {
-      products: []
+      products: [],
+      isShowConfirm: false,
+      id: ''
     }
   },
   methods: {
     formatPrice(price) {
-      price = price.toString()
-      let newPrice = ''
-      let index = 0
-      for(let i=price.length-1;i>=0;i--) {
-        if(index % 3 == 0 && index != 0) {
-          newPrice = '.' + newPrice
+      if(!price) {
+        return 0
+      }else{
+        price = price.toString()
+        let newPrice = ''
+        let index = 0
+        for(let i=price.length-1;i>=0;i--) {
+          if(index % 3 == 0 && index != 0) {
+            newPrice = '.' + newPrice
+          }
+          index++
+          newPrice = price[i] + newPrice
         }
-        index++
-        newPrice = price[i] + newPrice
+        return 'Rp. ' + newPrice
       }
-      return 'Rp. ' + newPrice
+    },
+    showConfirmationDelete(id) {
+      this.id = id
+      this.isShowConfirm = true
+    },
+    hideConfirm() {
+      this.id = ''
+      this.isShowConfirm = false
+    },
+    deleteProduct() {
+      axios.delete(`/product/${this.id}`, {
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({data}) => {
+        let newProducts = []
+        for(let i=0;i<this.products.length;i++) {
+          let product = this.products[i]
+          if(product._id == this.id){
+            //skip
+          }else {
+            newProducts.push(product)
+          }
+        }
+        this.products = newProducts
+      })
+      .catch(err => {
+        this.$router.push('/')
+      })
+      .finally(_ => {
+        this.isShowConfirm = false
+      })
     }
   },
   created() {
@@ -67,13 +110,13 @@ export default {
       this.products = data.products
     })
     .catch(err => {
-      router.push('/')
+      this.$router.push('/')
     })
   }
 }
 </script>
 
-<style>
+<style scoped>
 
 .my-product{
   max-width: 1100px;
@@ -117,19 +160,12 @@ tbody tr:nth-child(even){
   font-size: 8pt;
   font-weight: bold;
 }
-.detail{
+.update{
   color: #ffffff;
   background-color: #43ca34;
 }
-.detail:hover{
-  background-color: #5edf50;
-}
-.update{
-  color: #ffffff;
-  background-color: #1c9ed1;
-}
 .update:hover{
-  background-color: #3ab1e0;
+  background-color: #5edf50;
 }
 .delete{
   color: #ffffff;
@@ -137,6 +173,44 @@ tbody tr:nth-child(even){
 }
 .delete:hover{
   background-color: #ec4848;
+}
+.confirmation{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 30px 20px;
+  border-radius: 5px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.2);
+}
+
+.confirmation h3{
+  padding: 20px 0;
+}
+.confirmation button{
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.confirmation button.yes{
+  background-color: #f32929;
+  color: #ffffff;
+  width: 100px;
+  margin-right: 10px;
+}
+.confirmation button.yes:hover{
+  background-color: #ff5050;
+}
+.confirmation button.no{
+  border: 2px solid #43ca34;
+  background-color: #ffffff;
+  width: 110px;
+  color: #43ca34;
 }
 </style>
 

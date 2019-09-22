@@ -9,6 +9,8 @@ import StoreSignup from './views/StoreSignup'
 import MyProduct from './views/MyProduct'
 import NewProduct from './views/AddNewProduct'
 import Transaction from './views/Transaction'
+import UpdateProduct from './views/UpdateProduct'
+import ProductDetail from './views/ProductDetail'
 
 Vue.use(Router)
 
@@ -25,6 +27,11 @@ export default new Router({
       path: '/product',
       name: 'product',
       component: Product
+    },
+    {
+      path: '/product/:id',
+      name: 'ProductDetail',
+      component: ProductDetail
     },
     {
       path: '/signin',
@@ -74,6 +81,18 @@ export default new Router({
       path: '/transaction',
       name: 'Transaction',
       component: Transaction,
+      beforeEnter: (to, from, next) => {
+        if(localStorage.getItem('token') && localStorage.getItem('role') == 'store') {
+          next()
+        }else {
+          next('/')
+        }
+      }
+    },
+    {
+      path: '/update/:id',
+      name: 'UpdateProduct',
+      component: UpdateProduct,
       beforeEnter: (to, from, next) => {
         if(localStorage.getItem('token') && localStorage.getItem('role') == 'store') {
           next()

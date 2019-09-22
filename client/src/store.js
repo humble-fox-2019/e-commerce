@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import md5 from 'md5'
-
+import axios from './config/axios'
 
 Vue.use(Vuex)
 
@@ -40,7 +40,7 @@ const store = new Vuex.Store({
   },
   actions: {
     getProducts({ commit }) {
-      Vue.axios.get(localhost + '/products/')
+      axios.get(localhost + '/products/')
         .then(({ data }) => {
           commit('fillProducts', data)
         }).catch((err) => {
@@ -48,14 +48,18 @@ const store = new Vuex.Store({
         });
     },
     getCart({ commit }) {
-      Vue.axios({
-        method: 'get',
-        url: localhost + '/carts',
-        headers: { 'token': localStorage.getItem('token') }
-      })
+      axios.get(localhost + '/carts')
         .then(({ data }) => {
           commit('refreshCart', data)
-        }).catch(next);
+        }).catch(err => {
+          console.log(err);
+        });
+    },
+    modifyCart({ commit }) {
+      axios.put(localhost + '/carts')
+        .then(({ data }) => {
+          commit('refreshCart', data)
+        }).catch(err => console.log(err));
     }
   },
   getters: {

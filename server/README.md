@@ -5,7 +5,7 @@
 All endpoints can be access on:
 
 ```javascript
-http://localhost:3000
+http://api.grabah.guntoroyk.site/
 ```
 
 * [User](#users)

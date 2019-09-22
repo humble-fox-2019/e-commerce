@@ -10,9 +10,10 @@ class UserController {
             password: req.body.password
         })
             .then((User) => {
-                const token = createToken({ id: User._id })
+                const token = createToken({ id: User._id, role: User.role })
                 res.status(201).json({
                     username: User.username,
+                    role: User.role,
                     email: User.email,
                     token
                 })
@@ -26,7 +27,12 @@ class UserController {
             .then((User) => {
                 if (User && compare(password, User.password)) {
                     const token = createToken({ id: User._id, role: User.role })
-                    res.status(200).json({ identity, token })
+                    res.status(200).json({
+                        username: User.username,
+                        role: User.role,
+                        email: User.email,
+                        token
+                    })
                 } else {
                     let err = new Error('Wrong Username / Email / Password')
                     err.name = 'AuthenticationError'

@@ -23,8 +23,7 @@ const ProductSchema = new Schema({
         type: Number,
         required: [true, "Please set a price"],
         min: [0, "You can't put a negative price"]
-    },
-    owner: { type: Schema.Types.ObjectId }
+    }
 }, { timestamps: true })
 
 const Product = mongoose.model('Product', ProductSchema)

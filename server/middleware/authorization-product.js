@@ -1,7 +1,7 @@
 const Product = require('../models/Product')
 
 module.exports = (req, res, next) => {
-    const ProductId = req.params.ProductId
+    const ProductId = req.params.id
     const id = req.decode.id
     const role = req.decode.role
     if (role !== 'Admin') {

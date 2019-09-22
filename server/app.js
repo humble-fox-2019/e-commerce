@@ -13,8 +13,9 @@ const { errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const MONGODB_URI = NODE_ENV === 'test' ? process.env.MONGODB_URI_TEST : process.env.MONGODB_URI; 
 
-mongoose.connect(`mongodb://localhost/e-commerce${NODE_ENV === 'test' ? `-test` : ''}`, { useNewUrlParser: true,useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true,useUnifiedTopology: true })
     .then(() => {
         console.log('mongodb connected!');
     })

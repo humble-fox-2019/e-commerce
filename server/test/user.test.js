@@ -8,6 +8,7 @@ chai.use(chaiHttp);
 
 describe('User', function() {
     let token;
+    let CartId;
 
     before(function(done) {
         User.deleteMany()
@@ -190,6 +191,7 @@ describe('User', function() {
                 .end(function(err, res) {
                     expect(res).to.have.status(200);
                     expect(res.body).to.be.an('array');
+                    CartId = res.body[0]._id;
                     done();
                 })
         });

@@ -356,7 +356,7 @@ http://localhost:3000
     ```javascript
     {
         errors: [
-            "You haven't authorized"
+            "You haven't authorize with this cart"
         ]
     }
     ```

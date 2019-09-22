@@ -42,8 +42,9 @@ export default {
         }
       }).then(response => {
         localStorage.setItem('token', response.data.token)
+        localStorage.setItem('role', response.data.role)
         console.log(localStorage.token)
-        this.$emit('newToken');
+        this.$emit('newToken')
         this.email = ''
         this.password = ''
       })

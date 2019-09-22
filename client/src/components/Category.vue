@@ -3,32 +3,47 @@
     <h1>
   {{category.title}}
     </h1>
-  <div class="box" :style="{background: category.color}" >
-  <Card v-for="(product , index) in products" :key="index" @toCart="toCart"></Card>
+  <div class="box" :style="{background: category.color, border:`5pt solid ${category.color}`}" >
+  <Card v-for="(product , index) in products" :key="index" @toCart="toCart" :product='product'></Card>
   </div>
-</div> 
+</div>
 </template>
 
 <script>
+import axios from 'axios'
 import Card from './Card.vue'
+const baseUrl = 'http://localhost:3000'
 
 export default {
-    props : ['category'],
-  data() {
+  props: ['category'],
+  data () {
     return {
-      products : [{
-          name : 'lalalal'
-      }, {name : 'lalalal'}, {name : 'lalalal'} ,{name : 'lalalal'}, {name : 'lalalal'},
-       {name : 'lalalal'}, {name : 'lalalal'}]
+      products: []
     }
   },
-  components : {
+  components: {
     Card
   },
-  methods : {
-    toCart(input){
+  methods: {
+    toCart (input) {
       this.$emit('toCart', input)
     }
+  },
+  created () {
+    axios({
+      method: 'post',
+      url: baseUrl + '/products/category',
+      data: {
+        category: this.category.title
+      }
+    })
+      .then(response => {
+      // console.log(response.data);
+        this.products = response.data.data
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
   }
 }
 </script>
@@ -65,6 +80,5 @@ export default {
     border: 2px solid white;
     background-color: rgba(0, 0, 0, .3);
 }
-
 
 </style>

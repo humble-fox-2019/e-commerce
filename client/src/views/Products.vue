@@ -2,32 +2,32 @@
 <div class="category">
   <Category v-for="(category, index) in categories" :key="index" :category="category" @toCart="toCart"></Category>
 </div>
-  
+
 </template>
 
 <script>
 import Category from '../components/Category.vue'
 export default {
-  data() {
+  data () {
     return {
-      categories : [
-      {title:'Snack', color : '#C0B0FF'}, 
-      {title :'Accesories', color:'#b678c9'}, 
-      {title:'Medicine', color: '#94B7E0'}, 
-      {title :'Miniature', color : '#8D9CD6'}
+      categories: [
+        { title: 'Snack', color: '#C0B0FF' },
+        { title: 'Accesories', color: '#b678c9' },
+        { title: 'Medicine', color: '#94B7E0' },
+        { title: 'Action Figure', color: '#8D9CD6' }
       ]
     }
   },
   methods: {
-    toCart(input){
+    toCart (input) {
       this.$emit('toCart', input)
     }
   },
-  components : {
+  components: {
     Category
   },
-created() {
-},
+  created () {
+  }
 }
 </script>
 

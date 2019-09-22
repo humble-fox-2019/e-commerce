@@ -4,7 +4,8 @@ const app = express()
 const PORT = 3000
 const cors = require('cors')
 const mongoose = require('mongoose')
-const database = 'mongodb://localhost:27017/e-commerce'
+const database = 'mongodb+srv://ayusudi:ayusudi@cluster0-acddn.mongodb.net/e-commerce?retryWrites=true&w=majority'
+// const database = 'mongodb://localhost:27017/e-commerce'
 const index = require('./routes')
 const errHandler = require('./middlewares/errorHandler')
 

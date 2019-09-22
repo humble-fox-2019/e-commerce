@@ -1,7 +1,9 @@
 <template>
   <div id='app'>
     <Navbar :token="token" :buyItem="buyItem"></Navbar>
+    <div class="content">
     <router-view @newToken="getToken" @toCart="toCart"/>
+    </div>
   </div>
 </template>
 
@@ -11,29 +13,29 @@ export default {
   data () {
     return {
       message: 'hei',
-      token : '',
-      buyItem : false
+      token: '',
+      buyItem: false
     }
   },
   components: {
     Navbar
   },
-  methods:{
-    getToken(){
+  methods: {
+    getToken () {
       this.token = localStorage.token
-      this.$router.push({path :`/products`});
+      this.$router.push({ path: `/products` })
     },
-    toCart(input){
+    toCart (input) {
       this.buyItem = input
     }
   },
-  created() {
+  created () {
     // if (localStorage.token){
     //   this.token = localStorage.token
     // }
-    
+
     // console.log(this.token, '<<< app');
-  },
+  }
 }
 </script>
 
@@ -41,6 +43,9 @@ export default {
 * {
   margin: 0;
   padding: 0;
+}
+.content{
+  margin-top: 145px
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -60,5 +65,8 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+Navbar{
+  position: sticky
 }
 </style>

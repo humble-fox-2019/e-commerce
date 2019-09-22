@@ -2,21 +2,22 @@ const Product = require('../models/product')
 
 class ProductController {
   static create(req, res, next) {
-    const { productName, image, category, price, stock } = req.body
+    const { productName, image, category, price, stock, description } = req.body
+    console.log(req.body);
     Product.create({
-      productName, image, category, price, stock
+      productName, image, category, description, price, stock
     })
       .then(data => {
+        console.log(data ,'<<<<<<');
         res.status(201).json({
           message: 'Success create new product',
           data: data
         })
       })
       .catch(err => {
-        // console.log(err);
-        // res.status(400).json({
-        //   message : err
-        // })
+        res.status(400).json({
+          message : err
+        })
         next({
           status: 400,
           err: err
@@ -52,9 +53,20 @@ class ProductController {
         next(err)
       })
   }
-
-
-
+  static getCategory(req, res, next){
+    const {category} = req.body
+    // console.log(req.body);
+    Product.find({category})
+    .then(data => {
+      res.status(200).json({
+        data
+      })
+    })
+    .catch(err=>{
+      console.log(err , '<<<<');
+      next(err)
+    })
+  }
 }
 
 module.exports = ProductController

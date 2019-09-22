@@ -14,7 +14,7 @@ class UserController {
       password
     })
     .then(data => {
-      console.log(name +' '+ address+' '+  email+' '+ password);
+      // console.log(name +' '+ address+' '+  email+' '+ password);
         res.status(200).json({
           message: "Success Create User",
           data: data
@@ -50,6 +50,7 @@ class UserController {
               }
               res.status(200).json({
                 token: getToken(payload),
+                role :  role
               })
             }
             else {

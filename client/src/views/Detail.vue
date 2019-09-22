@@ -9,7 +9,9 @@
           <h2><strong> {{ product.name }} </strong></h2>
           <span> {{ product.description }} </span>
           <br>
+          <h5>Stock {{ product.stock }}</h5>
           <h4>Rp {{ product.price }}</h4>
+          <br>
           <div class="">
             <div class="mb-2">
             <span class="fa" @click="min">

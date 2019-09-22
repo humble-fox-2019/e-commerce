@@ -114,6 +114,8 @@ export default new Vuex.Store({
       .then(({ data }) => {
         // console.log(data)
         context.dispatch('fetchCart')
+        context.dispatch('fetchProducts')
+        context.dispatch('getProduct', product._id)
         context.commit('toggleStatus', {type: 'add_cart_success', message: data})
       })
       .catch(err => {
@@ -135,8 +137,9 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          context.commit('toggleStatus', {type: 'delete_cart_success', message: data})
+          console.log(data, 'delete cart')
           context.dispatch('fetchCart')
+          context.commit('toggleStatus', {type: 'delete_cart_success', message: data})
         })
         .catch(console.log)
     },
@@ -150,9 +153,9 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          context.commit('toggleStatus', {type: 'checkout_success', message: data})
           context.dispatch('fetchCart')
           context.dispatch('fetchTransactions')      
+          context.commit('toggleStatus', {type: 'checkout_success', message: data})
         })
         .catch(err => {
           if (err.response) {
@@ -239,8 +242,8 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          context.commit('toggleStatus', {type: 'pay_success', message: data})
           context.dispatch('fetchTransactions')
+          context.commit('toggleStatus', {type: 'pay_success', message: data})
         })
         .catch(err => {
           if (err.response) {

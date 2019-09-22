@@ -27,7 +27,7 @@ Testing
 
 For running
 
-    npm run start
+    npm run test
 
 ## Routing
 

@@ -53,9 +53,11 @@
               <h4>Rp {{(totalPayment).toLocaleString('id-IDR')}}</h4>
             </v-container>
           </v-card-text>
-          <v-card-actions>
-            <v-btn color="purple" dark @click="closeDialog">Cancel</v-btn>
-            <v-btn color="pink" dark ></v-btn>
+          <v-card-actions class="d-flex-center">
+            <v-btn-toggle mandatory >
+              <v-btn dark @click="closeDialog" class="back" name="back">Back</v-btn>
+              <v-btn dark @click="checkOut">Checkout</v-btn>
+            </v-btn-toggle>
           </v-card-actions>
         </v-row>
         <br />
@@ -65,6 +67,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   props: ['token', 'buyItem'],
   name: 'Nav',
@@ -80,6 +84,19 @@ export default {
     }
   },
   methods: {
+    newCart(){
+      this.cart = []
+     for (let k in this.formatCart){
+       for (let i =0 ; i < this.formatCart[k].quantity; i++){
+         this.cart.push({
+          _id: this.formatCart[k]._id,
+         productName: this.formatCart[k].productName,
+         price: this.formatCart[k].price,
+         stock: this.formatCart[k].stock,
+         })
+       }
+     }
+   },
     deleteCart(id){
       let code = id+'-close'
       delete this.formatCart[id]
@@ -92,7 +109,7 @@ export default {
         let temp = document.getElementById(k).innerHTML.split(' ')
         let value = +temp[1].split(',').join('')
         this.formatCart[k].total = value
-        this.loopingCart()
+        this.newTotal()
       }
     },    
     newTotal(){
@@ -123,7 +140,6 @@ export default {
         this.dialog = true
       }
     },closeDialog(){
-      let total = 0
       this.newCart()
       this.dialog = false
       this.totalPayment = 0
@@ -153,10 +169,24 @@ export default {
       }
       this.formatCart = cartloop
     },
-    newCart(){
-      for (let k in this.formatCart){
-        for (let i =0 ; i< this.formatCart)
-      }
+    checkOut(){
+      axios({
+        method : 'post',
+        url : baseURl + '/carts/create',
+        data : {
+          totalPayment : this.totalPayment,
+          listItems : this.formatCart
+        },
+        headers : {
+          token : localStorage.token
+        }
+      })
+      .then(response =>{
+        console.log(response);
+      })
+      .catch(err =>{
+        console.log(err);
+      })
     }
   },
   watch: {
@@ -170,10 +200,8 @@ export default {
     },
     cart(){
       this.loopingCart()
+      // this.totalPayment =0
     },
-    formatCart(){
-      console.log('heeelloo');
-    }
   },
   mounted () {
     if (localStorage.token) {
@@ -235,6 +263,10 @@ table{
 
 input[type=number]::-webkit-inner-spin-button {
     opacity: 1
+}
+
+.back.theme--dark.v-btn[data-v-41458b80]:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
+  background: rgb(251, 255, 5)
 }
 
 </style>

@@ -21,7 +21,7 @@ class TransactionController {
                 return Transaction.create({ UserId, products, total });
             })
             .then(() => {
-                res.status(201).json('Checkout success!')
+                res.status(200).json('Checkout success!')
             })
             .catch(next);
     }

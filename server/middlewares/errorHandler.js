@@ -1,7 +1,7 @@
 
 module.exports = {
     errorHandler(err, req, res, next) {
-        console.log(err)
+        // console.log(err)
         const status = err.status || 500;
         const message = err.message || 'Internal Server Error';
 
@@ -18,7 +18,7 @@ module.exports = {
                 errors
             });
         } else if (err.name === 'CastError') {
-            console.log(err)
+            // console.log(err)
 
             if (err.message.includes("Product")) {
                 res.status(400).json({

@@ -15,6 +15,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = NODE_ENV === 'test' ? process.env.MONGODB_URI_TEST : process.env.MONGODB_URI; 
 
+console.log(MONGODB_URI)
+
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true,useUnifiedTopology: true })
     .then(() => {
         console.log('mongodb connected!');

@@ -5,7 +5,7 @@
 All endpoints can be access on:
 
 ```javascript
-http://api.grabah.guntoroyk.site/
+http://api.grabah.guntoroyk.site
 ```
 
 * [User](#users)
@@ -182,8 +182,6 @@ http://api.grabah.guntoroyk.site/
      }
      ```
 
-     
-
 + ### Get Cart
 
   Method : `GET`<br>Endpoint : `/users/cart`
@@ -222,23 +220,18 @@ http://api.grabah.guntoroyk.site/
         ]
     ```
     
-
-    
 - 403 (Not Authenticated)
   
-  ```javascript
-    {
-        errors: [
-            "You must login first"
-        ]
-    }
-  ```
-  
-  
-  
+    ```javascript
+     {
+         errors: [
+             "You must login first"
+         ]
+      }
+    ```
 + ### Checkout
 
-  Method : `POST`<br>Endpoint : `/users/cart/checkout`
+  Method : `POST`<br>Endpoint : `/users/checkout`
 
   ### _Request_ :
 
@@ -266,7 +259,7 @@ http://api.grabah.guntoroyk.site/
     {
         message: 'Success checkout.'
     }
-    ```  
+    ```
 
   - 400 (Bad Request)
 
@@ -361,6 +354,8 @@ http://api.grabah.guntoroyk.site/
     }
     ```
 
+
+
 ## Product
 
 + ### Create
@@ -405,12 +400,10 @@ http://api.grabah.guntoroyk.site/
       }
     ```
 
-    
-
   - 400 (Bad Request)
 
     ```javascript
-    {
+  {
         errors: [
             "Name field is required",
             "Description field is required",
@@ -428,17 +421,19 @@ http://api.grabah.guntoroyk.site/
               "You must login first"
           ]
       }
-  ```
-  
-  - 401 (Unauthorized)
+    ```
     
+  - 401 (Unauthorized)
+  
+    Only admin that can create product
+  
     ```javascript
-      {
-          errors: [
-              "You haven't authorized"
-          ]
-      }
-  ```
+        {
+            errors: [
+                "You haven't authorized"
+            ]
+        }
+    ```
 
 
 + ### Find All
@@ -474,18 +469,16 @@ http://api.grabah.guntoroyk.site/
     ]
     ```
 
-    
-
   - 403 (Not Authenticated)
 
     ```javascript
-    {
+  {
         errors: [
             "You must login first"
         ]
     }
     ```
-
+  
 + ### Find One
 
   Method : `GET`<br>Endpoint : `/products/:ProductId`
@@ -563,7 +556,7 @@ http://api.grabah.guntoroyk.site/
 
   ### _Response_ :
 
-  - 20 (OK)
+  - 200 (OK)
 
     ```javascript
     {
@@ -571,12 +564,10 @@ http://api.grabah.guntoroyk.site/
     }
     ```
 
-    
-
   - 400 (Bad Request)
 
     ```javascript
-    {
+  {
         errors: [
             "Name field is required",
             "Description field is required",
@@ -586,40 +577,38 @@ http://api.grabah.guntoroyk.site/
         ]
     }
     ```
-
+  
   - 400 (Bad Request)
 
     ```javascript
-    {
+  {
         errors: [
            "Product ID is not found"
         ]
     }
     ```
+    
+  - 403 (Not Authenticated)
 
-  
-- 403 (Not Authenticated)
-  
-  ```javascript
+    ```javascript
     {
-      errors: [
+        errors: [
             "You must login first"
         ]
-    }
-  ```
+     }
+    ```
   
   - 401 (Unauthorized)
   
-  ```javascript
+    Only admin that can update product
+  
+    ```javascript
     {
-      errors: [
-            "You haven't authorized"
-        ]
-    }
-  ```
-  
-  
-  
+       errors: [
+           "You haven't authorized"
+       ]
+     }
+    ```
 + ### Delete
 
   Method : `DELETE`<br>Endpoint : `/products/:ProductId`
@@ -649,8 +638,9 @@ http://api.grabah.guntoroyk.site/
       	message: "Product deleted"
     }
     ```
-  - 400 (Bad Request)
-
+    
+- 400 (Bad Request)
+  
     ```javascript
     {
         errors: [
@@ -658,25 +648,29 @@ http://api.grabah.guntoroyk.site/
         ]
     }
     ```
+  
   - 403 (Not Authenticated)
-
+  
     ```javascript
     {
         errors: [
             "You must login first"
         ]
     }
-    ```
+  ```
+    
   - 401 (Unauthorized)
-
+  
+    Only admin that can delete product
+    
     ```javascript
     {
-        errors: [
+      errors: [
             "You haven't authorized"
         ]
     }
     ```
-
+  
   
 
 ## Another Error

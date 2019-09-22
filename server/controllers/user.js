@@ -61,18 +61,18 @@ class UserController {
     
     Product.findOne({ _id: ProductId})
     .then(product => {
-      console.log(product)
+      // console.log(product)
       if (product) {
         if (product.stock >= count) {
           product.stock -= count;
           product.save();
-          return User.findOneAndUpdate({ _id }, { $push: { cart: { ProductId, count }}}, {new: true});
+          return User.findOneAndUpdate({ _id }, { $push: { cart: { ProductId, count }}}, {new: true, useFindAndModify: false});
         } else {
           next({status: 400, message: 'Product stock is lacking'});
           return false;
         }
       } else {
-        console.log('sdsada')
+        // console.log('sdsada')
         next({status: 400, message: 'Product ID is not found'})
         return false;
       }

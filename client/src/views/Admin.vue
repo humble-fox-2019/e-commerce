@@ -1,117 +1,139 @@
 <template>
-<div>
-  <v-app>
-
-<div class="tabel">
-  <v-data-table
-    :headers="headers"
-    :items="desserts"
-    sort-by="calories"
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-toolbar-title>Admin Access Only</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <div class="flex-grow-1"></div>
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">Product List</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field label="Product Name"></v-text-field>
-                  </v-col>l
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field abel="Price"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field label="Description"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field  label=""></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field label="Protein (g)"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-
-            <v-card-actions>
-              <div class="flex-grow-1"></div>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.action="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        edit
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-    </template>
-  </v-data-table>
-</div>
-
-  </v-app>
-</div>
+  <div>
+    <div class="head">
+      <h1>Admin Access</h1>
+      <div>
+        <v-btn dark @click="toCreate">Add New Product</v-btn>
+      </div>
+    </div>
+    <v-data-table :headers="headers" :items="products" class="elevation-1" :items-per-page="3">
+      <template v-slot:item.image="{ item }">
+        <img :src="item.image" alt srcset height="200px" />
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-icon class="mr-2">mdi-grease-pencil</v-icon>
+        <v-icon @click="deleteItem(item)">mdi-delete-empty</v-icon>
+      </template>
+    </v-data-table>
+  </div>
 </template>
-
 <script>
-let basUrl = 'http://localhost:3000'
+import Swal from 'sweetalert2'
+import axios from 'axios'
+const baseUrl = 'http://localhost:3000'
 export default {
+  name: 'Admin',
   data () {
     return {
       products: [],
-      dialog: false
+      headers: [
+        { text: 'Image', value: 'image' },
+        {
+          text: 'Product Name',
+          align: 'left',
+          value: 'productName'
+        },
+        { text: 'Stock', value: 'stock' },
+        { text: 'Category', value: 'category' },
+        { text: 'Price', value: 'price' },
+        { text: 'Description', value: 'description', width: '390px' },
+        { text: 'Actions', value: 'action', sortable: false }
+      ]
     }
   },
-  components: {
-  },
+  components: {},
   methods: {
     getAll () {
       axios({
         method: 'get',
         url: baseUrl + '/products'
       })
-        .then(data => {
-          this.products = data
+        .then(response => {
+          let products = []
+          response.data.data.forEach((element, i) => {
+            let obj = { ...element }
+            obj.no = i + 1
+            products.push(obj)
+          })
+          this.products = products
         })
         .catch(err => {
           console.log(err)
         })
+    },
+    deleteItem (input) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(result => {
+        if (result.value) {
+          axios({
+            method: 'delete',
+            url: baseUrl + '/products/' + input._id,
+            headers: {
+              token: localStorage.token
+            }
+          }).then(data => {
+            for (let i = 0; i < this.products.length; i++) {
+              if (this.products[i]._id === input._id) {
+                this.products.splice(i, 1)
+              }
+            }
+            Swal.fire('Deleted!', 'Your product has been deleted.', 'success')
+          })
+        }
+      })
+    },
+    toCreate () {
+      this.$router.push({ path: '/admin/create' })
     }
   },
   created () {
-    // this.getAll()
+    this.getAll()
   }
 }
 </script>
 
-<style>
+<style scoped>
+@import url("https://fonts.googleapis.com/css?family=Be+Vietnam|Muli|Roboto&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+  background-color: purple;
+}
+.mdi-grease-pencil::before {
+  content: "\F648";
+  display: none;
+}
+
+.mdi-delete-empty::before {
+  font-size: 26pt;
+}
+
+img {
+  object-fit: contain;
+  height: 100px;
+  width: 100px;
+}
+th {
+  font-size: 13pt;
+}
+v-icon:hover {
+  cursor: pointer;
+}
+h1 {
+  margin-bottom: 10px;
+}
+.head {
+  margin-top: 170px;
+  margin-bottom: 35px;
+}
 </style>

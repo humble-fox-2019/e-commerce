@@ -1,8 +1,12 @@
 <template>
-<div class="category">
-  <Category v-for="(category, index) in categories" :key="index" :category="category" @toCart="toCart"></Category>
-</div>
-
+  <div class="category">
+    <Category
+      v-for="(category, index) in categories"
+      :key="index"
+      :category="category"
+      @toCart="toCart"
+    ></Category>
+  </div>
 </template>
 
 <script>
@@ -26,15 +30,14 @@ export default {
   components: {
     Category
   },
-  created () {
-  }
+  created () {}
 }
 </script>
 
 <style>
-.category{
+.category {
   width: 80vw;
   margin: 0 auto;
-  padding: 15px
+  padding: 15px;
 }
 </style>

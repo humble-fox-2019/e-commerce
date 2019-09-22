@@ -1,8 +1,8 @@
 <template>
-  <div id='app'>
+  <div id="app">
     <Navbar :token="token" :buyItem="buyItem"></Navbar>
     <div class="content">
-    <router-view @newToken="getToken" @toCart="toCart"/>
+      <router-view @newToken="getToken" @toCart="toCart" />
     </div>
   </div>
 </template>
@@ -28,13 +28,6 @@ export default {
     toCart (input) {
       this.buyItem = input
     }
-  },
-  created () {
-    // if (localStorage.token){
-    //   this.token = localStorage.token
-    // }
-
-    // console.log(this.token, '<<< app');
   }
 }
 </script>
@@ -44,11 +37,11 @@ export default {
   margin: 0;
   padding: 0;
 }
-.content{
-  margin-top: 145px
+.content {
+  margin-top: 145px;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -66,7 +59,7 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-Navbar{
-  position: sticky
+Navbar {
+  position: sticky;
 }
 </style>

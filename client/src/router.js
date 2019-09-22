@@ -46,6 +46,26 @@ export default new Router({
           }
         }
       }
+    },
+    {
+      path: '/admin/create',
+      name: 'create',
+      component: () => import('./views/CreateProd.vue'),
+      beforeEnter (to, from, next) {
+        if (!localStorage.token) {
+          next({
+            name: 'Login'
+          })
+        } else {
+          if (localStorage.role === 'admin') {
+            next()
+          } else {
+            next({
+              name: 'Products'
+            })
+          }
+        }
+      }
     }
   ]
 })

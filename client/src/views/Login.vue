@@ -1,18 +1,17 @@
 <template>
-  <div class='box'>
+  <div class="box">
     <div>
-      <img src='../assets/chill.jpg' alt srcset />
+      <img src="../assets/chill.jpg" alt srcset />
     </div>
-    <div class='circle'>
-      <v-form action class='formLogin' @submit.prevent='loginMe'>
+    <div class="circle">
+      <v-form action class="formLogin" @submit.prevent="loginMe">
         <h2>Login</h2>
-        <br>
+        <br />
         <label for>Email</label>
-            <v-text-field class="my-text-style" v-model='email'></v-text-field>
+        <v-text-field type="email" class="my-text-style" v-model="email"></v-text-field>
         <label for>Password</label>
-            <v-text-field class="my-text-style" v-model="password">
-            </v-text-field>
-            <br>
+        <v-text-field class="my-text-style" type="password" v-model="password"></v-text-field>
+        <br />
         <v-btn type="submit">Submit</v-btn>
       </v-form>
     </div>
@@ -40,16 +39,30 @@ export default {
           email: this.email,
           password: this.password
         }
-      }).then(response => {
-        localStorage.setItem('token', response.data.token)
-        localStorage.setItem('role', response.data.role)
-        console.log(localStorage.token)
-        this.$emit('newToken')
-        this.email = ''
-        this.password = ''
       })
+        .then(response => {
+          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('role', response.data.role)
+          this.$emit('newToken')
+          this.email = ''
+          this.password = ''
+        })
         .catch(err => {
-          console.log(err.response.data.msg)
+          let string = err.response.data.msg
+          this.$toastr.Add({
+            title: 'Ups something wrong',
+            msg: string,
+            clickClose: false,
+            timeout: 2000,
+            position: 'toast-top-center',
+            type: 'warning',
+            preventDuplicates: true,
+            style: {
+              backgroundColor: '#e96767',
+              width: '525px',
+              'font-size': '21pt'
+            }
+          })
         })
     }
   }
@@ -57,13 +70,14 @@ export default {
 </script>
 
 <style scoped>
-*{
+* {
+  margin: 0;
   padding: 0;
-  margin: 0
+  font-family: "Be Vietnam", sans-serif;
 }
- .my-text-style >>> .v-text-field__slot input {
-    background: white
-  }
+.my-text-style >>> .v-text-field__slot input {
+  background: white;
+}
 .box {
   display: flex;
   align-items: space-between;
@@ -79,7 +93,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
 img {
   margin: 60px 50px 50px 62px;
@@ -94,17 +108,17 @@ img {
   align-items: center;
 }
 
-h2{
+h2 {
   margin-bottom: 7px;
   font-size: 38pt;
 }
 
 label {
   margin-top: 2px;
-  margin-bottom: 1px
+  margin-bottom: 1px;
 }
 
-.v-text-field{
-    width: 280px;
+.v-text-field {
+  width: 280px;
 }
 </style>

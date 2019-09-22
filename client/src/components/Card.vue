@@ -1,25 +1,20 @@
 <template>
-<div class="card">
-  <v-card class="mx-auto" width="280px" height="380px">
-    <v-img :src="product.image" height="180px" contain ></v-img>
-    <v-card-title>
-      <div>
-      <h5>{{product.productName}}</h5>
-      <p>Price : Rp {{(product.price).toLocaleString('id-IDR')}}</p>
-      <p>Stock : {{stock}}</p>
-      </div>
-    </v-card-title>
-    <v-card-actions class="d-flex-center">
-       <v-btn-toggle
-          mandatory
-        >
-      <v-btn text @click="toCart" v-if="showBuy" class="style1">Buy</v-btn>
-      <div class="flex-grow-1"></div>
-      <v-btn >Show Detail</v-btn>
-      </v-btn-toggle>
-    </v-card-actions>
-  </v-card>
-</div>
+  <div class="card">
+    <v-card class="mx-auto" width="280px" height="380px">
+      <v-img :src="product.image" height="180px" contain></v-img>
+      <v-card-title>
+        <div>
+          <h5>{{product.productName}}</h5>
+          <p>Price : Rp {{(product.price).toLocaleString('id-IDR')}}</p>
+          <p>Stock : {{stock}}</p>
+        </div>
+      </v-card-title>
+      <v-card-actions>
+        <v-btn text @click="toCart" v-if="showBuy" class="style1">Buy</v-btn>
+        <v-btn hidden>Show Detail</v-btn>
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -47,7 +42,20 @@ export default {
         }
         this.$emit('toCart', basket)
       } else {
-
+        this.$toastr.Add({
+          title: 'Sorry this product is out of stock',
+          msg: '',
+          clickClose: false,
+          timeout: 2000,
+          position: 'toast-top-center',
+          type: 'info',
+          preventDuplicates: true,
+          style: {
+            backgroundColor: '#3753f3',
+            width: '525px',
+            'font-size': '21pt'
+          }
+        })
       }
     }
   },
@@ -70,24 +78,32 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css?family=Be+Vietnam|Muli|Roboto&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Be Vietnam", sans-serif;
+}
 .v-card__actions .v-btn.v-btn {
-    padding: 0 8px;
-    background: rgb(40, 206, 165)
+  padding: 0 8px;
+  background: rgb(40, 206, 165);
+  margin: 0 auto;
 }
 .v-card__title {
   display: flex;
-  justify-content: center
+  justify-content: center;
 }
 
-.card{
-    margin: 20px
+.card {
+  margin: 20px;
 }
-h5{
+h5 {
   font-size: 14.5pt;
-  text-align: center
+  text-align: center;
 }
-p{
-  font-size: 13pt
+p {
+  font-size: 13pt;
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 18px;
 }
-
 </style>

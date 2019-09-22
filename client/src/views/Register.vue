@@ -1,23 +1,33 @@
 <template>
-  <div class='box'>
+  <div class="box">
     <div>
-      <img src='../assets/37254.jpg' alt srcset />
+      <img src="../assets/37254.jpg" alt srcset />
     </div>
 
-    <div class='circle'>
-      <v-form action class='formRegister' @submit.prevent='registMe'>
+    <div class="circle">
+      <v-form action class="formRegister" @submit.prevent="registMe">
         <h2>Register</h2>
-        <br>
+        <br />
         <label for>Name</label>
-            <v-text-field v-model='name' class="my-text-style"></v-text-field>
+        <v-text-field v-model="name" class="my-text-style"></v-text-field>
         <label for>Email</label>
-            <v-text-field type='email' v-model='email' class="my-text-style"></v-text-field>
+        <v-text-field type="email" v-model="email" class="my-text-style"></v-text-field>
         <label for>Password</label>
-          <v-text-field v-model='password' class="my-text-style" type='password' :rules="[rules.required, rules.minPassword]" hint="At least 8 characters"
-          ></v-text-field>
+        <v-text-field
+          v-model="password"
+          class="my-text-style"
+          type="password"
+          :rules="[rules.required, rules.minPassword]"
+          hint="At least 8 characters"
+        ></v-text-field>
         <label for>Address</label>
-            <v-text-field v-model='address' class="my-text-style" :rules="[rules.required, rules.minAddress]" hint="At least 12 characters"></v-text-field>
-            <br>
+        <v-text-field
+          v-model="address"
+          class="my-text-style"
+          :rules="[rules.required, rules.minAddress]"
+          hint="At least 12 characters"
+        ></v-text-field>
+        <br />
         <v-btn type="submit">Submit</v-btn>
       </v-form>
     </div>
@@ -39,12 +49,12 @@ export default {
       rules: {
         required: value => !!value || 'Required.',
         minPassword: v => v.length >= 8 || 'Min 8 characters',
-        minAddress: v => v.length >= 12 || 'Min 12 characters' }
+        minAddress: v => v.length >= 12 || 'Min 12 characters'
+      }
     }
   },
   methods: {
     registMe () {
-      console.log('here')
       axios({
         method: 'post',
         url: baseUrl + '/users/create',
@@ -64,7 +74,12 @@ export default {
             position: 'toast-top-center',
             type: 'info',
             preventDuplicates: true,
-            style: { backgroundColor: '#095d77', width: '525px', height: '100px', 'font-size': '21pt' }
+            style: {
+              backgroundColor: '#095d77',
+              width: '525px',
+              height: '100px',
+              'font-size': '21pt'
+            }
           })
           this.name = ''
           this.email = ''
@@ -72,7 +87,21 @@ export default {
           this.address = ''
         })
         .catch(err => {
-          console.log(err)
+          let string = err.response.data.msg.join('<br>')
+          this.$toastr.Add({
+            title: 'Ups something wrong',
+            msg: string,
+            clickClose: false,
+            timeout: 2000,
+            position: 'toast-top-center',
+            type: 'warning',
+            preventDuplicates: true,
+            style: {
+              backgroundColor: '#e96767',
+              width: '525px',
+              'font-size': '21pt'
+            }
+          })
         })
     }
   }
@@ -80,9 +109,14 @@ export default {
 </script>
 
 <style scoped>
- .my-text-style >>> .v-text-field__slot input {
-    background: white
-  }
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Be Vietnam", sans-serif;
+}
+.my-text-style >>> .v-text-field__slot input {
+  background: white;
+}
 
 .box {
   display: flex;
@@ -113,7 +147,7 @@ img {
   align-items: center;
 }
 
-h2{
+h2 {
   margin-top: -8px;
   margin-bottom: 7px;
   font-size: 36pt;
@@ -121,11 +155,10 @@ h2{
 
 label {
   margin-top: 2px;
-  margin-bottom: 1px
+  margin-bottom: 1px;
 }
 
-.v-text-field{
-    width: 250px;
+.v-text-field {
+  width: 250px;
 }
-
 </style>

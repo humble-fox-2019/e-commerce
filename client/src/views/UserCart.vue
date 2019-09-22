@@ -17,6 +17,15 @@
         @deleteCart="toggleConfirmDelete">
       </CartItem>
     </div>
+    <div class="cart-chekout" v-if="carts.length > 0">
+      <div class="price">
+        <h4>Total price</h4>
+        <span>{{ getTotalPrice }}</span>
+      </div>
+      <div class="action">
+        <button @click="checkout">Checkout</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -111,6 +120,38 @@ export default {
         .catch(err => {
           console.log(err.response.data)
         })
+    },
+    formatPrice(price) {
+      if(!price) {
+        return 0
+      }else{
+        price = price.toString()
+        let newPrice = ''
+        let index = 0
+        for(let i=price.length-1;i>=0;i--) {
+          if(index % 3 == 0 && index != 0) {
+            newPrice = '.' + newPrice
+          }
+          index++
+          newPrice = price[i] + newPrice
+        }
+        return 'Rp. ' + newPrice
+      }
+    },
+    checkout() {
+      axios.post('/transaction', {
+        carts: this.carts
+      }, {
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({data}) => {
+        console.log(data)
+      })
+      .catch(err => {
+        console.log(err.response.data)
+      })
     }
   },
   created() {
@@ -125,6 +166,16 @@ export default {
     .catch(err => {
       console.log(err.response.data)
     })
+  },
+  computed: {
+    getTotalPrice : function () {
+      let totalPrice = 0
+      for(let i=0;i<this.carts.length;i++) {
+        let item = this.carts[i]
+        totalPrice += item.quantity * item.product.price
+      }
+      return this.formatPrice(totalPrice)
+    }
   }
 }
 </script>
@@ -142,5 +193,46 @@ export default {
 }
 .slideup-leave-active{
   animation: slideOutDown .1s;
+}
+.cart-chekout{
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #e4e4e4;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.cart-chekout .price h4{
+  font-size: 10pt;
+  margin-bottom: 10px;
+}
+
+.cart-chekout .price span{
+  font-size: 24pt;
+  font-weight: bold;
+  color: #43ca34;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e4ffe1;
+  display: inline-block;
+}
+.cart-chekout .action button{
+  padding: 10px 30px;
+  background-color: #43ca34;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 12pt;
+  font-weight: bold;
+  cursor: pointer;
+}
+.cart-chekout .action button:hover{
+  background-color: #63e055;
+}
+.cart-chekout .action button:focus{
+  outline: none;
+}
+.cart-chekout .action button:active{
+  transform: scale(0.95);
 }
 </style>

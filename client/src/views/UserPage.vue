@@ -5,8 +5,8 @@
         <h2>Menu</h2>
         <nav>
           <router-link to="/account">Dashboard</router-link>
-          <router-link to="/account/cart">My Cart</router-link>
-          <router-link to="/account/order">My Order</router-link>
+          <router-link to="/account/cart">My cart</router-link>
+          <router-link to="/account/order">My order history</router-link>
         </nav>
       </div>
       <div class="main">

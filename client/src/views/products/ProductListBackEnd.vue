@@ -1,7 +1,12 @@
 <template>
   <div>
     <v-card>
-      <v-card-title>Products list</v-card-title>
+      <v-card-title>
+        Products list
+      </v-card-title>
+      
+      <v-btn class="ml-4" color="primary" to="/productAdd">Add a new product</v-btn>
+      
       <v-card-text>
         <v-data-table :headers="headers" :items="products" :items-per-page="5" class="elevation-1">
           <template v-slot:item.action="{ item }">

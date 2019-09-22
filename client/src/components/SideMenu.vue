@@ -5,7 +5,7 @@
         <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
       </v-list-item-avatar>
 
-      <v-list-item-title>John Leider</v-list-item-title>
+      <v-list-item-title>{{name}}</v-list-item-title>
     </v-list-item>
   <v-list-item>
     <v-btn text color="primary" to="/">
@@ -34,7 +34,8 @@ export default {
     name: 'SideMenu',
     data() {
       return {
-        drawer: true
+        drawer: true,
+        name: this.$store.state.userData.name
       }
     }
 }

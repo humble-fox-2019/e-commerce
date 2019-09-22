@@ -25,37 +25,23 @@ export default new Router({
           path: '/product/:id',
           name: 'productDetail',
           component: () => import('./views/products/ProductDetail.vue')
-        }
-      ]
-    },
-    {
-      path: '/cart',
-      component: FrontEnd,
-      children: [
+        },
         {
           path: '/cart',
           name: 'cart',
           component: Cart,
+        },
+        {
+          path: '/login',
+          name: 'login',
+          component: Login,
+        },
+        {
+          path: '/registration',
+          name: 'registration',
+          component: Registration
         }
       ]
-    },
-    {
-      path: '/login',
-      component: FrontEnd,
-      children: [{
-        path: '/login',
-        name: 'login',
-        component: Login,
-      }]
-    },
-    {
-      path: '/registration',
-      component: FrontEnd,
-      children: [{
-        path: '/registration',
-        name: 'registration',
-        component: Registration
-      }]
     },
     {
       path: '/products',
@@ -65,6 +51,11 @@ export default new Router({
           path: '/products',
           name: 'productListBackEnd',
           component: () => import('./views/products/ProductListBackEnd.vue')
+        },
+        {
+          path: '/productAdd',
+          name: 'productAdd',
+          component: () => import('./views/products/ProductAdd.vue')
         }
       ]
     },

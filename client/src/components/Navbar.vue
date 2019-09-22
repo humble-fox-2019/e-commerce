@@ -29,6 +29,9 @@
       </template>
 
       <v-list>
+        <v-list-item route to='/products' v-if="cekRule.role === 'admin'">
+          <v-list-item-title>Products</v-list-item-title>
+        </v-list-item>
         <v-list-item route to='/login' v-if="!cekToken">
           <v-list-item-title>Login</v-list-item-title>
         </v-list-item>

@@ -14,9 +14,9 @@
                     type="file"
                     ref="image"
                     accept="image/*"
-                    v-on:change="handleImage"
-                    required>
-                <button type="submit">Register this item</button>
+                    v-on:change="handleImage">
+                <button v-if="!id" type="submit">Register this item</button>
+                <button v-else type="submit">Update this item</button>
             </form>
         </div>
         <div class="listItem">
@@ -34,7 +34,7 @@
 
         </div>
         <div class="itemDescription">
-            <router-view :product="product"></router-view>
+            <router-view :product="product" @update="update"></router-view>
         </div>
     </div>
 </template>
@@ -45,18 +45,28 @@ import errorHandler from '../js/errorHandler'
 export default {
     data: function(){
         return {
+            id: "",
             title: "",
             description: "",
             price: "",
             qty: "",
             brand: "",
             items: [],
-            product: null
+            product: null,
+            
 
 
         }
     },
     methods: {
+        update(product){
+            this.id = product._id
+            this.title = product.title
+            this.description = product.description
+            this.price = product.price
+            this.qty = product.qty
+            this.brand = product.brand
+        },
         itemDetail(product){
             this.$router.push(`/admin/${product._id}`)
             this.product = product
@@ -74,12 +84,19 @@ export default {
             formData.append('price', Number(this.price)) 
             formData.append('qty', Number(this.qty))
             formData.append('brand', this.brand)
-            for (let [key, value] of formData.entries()) { 
-                console.log(key, value);
+            let url = ""
+            let method = ""
+            if(this.id){
+                url = `${this.$store.state.baseUrl}/products/${this.id}`
+                method = 'put'
+            }else{
+                url = `${this.$store.state.baseUrl}/products`
+                method = 'post'
             }
+            console.log(url, method)
             axios({
-                url: `${this.$store.state.baseUrl}/products`,
-                method: 'post',
+                url,
+                method,
                 data: formData,
                 headers: {
                     token: localStorage.getItem('token')
@@ -94,6 +111,7 @@ export default {
             .catch(errorHandler)
         },
         resetForm(){
+            this.id = ""
             this.title = ""
             this.description = ""
             this.price = ""

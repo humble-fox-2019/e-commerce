@@ -15,17 +15,17 @@ export default new Router({
     },
     {
       path: '/nike',
-      name: 'itemList',
+      name: 'itemNike',
       component: () => import('./views/Nike.vue')
     },
     {
       path: '/adidas',
-      name: 'itemList',
+      name: 'itemAdidas',
       component: () => import('./views/Adidas.vue')
     },
     {
       path: '/newbalance',
-      name: 'itemList',
+      name: 'itemNewbalance',
       component: () => import('./views/Newbalance.vue')
     },
     {

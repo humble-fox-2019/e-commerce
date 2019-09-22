@@ -4,11 +4,9 @@ const storage = new Storage({
     projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
     keyFilename: process.env.GOOGLE_CLOUD_KEYFILE
   })
-const User = require('../models/user')
 
 class ProductController {
     static registerProduct(req, res, next){
-
         const { title, description, price, qty, brand } = req.body
         let image = null
         if(req.file){
@@ -44,7 +42,7 @@ class ProductController {
             let filename = response.image.replace(/(https:\/\/storage.googleapis.com\/wood_pecker\/)/, '')
             storage.bucket(process.env.GOOGLE_CLOUD_BUCKET)
             .file(filename).delete()
-            res.status(200).json({status: 200, message: "Product successfully deleted"})
+            res.status(200).json({ message: "Product successfully deleted"})
         })
         .catch(next)
     }
@@ -56,6 +54,33 @@ class ProductController {
         })
         .catch(next)
     }
-
+    static updateItem(req, res, next){
+        const { title, description, price, qty, brand } = req.body
+        let image = null
+        if(req.file){
+            image = req.file.cloudStoragePublicUrl
+        }
+        Product.findById({
+            _id: req.params.id
+        })
+        .then(product =>{
+            if(!image) {
+                image = product.image
+            }else{
+                let filename = product.image.replace(/(https:\/\/storage.googleapis.com\/wood_pecker\/)/, '')
+                storage.bucket(process.env.GOOGLE_CLOUD_BUCKET)
+                .file(filename).delete()
+            }
+            return Product.update({
+                _id: req.params.id
+            },{
+                title, description, price, qty, brand, image
+            })
+        })
+        .then(_ =>{
+            res.status(200).json({ message: "Succefully updated"})
+        })
+        .catch(next)
+    }
 }
 module.exports = ProductController

@@ -45,12 +45,27 @@ class UserController {
         .catch(next)
     }
     static addToCart(req, res, next){
+        let userData = null
         User.findById({
             _id: req.decode._id
         })
         .then(user => {
-            user.cart.push(req.params.id)
-            return user.save()
+            userData = user
+            return Product.findOne({
+                _id: req.params.id
+            })
+        })
+        .then(product => {
+            if(product.qty>=1){
+                userData.cart.push(product._id)
+                return User.update({
+                    _id: userData._id
+                },{
+                    cart: userData.cart              
+                })
+            }else{
+                next({ status: 204, message: "Sorry item is not available right now"})
+            }
         })
         .then(_ =>{
             res.status(200).json({ message: 'Successfully added item to cart' })
@@ -78,7 +93,6 @@ class UserController {
                     _id: el
                 }))
             })
-            user.cart = []
             userData = user
             return Promise.all(promise)
         })
@@ -86,12 +100,20 @@ class UserController {
             let promise = []
             products.forEach(product =>{
                 product.qty--
-                promise.push(product.save())
+                promise.push(Product.update({
+                    _id: product._id
+                },{
+                    qty: product.qty
+                }))
             })
             return Promise.all(promise)
         })
         .then(_=>{
-            return userData.save()
+            return User.update({
+                _id: userData._id
+            },{
+                cart: []
+            })
         })
         .then(_ =>{
             res.status(200).json({ message: 'Successfully added item to cart' })

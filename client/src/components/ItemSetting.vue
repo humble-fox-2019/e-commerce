@@ -18,6 +18,9 @@
         <div>
             <p>Quantity: {{product.qty}}</p>
         </div>
+        <div style="position:fixed ; bottom: 2vh; right: 8vw;">
+            <a href="" @click.prevent="update(product)">Update</a>
+        </div>
         <div style="position:fixed ; bottom: 2vh; right: 2vw;">
             <a href="" @click.prevent="remove(product._id)">Delete</a>
         </div>
@@ -35,6 +38,9 @@ export default {
         }
     },
     methods: {
+        update(product){
+            this.$emit('update', product)
+        },
         remove(id){
             Swal.showLoading()
             axios({

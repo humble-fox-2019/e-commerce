@@ -25,7 +25,7 @@ export default {
 
 <style scoped>
     .list2 {
- width:85vw;
+        width:85vw;
         margin-top: 60px;
         margin-left: auto;
         margin-right: auto;

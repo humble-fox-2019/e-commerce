@@ -22,7 +22,8 @@ const getGsUri = (filename) => {
 const sendUploadToGCS = (req, res, next) => {
  
   if (!req.file) {
-    return next({ status: 400, message: "Product must have an image" })
+    console.log('gak ada image')
+    return next()
   }else{
     const gcsname = Date.now() + req.file.originalname
     const file = bucket.file(gcsname)

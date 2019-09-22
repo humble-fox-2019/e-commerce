@@ -11,13 +11,11 @@
                         <p class="text-sm">{{product.title}}</p>
                         <p class="text-sm">$ {{product.price}}</p>
                         <p v-if="product.qty" class="text-sm">in Stock</p>
-                        <p v-else>Not available</p>
+                        <p v-else style="color: red;">Not available</p>
                     </div>
                 </div>
                 <div class="flex justify-end items-end">
-                    <a href="" v-if="product.qty" @click.prevent="showinfo(product._id)" ><i class="fas fa-shopping-cart"></i></a>
-                    <a href="" v-else @click.prevent="showinfo(product.id)" disabled ><i class="fas fa-shopping-cart"></i></a>
-                    
+                    <a href="" v-if="product.qty" @click.prevent="showinfo(product._id)" ><i class="fas fa-shopping-cart"></i></a>     
                 </div>
             </div>
         </div>

@@ -56,6 +56,11 @@ export default new Router({
           path: '/productAdd',
           name: 'productAdd',
           component: () => import('./views/products/ProductAdd.vue')
+        },
+        {
+          path: '/product/:id/edit',
+          name: 'productEdit',
+          component: () => import('./views/products/ProductEdit.vue')
         }
       ]
     },

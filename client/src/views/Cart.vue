@@ -27,7 +27,7 @@
                 </td>
                 <td class="text-right" style="body-1">{{ product.subtotal }}</td>
                 <td class="text-center">
-                  <v-btn text icon color="pink">
+                  <v-btn text icon color="pink" @click="removeProduct(product.id)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </td>
@@ -73,17 +73,21 @@ export default {
         }
       })
         .then(({ data }) => {
+          let tmpProducts = [];
           data.forEach(el => {
-            this.products.push({
+            tmpProducts.push({
               id: el._id,
               productid: el.productid._id,
               name: el.productid.name,
               qty: el.qty,
+              price: el.productid.price,
               subtotal: this.numberFormat(el.qty * el.productid.price)
             });
 
             this.total += el.qty * el.productid.price;
           });
+
+          this.products = tmpProducts;
         })
         .catch(err => {
           console.log(err);
@@ -93,15 +97,19 @@ export default {
     numberFormat(num) {
       return numeral(num).format("0,0");
     },
-    updateProduct(id, qty){
-      db.put("/cart/"+id, {
-        qty
-      }, {
-        headers: {
-          access_token: this.$store.state.token
+    updateProduct(id, qty) {
+      db.put(
+        "/cart/" + id,
+        {
+          qty
+        },
+        {
+          headers: {
+            access_token: this.$store.state.token
+          }
         }
-      })
-      .then(({ data }) => {
+      )
+        .then(({ data }) => {
           console.log(data);
         })
         .catch(err => {
@@ -109,19 +117,58 @@ export default {
         })
         .finally(() => {});
     },
-    plusProduct(id){
-      let getIndex = this.products.map(function(el) { return el.id; }).indexOf(id);
-      
+    plusProduct(id) {
+      let getIndex = this.products
+        .map(function(el) {
+          return el.id;
+        })
+        .indexOf(id);
+
       this.products[getIndex].qty += 1;
-      
-      this.updateProduct(id, this.products[getIndex].qty)
+
+      this.updateProduct(id, this.products[getIndex].qty);
     },
-    minusProduct(id){
-      let getIndex = this.products.map(function(el) { return el.id; }).indexOf(id);
-      
+    minusProduct(id) {
+      let getIndex = this.products
+        .map(function(el) {
+          return el.id;
+        })
+        .indexOf(id);
+
       this.products[getIndex].qty -= 1;
-      
-      this.updateProduct(id, this.products[getIndex].qty)
+
+      this.updateProduct(id, this.products[getIndex].qty);
+    },
+    removeProduct(id) {
+      db.delete("/cart/" + id, {
+        headers: {
+          access_token: this.$store.state.token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data);
+
+          this.getCart();
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {});
+    }
+  },
+  watch: {
+    products: {
+      handler: function(newValue) {
+        let tmpTotal = 0;
+        this.products.forEach(el => {
+          console.log(el.price);
+          el.subtotal = this.numberFormat(el.qty * el.price);
+          tmpTotal += el.qty * el.price;
+        });
+
+        this.total = tmpTotal;
+      },
+      deep: true
     }
   },
   created() {

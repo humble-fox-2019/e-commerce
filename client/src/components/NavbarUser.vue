@@ -29,13 +29,17 @@
         <b-navbar-nav class="ml-auto">
           <!-- Logout button -->
           <b-nav-form>
-            <b-nav-item id="register-nav">
+            <b-nav-item
+              v-if="this.$store.state.isLogin"
+              id="logout-nav"
+              @click.prevent="logout"
+            >Logout</b-nav-item>
+            <b-nav-item v-if="!this.$store.state.isLogin" id="register-nav">
               <router-link to="/register">Register</router-link>
             </b-nav-item>
-            <b-nav-item id="login-nav">
+            <b-nav-item v-if="!this.$store.state.isLogin" id="login-nav">
               <router-link to="/login">Login</router-link>
             </b-nav-item>
-            <b-nav-item id="logout-nav" @click.prevent="logout">Logout</b-nav-item>
           </b-nav-form>
         </b-navbar-nav>
       </b-collapse>
@@ -45,24 +49,21 @@
 
 <script>
 export default {
+  created: function() {},
   methods: {
     logout() {
-      // if (gapi.auth2) {
-      //   const auth2 = gapi.auth2.getAuthInstance();
-      //   auth2.signOut().then(function() {
-      //     console.log("User logged out successfuly.");
-      //   });
-      // }
       this.$swal.fire("Good job!", "You clicked the button!", "success");
-      // if (localStorage.getItem("token")) {
-      //   localStorage.removeItem("token");
-      //   Swal.fire(
-      //     "Successfully logged out",
-      //     "Please clicked the button to continue!",
-      //     "success"
-      //   );
-      // }
-      // this.$emit("show-login-page");
+      if (localStorage.getItem("token")) {
+        localStorage.removeItem("token");
+        this.$store.commit("changeIsAdmin", false);
+        this.$store.commit("changeIsLogin", false);
+        this.$swal.fire(
+          "Successfully logged out",
+          "Please clicked the button to continue!",
+          "success"
+        );
+        this.$router.push("/");
+      }
     }
   }
 };

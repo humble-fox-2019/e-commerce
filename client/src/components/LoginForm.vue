@@ -35,28 +35,81 @@
           <i class="fas fa-spinner fa-pulse"></i>
         </b-button>
       </b-form>
-      <div id="loginOption">
-        <g-signin-button
-          :params="googleSignInParams"
-          @success="onSignInSuccess"
-          @error="onSignInError"
-        >Sign in with Google</g-signin-button>
-      </div>
       <br />
       <p>
         Don't have an account? Click here to
-        <a
-          href
-          id="register-button"
-          @click.prevent="showRegisterForm"
-        >register.</a>
+        <a id="register-button">
+          <router-link to="/register">register.</router-link>
+        </a>
       </p>
     </b-container>
   </div>
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+// const url = "http://35.246.229.159";
+
+export default {
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errorMessage: "",
+      errorShow: "hidden",
+      loading: false
+    };
+  },
+  methods: {
+    login: function() {
+      this.loading = true;
+      axios({
+        method: "POST",
+        url: `${this.$store.state.baseUrl}/users/login`,
+        data: {
+          email: this.email,
+          password: this.password
+        }
+      })
+        .then(({ data }) => {
+          localStorage.setItem("token", data.token);
+          this.resetLoginForm();
+          this.$swal.fire(
+            "Successfully signed in",
+            "Please clicked the button to close!",
+            "success"
+          );
+          console.log("User successfully signed in");
+          console.log(data.user.name);
+          if (data.user.name === "admin") {
+            this.$store.commit("changeIsAdmin", true);
+          } else {
+            this.$store.commit("changeIsAdmin", false);
+          }
+          this.$store.commit("changeIsLogin", true);
+          this.$router.push("/");
+        })
+        .catch(err => {
+          if (err.response) {
+            this.errorMessage = err.response.data;
+          } else if (err.request) {
+            this.errorMessage = "No response from server side";
+          }
+          this.errorShow = "visible";
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    resetLoginForm() {
+      this.email = "";
+      this.password = "";
+      this.errorMessage = "";
+      this.errorShow = "hidden";
+      this.loading = false;
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -74,13 +127,5 @@ export default {};
   background-image: linear-gradient(to bottom right, #09203f, #537895);
   border: none;
   box-shadow: 0px 10px 10px -5px #111;
-}
-.g-signin-button {
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #3c82f7;
-  border: none;
-  box-shadow: 0px 10px 10px -5px #0f69ff;
-  color: #fff;
 }
 </style>

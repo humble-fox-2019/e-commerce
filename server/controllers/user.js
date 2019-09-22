@@ -48,7 +48,7 @@ class UserController {
             const payload = {
               id: user._id,
               email: user.email,
-              admin: user.admin
+              name: user.name
             }
             const token = generateToken(payload)
             console.log(token)

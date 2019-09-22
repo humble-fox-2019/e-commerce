@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <NavbarUser v-if="isAdmin === false" />
-    <NavbarAdmin v-if="isAdmin === true" />
+    <NavbarUser v-if="this.$store.state.isAdmin === false" />
+    <NavbarAdmin v-else-if="this.$store.state.isAdmin === true" />
     <Jumbotron />
     <router-view />
   </div>
@@ -14,9 +14,7 @@ import Jumbotron from "@/components/Jumbotron";
 
 export default {
   data: function() {
-    return {
-      isAdmin: false
-    };
+    return {};
   },
   components: {
     NavbarUser,

@@ -49,18 +49,80 @@
       <br />
       <p>
         Already have an account? Click here to
-        <a
-          href
-          id="login-button"
-          @click.prevent="showLoginForm"
-        >login.</a>
+        <a id="login-button">
+          <router-link to="/login">login.</router-link>
+        </a>
       </p>
     </b-container>
   </div>
 </template>
 
 <script>
-export default {};
+// const url = "http://35.246.229.159";
+import axios from "axios";
+
+export default {
+  data: function() {
+    return {
+      name: "",
+      email: "",
+      password: "",
+      errorMessage: "",
+      errorShow: "hidden",
+      loading: false
+    };
+  },
+  methods: {
+    register: function() {
+      this.loading = true;
+      axios({
+        method: "POST",
+        url: `${this.$store.state.baseUrl}/users/register`,
+        data: {
+          name: this.name,
+          email: this.email,
+          password: this.password
+        }
+      })
+        .then(({ data }) => {
+          this.$swal.fire(
+            "New account successfully created",
+            "Please clicked the button to close!",
+            "success"
+          );
+          localStorage.setItem("token", data.token);
+          console.log("User successfully registered");
+          console.log(data.name);
+          if (data.name === "admin") {
+            this.$store.commit("changeIsAdmin", true);
+          } else {
+            this.$store.commit("changeIsAdmin", false);
+          }
+          this.$store.commit("changeIsLogin", true);
+          this.$router.push("/");
+        })
+        .catch(err => {
+          if (err.response) {
+            this.errorMessage = err.response.data;
+          } else if (err.request) {
+            this.errorMessage = "No response from server";
+          }
+          this.errorShow = "visible";
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    resetRegisterForm() {
+      this.name = "";
+      this.email = "";
+      this.password = "";
+      this.errorMessage = "";
+      this.errorShow = "hidden";
+      this.loading = false;
+    }
+  }
+};
 </script>
 
 <style scoped>

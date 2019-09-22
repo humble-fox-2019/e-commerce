@@ -28,7 +28,12 @@
         <b-navbar-nav class="ml-auto">
           <!-- Logout button -->
           <b-nav-form>
-            <b-nav-item id="logout-nav" href @click.prevent="logout">Logout</b-nav-item>
+            <b-nav-item
+              v-if="this.$store.state.isLogin"
+              id="logout-nav"
+              href
+              @click.prevent="logout"
+            >Logout</b-nav-item>
           </b-nav-form>
         </b-navbar-nav>
       </b-collapse>
@@ -38,7 +43,23 @@
 
 <script>
 export default {
-  methods: {}
+  created: function() {},
+  methods: {
+    logout() {
+      this.$swal.fire("Good job!", "You clicked the button!", "success");
+      if (localStorage.getItem("token")) {
+        localStorage.removeItem("token");
+        this.$store.commit("changeIsAdmin", false);
+        this.$store.commit("changeIsLogin", false);
+        this.$swal.fire(
+          "Successfully logged out",
+          "Please clicked the button to continue!",
+          "success"
+        );
+        this.$router.push("/");
+      }
+    }
+  }
 };
 </script>
 

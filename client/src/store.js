@@ -8,7 +8,9 @@ export default new Vuex.Store({
   state: {
     products : [],
     role : null,
-    carts : []
+    carts : [],
+    transactions: [],
+    id : null
   },
   mutations: {
     setProducts( state , payload ) {
@@ -19,6 +21,12 @@ export default new Vuex.Store({
     },
     setCarts( state, carts ) {
       state.carts = carts
+    },
+    setTransactions( state, transactions ) {
+      state.transactions = transactions
+    },
+    setId( state , id ) {
+      state.id = id;
     }
   },
   actions: {
@@ -47,6 +55,36 @@ export default new Vuex.Store({
           context.commit('setCarts', response.data )
         })
         .catch( console.log )
+    },
+    fetchTransactions( context ) {
+      const token = localStorage.getItem('token');
+      axiosInstance({
+        method: "GET",
+        url : "/transactions",
+        headers : {
+          token
+        }
+      })
+      .then( response => {
+        context.commit('setTransactions' , response.data )
+      })
+      .catch( console.log )
+    },
+    fetchCustomerTransactions( context ) {
+      
+      const token = localStorage.getItem('token');
+      axiosInstance({
+        method: "GET",
+        url : `/transactions/${ context.state.id }`,
+        headers : {
+          token
+        }
+      })
+      .then( response => {
+        console.log( response.data )
+        context.commit('setTransactions' , response.data )
+      })
+      .catch( console.log )
     }
   }
 })

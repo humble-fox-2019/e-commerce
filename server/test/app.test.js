@@ -115,7 +115,7 @@ describe('User' , function () {
                 "password" : "newUser"
             })
             .end( function( err, res ) {
-                expect( res.body ).to.be.equal("Username already registered")
+                expect( res.body[0] ).to.be.equal("Username already registered")
                 done();
             })
         })
@@ -128,7 +128,7 @@ describe('User' , function () {
                 "password" : "newUser"
             })
             .end( function( err, res ) {
-                expect( res.body ).to.be.equal("Email already registered")
+                expect( res.body[0] ).to.be.equal("Email already registered")
                 done();
             })
         })
@@ -276,6 +276,7 @@ describe('Product Admin CRUD' , function() {
     })
 
     after('create a product' , function( done ) {
+        this.timeout(10000)
         chai.request(app)
         .post('/products')
         .type('form')
@@ -365,11 +366,10 @@ describe('Product Customer' , function() {
             })
         })
     })
-
+    
     // Update qty of item in Cart
     describe ('Update Product Quantity from cart' , function () {
         it ('should return message and previous updated cart ' , function ( done ) {
-            console.log( cartId , " < << <<<< < < <")
             chai.request(app)
             .patch(`/products/cart/${cartId}`)
             .set( 'token' , token )
@@ -433,7 +433,6 @@ describe('Product Customer' , function() {
         })
     })
 
-    
 })
 
 

@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 const Cart = require('../models/cart');
-const { deleteFile } = require('../helpers/image')
+const { deleteFile } = require('../middleware/image')
 
 
 class ProductController {

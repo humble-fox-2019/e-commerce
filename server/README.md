@@ -3,15 +3,20 @@
 Client
 ===================
 1. npm install
-2. 
+2. npm run serve
 
 Server
 ===================
 1. npm install 
-2. 
+2. npm run test
 
+Testing
+===================
+1. npm run test
+2. update role newUser jadi admin di database
+3. npm run test
 ```
-Website : 
+Website : http://posterpedia.cado.store/
 Postman : https://documenter.getpostman.com/view/6836981/SVmvSe8r
 
 # 
@@ -72,13 +77,9 @@ Error :
 
 ## Product
 
-```
-Must LOGIN to use feature below
-```
 ### Get All Product
 Route : `/products`  
 Method : `GET`  
-Headers : `TOKEN`    
 Body : -  
 Response : 
 ```
@@ -87,6 +88,27 @@ Success :
     [ productObj ]
 }
 
+```
+
+### Get Product By ID
+Route : `/products/detail/:id` [ id -> productId ]     
+Method : `GET`  
+Body : -  
+Response : 
+```
+Success :
+{
+    { productObj }
+}
+Error: 
+{
+    "status" : 404,
+    "message": "Product not found"
+}
+```
+
+```
+Must LOGIN to use feature below
 ```
 
 # 
@@ -185,17 +207,67 @@ Error :
 ```
 Customer Privilege [MUST LOGIN AS AN Customer]
 ```
-### Get Product in Customer Cart
-
-
+### Get Product in Customer Cart  
+Route : `/products/cart`     
+Method : `GET`  
+Headers : `TOKEN`    
+Body : -   
+Response : 
+```
+Success :
+{
+    [ cartObject ]
+}
+```
 
 ### Add Product to Cart
-
+Route : `/products/cart`     
+Method : `GET`  
+Headers : `TOKEN`    
+Body :    
+```
+{
+	"productId"
+	"quantity"
+}
+```   
+Response : 
+```
+Success :
+{
+    [ cartObject ]
+}
+```
 
 
 ### Update Quantity of Product in Cart
-
-
+Route : `/products/cart/:id` [:id -> cartId]       
+Method : `PATCH`  
+Headers : `TOKEN`    
+Body :    
+```
+{
+	"quantity"
+}
+```   
+Response : 
+```
+Success :
+{
+    previousUpdatedCart
+}
+```
 
 
 ### Delete Product from Customer Cart 
+Route : `/products/cart/:id` [:id -> cartId]       
+Method : `DELETE`  
+Headers : `TOKEN`    
+Body : -    
+Response : 
+```
+Success :
+{
+    deletedCart
+}
+```

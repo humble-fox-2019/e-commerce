@@ -10,8 +10,7 @@ const errorHandler = require('./middleware/errorHandler');
 const userRouter = require('./routes/user');
 const productRouter = require('./routes/product')
 
-
-
+const transactionRouter = require('./routes/transaction')
 
 const PORT = process.env.PORT;
 
@@ -30,8 +29,8 @@ app.use( express.urlencoded({ extended : true }))
 app.use( express.json() );
 
 app.use('/' , userRouter );
+app.use('/transactions', transactionRouter)
 app.use('/products' , productRouter )
-
 
 app.use( errorHandler )
 

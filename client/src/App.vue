@@ -37,6 +37,8 @@ export default {
         if ( token ) {
             this.changeLoginStatus( true )
             this.role = localStorage.getItem('role');
+            let id = localStorage.getItem('id')
+            this.$store.commit('setId', id )
         } else {
             this.changeLoginStatus ( false )
             this.reset()

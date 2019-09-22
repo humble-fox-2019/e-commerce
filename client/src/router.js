@@ -29,6 +29,12 @@ export default new Router({
           name : "Cart",
           component: () => 
             import(/* webpackChunkName: "login" */ "./views/UserCart.vue")
+        },
+        {
+          path:"/transactions",
+          name: "Transactions",
+          component: () =>
+            import(/* webpackChunkName: "login" */ "./views/TransactionList.vue")
         }
       ]
     },

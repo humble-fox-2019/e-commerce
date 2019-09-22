@@ -57,13 +57,13 @@ export default {
             })
             .then( response => {
 				const { token , user } = response.data 
-				console.log( user.role , "role" )
                 localStorage.setItem('token' , token );
                 localStorage.setItem('username' , user.username );
                 localStorage.setItem('email' , user.email );
 				localStorage.setItem('id' , user.id );
 				localStorage.setItem('role' , user.role );
 				
+				this.$store.commit('setId' , user.id )
 				Swal.fire('Login' , 'Success!' , 'success')
 				this.$emit('changeLoginStatus', true )
                 this.$router.push('/').catch( _ => {})

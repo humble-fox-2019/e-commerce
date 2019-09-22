@@ -10,8 +10,11 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/">PosterPedia</router-link>
                     </li>
+                    <li class="nav-item" v-if="role">
+                        <button @click.prevent='goToTransaction()' class="ml-3" style="border-radius: 5px; padding: 10px; outline: none !important; background-color:wheat">Transactions</button>
+                    </li>
                     <li class="nav-item" v-if="role==='admin'">
-                        <b-button id="show-btn" @click="$bvModal.show('bv-modal-example')" style="padding: 10px; outline: none !important; background-color:wheat">Add Product</b-button>
+                        <b-button id="show-btn" @click="$bvModal.show('bv-modal-example')" style=" border-radius:5px; padding: 10px; outline: none !important; background-color:wheat">Add Product</b-button>
                         <div>
                             <b-modal id="bv-modal-example" hide-footer>
                                 <h2 style="text-align: center;">Add New Product</h2>
@@ -84,7 +87,10 @@ export default {
     props: ['isLogin' , 'role'],
     methods : {
         goToCart: function() {
-            this.$router.push('/cart')  
+            this.$router.push('/cart').then(_=>{}).catch(_=>{})
+        },
+        goToTransaction : function () {
+            this.$router.push('/transactions').then(_=>{}).catch(_=>{})
         },
         logout: function() {
             Swal.fire({

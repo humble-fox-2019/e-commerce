@@ -2,7 +2,7 @@ const express = require('express');
 const ProductController = require('../controllers/product');
 const authentication = require('../middleware/authentication');
 const { adminAuthorization , customerAuthorization , productOwner , checkStock } = require('../middleware/authorization')
-const image = require('../helpers/image')
+const image = require('../middleware/image')
 
 const router = express.Router();
 router.get('/' , ProductController.getAll );

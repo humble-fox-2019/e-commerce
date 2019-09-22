@@ -69,6 +69,34 @@ export default {
         .then(result => {
             if (result.value) {
                 const token = localStorage.getItem("token");
+
+                let product = []
+                this.$store.state.carts.forEach(cart => {
+                    product.push({
+                      name : cart.productId.name,
+                      quantity : cart.quantity,
+                      price : cart.productId.price,
+                      imageURL : cart.productId.imageURL
+                    })
+                });
+
+                axiosInstance({
+                  method:"POST",
+                  url : "/transactions",
+                  headers : {
+                    token
+                  },
+                  data : {
+                    product,
+                    userId : this.$store.state.id,
+                    status : "pending"
+                  }
+                })
+                .then( response => {
+                })
+                .catch( err => {
+                  return Swal.fire('Error' , 'er','error')
+                })
                 let carts = this.$store.state.carts;
                 carts.forEach(cart => {
                     let productId = cart.productId._id;

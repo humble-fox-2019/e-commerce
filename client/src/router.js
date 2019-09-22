@@ -11,6 +11,10 @@ import NewProduct from './views/AddNewProduct'
 import Transaction from './views/Transaction'
 import UpdateProduct from './views/UpdateProduct'
 import ProductDetail from './views/ProductDetail'
+import UserPage from './views/UserPage'
+import UserDashboard from './views/UserDashboard'
+import UserCart from './views/UserCart'
+import UserOrder from './views/UserOrder'
 
 Vue.use(Router)
 
@@ -52,6 +56,34 @@ export default new Router({
       path: '/store-signin',
       name: 'StoreSignin',
       component: StoreSignin
+    },
+    {
+      path: '/account',
+      component: UserPage,
+      beforeEnter: (to, from, next) =>  {
+        if(localStorage.getItem('token') && localStorage.getItem('role') == 'costumer') {
+          next()
+        }else {
+          next('/signin')
+        }
+      },
+      children: [
+        {
+          path: '',
+          name: 'UserDashboard',
+          component: UserDashboard
+        },
+        {
+          path: 'cart',
+          name: 'UserCart',
+          component: UserCart
+        },
+        {
+          path: 'order',
+          name: 'UserOrder',
+          component: UserOrder
+        }
+      ]
     },
     {
       path: '/myproduct',

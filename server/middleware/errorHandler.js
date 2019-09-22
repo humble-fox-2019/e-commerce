@@ -17,6 +17,10 @@ function errorHandler(err, req, res, next) {
         res.status(401).json({
             errors: ['You are not authenticated']
         })
+    }else if(err.name === 'CastError') {
+        res.status(400).json({
+            errors: ['Id not valid']
+        })
     }else{
         res.status(status).json({
             errors: [message]

@@ -16,7 +16,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'password required']
-    }
+    },
+    carts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cart'
+    }]
 })
 
 userSchema.path('email').validate(function(value) {

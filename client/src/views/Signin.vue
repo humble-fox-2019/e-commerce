@@ -40,7 +40,8 @@ export default {
       password: '',
       errors: [],
       btnText: 'SIGN IN',
-      btnState: false
+      btnState: false,
+      path: null
     }
   },
   methods: {
@@ -55,7 +56,7 @@ export default {
       .then(({data}) => {
         localStorage.setItem('token', data.token)
         localStorage.setItem('role', data.role)
-        this.$store.dispatch('getUserData')
+        this.$store.dispatch('getUserData', this.path)
       })
       .catch(err => {
         this.errors = err.response.data.errors
@@ -72,6 +73,15 @@ export default {
       this.password = ''
       this.btnText = 'SIGN IN'
       this.btnState = false
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    if(from.name == 'ProductDetail') {
+      next(vm => {
+        vm.path = from.path
+      })
+    }else{
+      next()
     }
   }
 }

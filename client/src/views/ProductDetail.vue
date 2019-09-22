@@ -13,7 +13,7 @@
         <p><i class="fas fa-map-marker-alt"></i> {{ product.store.city }}, {{ product.store.province }}</p>
       </div>
       <div class="product-action">
-        <a href=""><i class="fas fa-shopping-cart"></i> Add to cart</a>
+        <a href="" @click.prevent="addToCart()"><i class="fas fa-shopping-cart"></i> Add to cart</a>
       </div>
     </div>
   </div>
@@ -27,7 +27,13 @@ export default {
   name: 'ProductDetail',
   data() {
     return {
-      product: null
+      product: {
+        image: '',
+        name: '',
+        description: '',
+        store: {
+        }
+      }
     }
   },
   created() {
@@ -38,6 +44,16 @@ export default {
       .catch(err => {
         this.$router.push('/')
       })
+  },
+  methods: {
+    addToCart() {
+      let token = localStorage.getItem('token')
+      if(!token) {
+        this.$router.push('/signin')
+      }else {
+        this.$store.dispatch('addToCart', this.product._id)
+      }
+    }
   },
   computed: {
     getPrice() {

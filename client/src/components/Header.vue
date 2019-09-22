@@ -26,7 +26,7 @@
         <div class="cart">
           <i class="fas fa-shopping-cart"></i>
           <div class="cart-number">
-            <span>20</span>
+            <span>{{ $store.state.user.carts.length }}</span>
           </div>
         </div>
         <div class="logout" @click="showConfirmationLogout()">
@@ -177,7 +177,7 @@ export default {
   border-right: 1px solid rgba(0,0,0,.1);
 }
 .logout{
-  background-color: #afafaf;
+  background-color: #dddddd;
   margin-left: 20px;
   padding: 10px;
   border-radius: 5px;

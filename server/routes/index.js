@@ -2,6 +2,7 @@ const router = require('express').Router()
 const userRoutes = require('./userRoutes')
 const storeRoutes = require('./storeRoutes')
 const productRoutes = require('./productRoutes')
+const cartRoutes = require('./cartRoutes')
 
 const authentication = require('../middleware/userAuthentication.js')
 
@@ -12,6 +13,7 @@ router.get('/', (req, res, next) => {
 router.use('/user', userRoutes)
 router.use('/store', storeRoutes)
 router.use('/product', productRoutes)
+router.use('/cart', cartRoutes)
 
 module.exports = router
 

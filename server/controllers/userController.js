@@ -72,6 +72,7 @@ class UserController {
 
     static getUserData(req, res, next) {
         User.findById(req.decode.id)
+            .populate('carts', 'product')
             .then(user => {
                 res.json(user)
             })

@@ -19,7 +19,7 @@ export default {
     this.$store.dispatch('fetchProducts')
   },
   watch: {
-    'toggleStatus.type'() {
+    'toggleStatus.message'() {
       console.log('toggleBerubah')
       switch(this.toggleStatus.type) {
         case 'add_cart_success':

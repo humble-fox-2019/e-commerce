@@ -45,6 +45,11 @@ export default new Router({
           component: () => import('./views/Signin.vue')
         }
       ]
+    },
+    {
+      path: '/transactions',
+      name: 'transactions',
+      component: () => import('./views/Transactions.vue')
     }
     // {
     //   path: '/products',

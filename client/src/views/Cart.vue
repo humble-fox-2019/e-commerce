@@ -24,7 +24,7 @@
               <td>Rp {{ total }}</td>
             </tr>
           </tbody>
-          <button>Checkout</button>
+          <button @click="checkout">Checkout</button>
         </table>
       </div>
     </div>
@@ -38,6 +38,35 @@ import CartItem from '../components/CartItem'
 export default {
     name: 'Cart',
     components: { CartItem },
+    methods: {
+      checkout() {
+        if(this.$store.state.cart.length) {
+          this.$swal.fire({
+            title: 'Are you sure want to checkout?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, checkout!'
+          }).then((result) => {
+            if (result.value) {
+              this.$store.dispatch('checkout')          
+            }
+          })
+        } else {
+          this.$swal.mixin({
+            toast: 'true',
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+          }).fire({
+            type: 'error',
+            title: 'Cart item is empty!'
+          })
+        }
+      }
+    },
     computed: {
       total() {
         let totalResult = 0
@@ -49,7 +78,7 @@ export default {
       ...mapState(['cart', 'toggleStatus'])
     },
     watch: {
-      'toggleStatus.type'() {
+      'toggleStatus.message'() {
         switch(this.toggleStatus.type){
           case 'delete_cart_success':
             this.$swal.mixin({
@@ -62,6 +91,29 @@ export default {
               title: this.toggleStatus.message
             })
             break;
+          case 'checkout_success':
+            this.$swal.mixin({
+              toast: 'true',
+              position: 'center',
+              showConfirmButton: false,
+              timer: 3000
+            }).fire({
+              type: 'success',
+              title: this.toggleStatus.message
+            })
+            break;
+          case 'checkout_failed':
+            this.$swal.mixin({
+              toast: 'true',
+              position: 'center',
+              showConfirmButton: false,
+              timer: 3000
+            }).fire({
+              type: 'error',
+              title: this.toggleStatus.message
+            })
+            break;
+          
           case 'not_authenticated':
             this.$swal.mixin({
               position: 'center',

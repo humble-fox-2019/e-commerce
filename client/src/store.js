@@ -10,6 +10,7 @@ export default new Vuex.Store({
     products: [],
     product: {},
     cart: [],
+    transactions: [],
     toggleStatus: {
       type: null,
       message: null
@@ -31,7 +32,10 @@ export default new Vuex.Store({
     },
     addToCart (state, product) {
       state.cart.push(product)
-    }, 
+    },
+    fetchTransactions (state, transactions) {
+      state.transactions = transactions
+    },    
     setAuth (state, data) {
       state.auth = data
     },
@@ -136,6 +140,28 @@ export default new Vuex.Store({
         })
         .catch(console.log)
     },
+    checkout (context) {
+      context.commit('toggleStatus', {type: null, message: null})
+      axios({
+        url: '/users/checkout',
+        method: 'POST',
+        headers: {
+          token: context.state.auth.token
+        }
+      })
+        .then(({ data }) => {
+          context.commit('toggleStatus', {type: 'checkout_success', message: data})
+          context.dispatch('fetchCart')
+          context.dispatch('fetchTransactions')      
+        })
+        .catch(err => {
+          if (err.response) {
+            err.response.data.errors.forEach(error => {
+              context.commit('toggleStatus', {type: 'checkout_failed', message: error})          
+            })
+          }
+        })
+    },
     signin (context, payload) {
       context.commit('toggleStatus', {type: null, message: null})
       console.log(payload, 'ini payloadnya')
@@ -179,6 +205,47 @@ export default new Vuex.Store({
           if(err.response) {
             err.response.data.errors.forEach(error => {
               context.commit('toggleStatus', {type: 'signup_failed', message: error})
+            })
+          }
+        })
+    },
+    fetchTransactions (context) {
+      context.commit('toggleStatus', {type: null, message: null})
+      axios({
+        url: '/transactions',
+        method: 'GET',
+        headers: {
+          token: context.state.auth.token
+        }
+      })
+        .then(({ data }) => {
+          context.commit('fetchTransactions', data)
+        })
+        .catch(err => {
+          if(err.response) {
+            err.response.data.errors.forEach(error => {
+              context.commit('toggleStatus', {type: 'not_authenticated', message: error})
+            })
+          }
+        })
+    },
+    pay (context, TransactionId) {
+      context.commit('toggleStatus', {type: null, message: null})      
+      axios({
+        url: `/transactions/${TransactionId}/pay`,
+        method: 'PATCH',
+        headers: {
+          token: context.state.auth.token
+        }
+      })
+        .then(({ data }) => {
+          context.commit('toggleStatus', {type: 'pay_success', message: data})
+          context.dispatch('fetchTransactions')
+        })
+        .catch(err => {
+          if (err.response) {
+            err.response.data.errors.forEach(error => {
+              context.commit('toggleStatus', {type: 'pay_failed', message: error})          
             })
           }
         })

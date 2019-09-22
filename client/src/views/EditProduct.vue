@@ -128,7 +128,7 @@ export default {
       axios(
         {
           method: 'patch',
-          url: 'http://localhost:3000/products/' + this.id,
+          url: 'http://34.87.27.118/products/' + this.id,
           headers: { token: this.$store.state.token }
         },
         bodyForm

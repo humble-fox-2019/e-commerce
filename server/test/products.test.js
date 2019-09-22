@@ -7,60 +7,72 @@ const expect = chai.expect
 
 describe('Products', function(){
     let product = null
-    beforeEach(function(){
-        mongoose.connection.dropCollection('products')
-        product = {
-            title: "NB 990",
-            description: "The comfiest shoes evaaahhh",
-            price: 3000000,
-            qty: 5,
-            brand: 'New Balance',
-            image: 'http://lelele'
-        }
-    })
-    describe('/products', function(){
-        it('should return the NEW PRODUCT', function(done){
+    let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjVkODdhMDMxYjkzMDM2MjM1NzU4YjlhYyIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwidXNlcm5hbWUiOiJhZG1pbiJ9LCJpYXQiOjE1NjkxNjk0NTcsImV4cCI6MTU2OTE3MzA1N30.F-DSBJl3tR_uATTLWmWDUD2AFfDiLjU7NvxOalYpjhM'
+
+    describe('/products with login', function(){
+        beforeEach(function(){
+            mongoose.connection.dropCollection('products')
+            product = {
+                title: "NB 990",
+                description: "The comfiest shoes evaaahhh",
+                price: 3000000,
+                qty: 5,
+                brand: 'New Balance',
+                image: 'http://lelele'
+            }
+        })
+        it('should return the EMPTY image error', function(done){
             chai.request(app)
                 .post('/products')
+                .set('token', token)
                 .send(product)
                 .end(function(err, res){
                     if(err)done(err)
                     else{
-                        expect(res.status).to.equal(201)
-                        expect(res.body.title).to.equal(product.title)
-                        expect(res.body.description).to.equal(product.description)
-                        expect(res.body.price).to.equal(product.price)
-                        expect(res.body.qty).to.equal(product.qty)
-                        expect(res.body.brand).to.equal(product.brand)
+                        expect(res.status).to.equal(400)
+                        expect(res.body.message).to.include("Item must have an image")
                         done()
                     }
                 })
         })
-        it('should return PRODUCTS', function(done){
+        it('should return the aunthenticated error', function(done){
             chai.request(app)
                 .post('/products')
                 .send(product)
                 .end(function(err, res){
                     if(err)done(err)
                     else{
-                        chai.request(app)
-                            .get('/products')
-                            .send(product)
-                            .end(function(err, res){
-                                if(err)done(err)
-                                else{
-                                    expect(res.status).to.equal(200)
-                                    expect(res.body[0].title).to.equal(product.title)
-                                    expect(res.body[0].description).to.equal(product.description)
-                                    expect(res.body[0].price).to.equal(product.price)
-                                    expect(res.body[0].qty).to.equal(product.qty)
-                                    expect(res.body[0].brand).to.equal(product.brand)
-                                    done()
-                                }
-                })
+                        expect(res.status).to.equal(401)
+                        expect(res.body.message).to.include("You need to login first")
+                        done()
                     }
                 })
         })
+//         it('should return PRODUCTS', function(done){
+//             chai.request(app)
+//                 .post('/products')
+//                 .send(product)
+//                 .end(function(err, res){
+//                     if(err)done(err)
+//                     else{
+//                         chai.request(app)
+//                             .get('/products')
+//                             .send(product)
+//                             .end(function(err, res){
+//                                 if(err)done(err)
+//                                 else{
+//                                     expect(res.status).to.equal(200)
+//                                     expect(res.body[0].title).to.equal(product.title)
+//                                     expect(res.body[0].description).to.equal(product.description)
+//                                     expect(res.body[0].price).to.equal(product.price)
+//                                     expect(res.body[0].qty).to.equal(product.qty)
+//                                     expect(res.body[0].brand).to.equal(product.brand)
+//                                     done()
+//                                 }
+//                 })
+//                     }
+//                 })
+//         })
         it("it should return no content", function(done){
             chai.request(app)
                 .get('/products')
@@ -77,12 +89,13 @@ describe('Products', function(){
             product.title = ""
             chai.request(app)
                 .post('/products')
+                .set('token', token)
                 .send(product)
                 .end(function(err, res){
                     if(err)done(err)
                     else{
                         expect(res.status).to.equal(400)
-                        expect(res.body.message).to.equal("Item must have a title")
+                        expect(res.body.message).to.include("Item must have a title")
                         done()
                     }
                 })
@@ -91,12 +104,13 @@ describe('Products', function(){
             product.brand = ""
             chai.request(app)
                 .post('/products')
+                .set('token', token)
                 .send(product)
                 .end(function(err, res){
                     if(err)done(err)
                     else{
                         expect(res.status).to.equal(400)
-                        expect(res.body.message).to.equal("Item must have a brand")
+                        expect(res.body.message).to.include("Item must have a brand")
                         done()
                     }
                 })
@@ -105,12 +119,13 @@ describe('Products', function(){
             product.price = ""
             chai.request(app)
                 .post('/products')
+                .set('token', token)
                 .send(product)
                 .end(function(err, res){
                     if(err)done(err)
                     else{
                         expect(res.status).to.equal(400)
-                        expect(res.body.message).to.equal("Item must have a price")
+                        expect(res.body.message).to.include("Item must have a price")
                         done()
                     }
                 })
@@ -119,12 +134,13 @@ describe('Products', function(){
             product.description = ""
             chai.request(app)
                 .post('/products')
+                .set('token', token)
                 .send(product)
                 .end(function(err, res){
                     if(err)done(err)
                     else{
                         expect(res.status).to.equal(400)
-                        expect(res.body.message).to.equal("Item must have a description")
+                        expect(res.body.message).to.include("Item must have a description")
                         done()
                     }
                 })

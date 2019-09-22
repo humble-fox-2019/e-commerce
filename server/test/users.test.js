@@ -8,9 +8,11 @@ chai.use(chaiHTTP)
 describe('Users', function() {
     let user = null
     describe('/users/register', function() {
-        beforeEach(function(){
-            mongoose.connection.dropCollection('users')
-            user = {email: "test@gmail.com", password: "test", username: "test"}
+        beforeEach(function(done){
+            user = {email: "admin@admin.com", password: "admin", username: "admin"}
+            mongoose.connection.dropCollection('users', function(){
+                done()
+            })
         })
         
         it('should return INVALID EMAIL ERROR', function(done){
@@ -22,7 +24,7 @@ describe('Users', function() {
                 if(err)done(err)
                 else{
                     expect(res.status).to.equal(400)
-                    expect(res.body.message).to.equal('Email is invalid')
+                    expect(res.body.message).to.include('Email is invalid')
                     done()
                 }
             })
@@ -36,7 +38,7 @@ describe('Users', function() {
                 if(err)done(err)
                 else{
                     expect(res.status).to.equal(400)
-                    expect(res.body.message).to.equal('Email must be filled')
+                    expect(res.body.message).to.include('Email must be filled')
                     done()
                 }
             })
@@ -109,7 +111,7 @@ describe('Users', function() {
 
     describe('/users/loginform', function(){
         beforeEach(function(){
-            user = { email: "test@gmail.com", password: "test", username: "test" }
+            user = { email: "admin@admin.com", password: "admin", username: "admin" }
         })
         it('should get the token, email and username', function(done) {
             const login = {

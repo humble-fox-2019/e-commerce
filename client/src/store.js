@@ -6,7 +6,7 @@ import axios from 'axios'
 import errorHandler from './js/errorHandler'
 export default new Vuex.Store({
   state: {
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://34.87.13.99',
     allProducts: [],
     status: null,
     cart: [],

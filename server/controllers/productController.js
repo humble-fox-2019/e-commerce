@@ -32,9 +32,13 @@ class ProductController {
     }
 
     static update(req, res, next) {
-        const { name, author, price, description, image, category, stock } = req.body;
-        const data = { name, author, price, description, image, category, stock };
-
+        const { name, author, price, description, category, stock } = req.body;
+        const data = { name, author, price, description, category, stock };
+        
+        if (req.file) {
+            data.image = req.file.cloudStoragePublicUrl;
+        }
+        
         Product.findByIdAndUpdate({ _id: req.params.id }, data, { omitUndefined: true, runValidators: true })
             .then(data => {
                 res.status(200).json({ message: 'successfully updated', data });

@@ -8,7 +8,9 @@ import Products from './views/Products.vue';
 import ProductDetail from './components/ProductDetail.vue';
 import Carts from './views/Carts.vue';
 import AddProduct from './views/AddProduct.vue';
-import Users from './views/Users.vue'
+import EditProduct from './views/EditProduct.vue';
+import OnProgress from './views/OnProgress.vue';
+import History from './views/History.vue';
 
 Vue.use(Router);
 
@@ -20,6 +22,8 @@ const router = new Router({
     { path: '/login', name: 'login', component: Login },
     { path: '/signUp', name: 'signUp', component: SignUp },
     { path: '/add-product', name: 'add-product', component: AddProduct },
+    { path: '/edit-product/:id', name: 'edit-product', component: EditProduct },
+    { path: '/carts', name: 'carts', component: Carts },
     {
       path: '/products', name: 'products', component: Products,
       meta: {
@@ -27,18 +31,14 @@ const router = new Router({
       },
       children: [
         {
-          path: '/products/:id',
+          path: 'show/:id',
           name: 'productDetail',
-          component: ProductDetail
-        }
+          component: ProductDetail,
+        },
       ]
     },
-    {
-      path: '/users/:id', name: 'users', component: Users,
-      children: [
-        { path: '/carts', name: 'carts', component: Carts }
-      ]
-    },
+    { path: '/on-progress', name: 'on-progress', component: OnProgress },
+    { path: '/history', name: 'history', component: History },
     { path: '*', redirect: '/' }
   ],
 });

@@ -60,14 +60,14 @@
 </template>
 
 <script>
-import errorHandler from '@/assets/config/errorHandler.js'
+// import errorHandler from '@/configs/errorHandler.js'
 
 export default {
   data() {
     return {
-      name: 'Buzz',
-      email: 'buzz@gmail.com',
-      password: '123456',
+      name: '',
+      email: '',
+      password: '',
       errors: false,
       isLoading: false
     }

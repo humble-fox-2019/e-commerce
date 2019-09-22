@@ -6,9 +6,17 @@ const cartSchema = new Schema({
     type: Boolean,
     default: false
   },
+  onProgress: {
+    type: Boolean,
+    default: false
+  },
   items: {
-    type: Array,
-    default: []
+    type: [
+      {
+        productId: { type: Schema.Types.ObjectId, ref: 'Product' },
+        qty: Number,
+      }
+    ]
   },
   userId: {
     type: Schema.Types.ObjectId,

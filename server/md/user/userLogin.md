@@ -12,6 +12,7 @@ Used to get a `token` for a registered user.
 
 ```json
 {
+    "name": "[name in plain text]"
     "email": "[valid email address]",
     "password": "[password in plain text]"
 }
@@ -21,6 +22,7 @@ Used to get a `token` for a registered user.
 
 ```json
 {
+		"name": "buzz",
     "email": "buzz@gmail.com",
     "password": "buzz123"
 }
@@ -36,6 +38,7 @@ Used to get a `token` for a registered user.
 {
     "user": {
       	"_id": "5d7f9338851c487df217d01b"
+      	"name": "buzz",
         "email": "buzz@gmail.com",
         "password": "$2a$10$Rr8gpvfC710nXPxX532w0uKCpQwDBY5.mCth16EQVT9ScFHOr9Pga"
     },

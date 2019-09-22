@@ -3,11 +3,7 @@
     <div>
       <div class="mx-5" id="container">
         <router-link :to="link">
-          <img
-            class="object-cover h-full w-full"
-            src="@/assets/img/malvestida-magazine-u79wy47kvVs-unsplash.jpg"
-            alt=""
-          />
+          <img class="object-cover h-full w-full" :src="product.image" alt="" />
         </router-link>
       </div>
       <div class="mx-5 h-auto mt-6 mb-8 flex">
@@ -27,7 +23,6 @@
 
 <script>
 import myAxios from '@/configs/myAxios.js'
-import errorHandler from '@/configs/errorHandler.js'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 
@@ -45,7 +40,7 @@ export default {
   },
   methods: {
     createLink() {
-      this.link = '/products/' + this.product._id
+      this.link = '/products/show/' + this.product._id
     }
   },
   created() {

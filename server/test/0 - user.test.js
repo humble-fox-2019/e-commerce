@@ -22,6 +22,7 @@ describe('User /users', function () {
       chai.request(app)
         .post('/users/register')
         .send({
+          name: '',
           email: '',
           password: '123456'
         })
@@ -38,6 +39,7 @@ describe('User /users', function () {
       chai.request(app)
         .post('/users/register')
         .send({
+          name: '',
           email: 'buzz@gmail.com',
           password: ''
         })
@@ -50,11 +52,28 @@ describe('User /users', function () {
         })
     })
 
-
-    it('should not create with empty in both email or password', function (done) {
+    it('should not create with blank string in name field', function (done) {
       chai.request(app)
         .post('/users/register')
         .send({
+          name: '',
+          email: 'buzz@gmail.com',
+          password: '123456'
+        })
+        .end(function (err, res) {
+          expect(err).to.be.null
+          expect(res).to.have.status(400)
+          expect(res.body).to.have.property('errors')
+          expect(res.body.errors).to.include(`Name is required`)
+          done()
+        })
+    })
+
+    it('should not create with empty in all field', function (done) {
+      chai.request(app)
+        .post('/users/register')
+        .send({
+          name: '',
           email: '',
           password: ''
         })
@@ -72,6 +91,7 @@ describe('User /users', function () {
       chai.request(app)
         .post('/users/register')
         .send({
+          name: '',
           email: 'buzz.com',
           password: ''
         })
@@ -88,6 +108,7 @@ describe('User /users', function () {
       chai.request(app)
         .post('/users/register')
         .send({
+          name: 'buzz',
           email: 'buzz@gmail.com',
           password: '123456'
         })
@@ -158,6 +179,45 @@ describe('User /users', function () {
           expect(res.body).to.have.property('user')
           expect(res.body).to.have.property('token')
           token = res.body.token
+          done()
+        })
+    })
+  })
+
+  describe('Get One GET /users', function () {
+    it('should not get one with invalid token', function (done) {
+      chai.request(app)
+        .get('/users')
+        .set('token', 'asd')
+        .end(function (err, res) {
+          expect(err).to.be.null
+          expect(res).to.have.status(400)
+          expect(res.body).to.have.property('errors')
+          done()
+        })
+    })
+
+    it('should not get one with no token', function (done) {
+      chai.request(app)
+        .get('/users')
+        .end(function (err, res) {
+          expect(err).to.be.null
+          expect(res).to.have.status(400)
+          expect(res.body).to.have.property('errors')
+          done()
+        })
+    })
+
+    it('should return user object with valid token', function (done) {
+      chai.request(app)
+        .get('/users')
+        .set('token', token)
+        .end(function (err, res) {
+          expect(err).to.be.null
+          expect(res).to.have.status(200)
+          expect(res.body).to.have.property('name')
+          expect(res.body).to.have.property('email')
+          expect(res.body).to.have.property('password')
           done()
         })
     })

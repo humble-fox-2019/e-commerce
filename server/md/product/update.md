@@ -1,12 +1,12 @@
-# Show Single Product
+# Update Product
 
-Fetch specific product data from database.
+Update single product data.
 
 **URL** : `/products/:id/`
 
-**URL Params** : `id=[integer]` where `id` is the ID of the Product.
+**URL Params** : `id` is the ID of the Product.
 
-**Method** : `GET`
+**Method** : `PATCH`
 
 **Authentication**
 
@@ -18,6 +18,8 @@ headers:
 }
 ```
 
+**Authorization** : Product `sellerId` equal to `_id` of User.
+
 ## Success Response
 
 **Status Code** : `200 OK`
@@ -26,7 +28,11 @@ headers:
 
 ```json
 {
+  	"_id": "5d7f9a39b07e45849cd6d28e",
     "name": "Fender Stratocaster",
+    "description": "A guitar",
+    "image": "some url",
+    "price": 5000,
     "stock": 5,
     "sellerId": "5d8338e4b801a9bc9d9c39bc"
 }

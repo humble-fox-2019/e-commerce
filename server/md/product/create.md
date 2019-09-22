@@ -23,8 +23,11 @@ Create a product.
 
 ```json
 {
-    "name": "Gibson Les Paul",
-    "stock": 5
+      "name": "Fender Stratocaster",
+      "description": "A guitar",
+      "image": "some url",
+      "price": 5000,
+      "stock": 5,
 }
 ```
 
@@ -36,11 +39,12 @@ Create a product.
 
 ```json
 {
-  	"_id": "5d7f9a39b07e45849cd6d28e",
-    "name": "Gibson Les Paul",
-    "stock": 5,
-    "sellerId": "5d8338e4b801a9bc9d9c39bc",
-	  "createdAt": '2019-09-16T14:20:41.753Z',
-    "updatedAt": '2019-09-16T14:20:41.753Z'
+  		"_id": "5d7f9a39b07e45849cd6d28e",
+      "name": "Fender Stratocaster",
+      "description": "A guitar",
+      "image": "some url",
+      "price": 5000,
+      "stock": 5,
+      "sellerId": "5d8338e4b801a9bc9d9c39bc"
 }
 ```

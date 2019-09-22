@@ -60,8 +60,8 @@ export default {
   name: 'login',
   data() {
     return {
-      email: 'buzz@gmail.com',
-      password: '123456',
+      email: '',
+      password: '',
       errors: false,
       isLoading: false
     }

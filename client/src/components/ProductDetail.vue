@@ -5,16 +5,17 @@
       <!-- <a href="" class="close-modal" @focus="closeModal"></! -->
       <div class="w-1/2 h-full">
         <div class="w-full h-full">
-          <img
-            class="object-cover h-full w-full"
-            src="@/assets/img/malvestida-magazine-u79wy47kvVs-unsplash.jpg"
-            alt=""
-          />
+          <img class="object-cover h-full w-full" :src="product.image" alt="" />
         </div>
       </div>
       <div class="w-1/2 h-full flex justify-center items-center bg-white">
         <div class="desc-container">
           <h2 class="mb-4 font-bold text-2xl">{{ product.name }}</h2>
+
+          <div class="mb-4">
+            <h2 class="font-bold">Stock</h2>
+            <div>{{ product.stock }}</div>
+          </div>
 
           <div>
             <h2 class="mb-2 font-bold">Quantity</h2>
@@ -38,9 +39,37 @@
             <div class="h-20">{{ product.description }}</div>
           </div>
 
-          <button class="bg-black px-6 py-1 rounded text-white focus:outline-none" @click="buy">
+          <button
+            v-if="!isAdminState"
+            class="bg-black px-6 py-1 rounded text-white focus:outline-none"
+            @click="buy"
+          >
             <i class="fas fa-shopping-bag"></i>
           </button>
+
+          <!-- <button
+            v-else
+            @click="edit(product._id)"
+            class="hover:bg-black font-semibold hover:text-white py-2 px-6 border border-black hover:border-transparent rounded mt-2 focus:outline-none"
+          >
+            Edit
+          </button> -->
+
+          <div v-else>
+            <router-link
+              :to="link"
+              class="hover:bg-black font-semibold hover:text-white py-2 px-6 border border-black hover:border-transparent rounded mt-2 focus:outline-none"
+            >
+              Edit
+            </router-link>
+
+            <button
+              @click="deleteProduct"
+              class="ml-20 hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-6 border border-red-500 hover:border-transparent rounded mt-2 focus:outline-none"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -49,14 +78,15 @@
 
 <script>
 import myAxios from '@/configs/myAxios.js'
-import errorHandler from '@/configs/errorHandler.js'
+// import errorHandler from '@/configs/errorHandler.js'
 
 export default {
   name: 'productDetail',
   data() {
     return {
       product: {},
-      qty: 0
+      qty: 0,
+      link: ''
     }
   },
   methods: {
@@ -66,27 +96,44 @@ export default {
     decQty() {
       if (this.qty > 0) this.qty--
     },
-    buy() {},
+    buy() {
+      if (this.qty > 0) this.$store.dispatch('addToCart', { id: this.product._id, qty: this.qty })
+      this.$router.push('/products')
+    },
+    deleteProduct() {
+      myAxios
+        .delete(`/products/${this.$route.params.id}`)
+        .then(({ data }) => {
+          this.$store.dispatch('fetchProducts')
+          this.closeModal()
+        })
+        .catch(console.log)
+    },
     closeModal() {
       this.$router.push('/products')
     },
     fetchSingleProduct() {
-      console.log('masuk');
       myAxios
         .get(`/products/${this.$route.params.id}`)
         .then(({ data }) => {
           this.product = data.product
           this.isLoading = false
+          this.link = '/edit-product/' + this.product._id
           // this.products = data.products
         })
         .catch(err => {
           this.isLoading = false
-          this.errors = errorHandler(err)
+          // this.errors = errorHandler(err)
         })
     }
   },
   mounted() {
     this.fetchSingleProduct()
+  },
+  computed: {
+    isAdminState() {
+      return this.$store.getters.isAdmin
+    }
   }
 }
 </script>

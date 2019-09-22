@@ -2,9 +2,9 @@
   <div class="w-1/2 ml-24 mt-10">
     <div class="mb-4">
       <h1 class="font-bold text-4xl">Product Detail</h1>
-      <p class="text-sm">Please input all the details required for the product you want to sell.</p>
+      <p class="text-sm">Please update data below.</p>
     </div>
-    <form @submit.prevent="addProduct">
+    <form @submit.prevent="submitEdit" enctype="multipart/form-data">
       <div class="mb-2">
         <label for="name">Product Name</label>
         <br />
@@ -69,7 +69,7 @@
       <button
         class="hover:bg-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded mt-2 focus:outline-none"
       >
-        Sell Now
+        Save
       </button>
     </form>
   </div>
@@ -78,28 +78,25 @@
 <script>
 import myAxios from '@/configs/myAxios.js'
 import errorHandler from '@/configs/errorHandler.js'
-import Loading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
+import axios from 'axios'
 
 export default {
-  name: 'add-product',
-  components: {
-    Loading
-  },
+  name: 'edit-product',
   data() {
     return {
+      id: '',
       name: '',
       description: '',
-      image: null,
+      image: '',
       price: '',
       stock: '',
       errors: []
     }
   },
   methods: {
-    addProduct() {
-      this.$store.commit('auth_request')
-
+    submitEdit() {
+      // this.$store.commit('auth_request')
+      // console.log(this.name)
       let bodyForm = new FormData()
       bodyForm.append('name', this.name)
       bodyForm.append('description', this.description)
@@ -107,8 +104,35 @@ export default {
       bodyForm.append('price', this.price)
       bodyForm.append('stock', this.stock)
 
-      myAxios
-        .post('/products', bodyForm)
+      // console.log(bodyForm.get('name'))
+
+      // myAxios
+      //   .patch(`/products/${this.id}`, {
+      //     name: bodyForm.get('name'),
+      //     description: bodyForm.get('description'),
+      //     image: bodyForm.get('image'),
+      //     price: bodyForm.get('price'),
+      //     stock: bodyForm.get('stock')
+      //   })
+      //   .then(({ data }) => {
+      //     console.log(data)
+      //     this.$store.commit('auth_finished')
+      //     this.$router.push('/products')
+      //     // this.$emit('login', data)
+      //   })
+      //   .catch(err => {
+      //     this.$store.commit('auth_finished')
+      //     this.errors = errorHandler(err)
+      //   })
+
+      axios(
+        {
+          method: 'patch',
+          url: 'http://localhost:3000/products/' + this.id,
+          headers: { token: this.$store.state.token }
+        },
+        bodyForm
+      )
         .then(({ data }) => {
           console.log(data)
           this.$store.commit('auth_finished')
@@ -117,12 +141,33 @@ export default {
         })
         .catch(err => {
           this.$store.commit('auth_finished')
-          this.errors = errorHandler(err)
+          console.log(err)
         })
     },
     addPicture() {
       this.image = this.$refs.picture.files[0]
+    },
+    fetchSingleProduct() {
+      this.$store.commit('auth_request')
+      myAxios
+        .get(`/products/${this.$route.params.id}`)
+        .then(({ data }) => {
+          this.$store.commit('auth_finished')
+          const { _id, name, description, image, price, stock } = data.product
+          this.id = _id
+          this.name = name
+          this.description = description
+          this.image = image
+          this.price = price
+          this.stock = stock
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
+  },
+  created() {
+    this.fetchSingleProduct()
   }
 }
 </script>

@@ -23,28 +23,34 @@ export default {
   components: {
     Product
   },
-  data() {
-    return {
-      products: []
-    }
-  },
-  methods: {
-    fetchProducts() {
-      myAxios
-        .get('/products')
-        .then(({ data }) => {
-          // console.log(data)
-          this.isLoading = false
-          this.products = data.products
-        })
-        .catch(err => {
-          this.isLoading = false
-          this.errors = errorHandler(err)
-        })
-    }
-  },
+  // data() {
+  //   return {
+  //     products: []
+  //   }
+  // },
+  // methods: {
+  //   fetchProducts() {
+  //     myAxios
+  //       .get('/products')
+  //       .then(({ data }) => {
+  //         // console.log(data)
+  //         this.isLoading = false
+  //         this.products = data.products
+  //       })
+  //       .catch(err => {
+  //         this.isLoading = false
+  //         this.errors = errorHandler(err)
+  //       })
+  //   }
+  // },
   created() {
-    this.fetchProducts()
+    // this.fetchProducts()
+    this.$store.dispatch('fetchProducts')
+  },
+  computed: {
+    products() {
+      return this.$store.getters.products
+    }
   }
 }
 </script>

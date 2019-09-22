@@ -8,7 +8,6 @@
 
 <script>
 import myAxios from '@/configs/myAxios.js'
-import errorHandler from '@/configs/errorHandler.js'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 

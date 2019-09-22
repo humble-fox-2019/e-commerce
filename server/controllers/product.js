@@ -36,8 +36,16 @@ class ProductController {
 
   static update(req, res, next) {
     const { id } = req.params
-    const { name, stock } = req.body
-    Product.findByIdAndUpdate(id, { name, stock })
+
+
+    console.log('masuk')
+    // so proud of this code
+    const update = {}
+    for (let key in req.body) {
+      update[key] = req.body[key]
+    }
+
+    Product.findByIdAndUpdate(id, update)
       .then(product => {
         res.status(200).json({ product })
       })

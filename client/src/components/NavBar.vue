@@ -14,7 +14,7 @@
             <router-link to="/products">Product</router-link>
           </li>
           <li>
-            <router-link to="/history">History</router-link>
+            <router-link v-if="!isAdminState" to="/history">History</router-link>
           </li>
         </ul>
       </li>
@@ -23,13 +23,18 @@
         <button class="text-4xl mr-10" @click="logout">
           <i class="fas fa-sign-out-alt"></i>
         </button>
-        <router-link class="pl-8 pr-24 py-4 bg-black text-white focus:outline-none" to="/carts">
+        <router-link
+          v-if="!isAdminState"
+          class="pl-8 pr-24 py-4 bg-black text-white focus:outline-none"
+          to="/carts"
+        >
           <i class="fas fa-shopping-cart text-2xl"></i>
         </router-link>
         <div>
           <button
+            v-if="isAdminState"
             @click="showUserModal = !showUserModal"
-            class="h-auto text-2xl py-3 px-2 border-l d border-white bg-black text-white text-2xl focus:outline-none"
+            class="h-auto text-2xl py-3 px-6 border-l d border-white bg-black text-white text-2xl focus:outline-none"
           >
             <i class="fas fa-user"></i>
           </button>
@@ -69,6 +74,11 @@ export default {
       this.$store.dispatch('logout').then(() => {
         this.$router.push('/')
       })
+    }
+  },
+  computed: {
+    isAdminState() {
+      return this.$store.getters.isAdmin
     }
   }
 }

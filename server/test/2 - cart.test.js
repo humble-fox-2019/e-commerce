@@ -15,7 +15,28 @@
 //     })
 //   })
 
+
 //   describe('Create Cart POST /carts/', function () {
+//     it('Pre-test create account', function (done) {
+//       chai.request(app)
+//         .post('/users/register')
+//         .send({
+//           name: 'buzz',
+//           email: 'buzz@gmail.com',
+//           password: '123456'
+//         })
+//         .end(function (err, res) {
+//           expect(err).to.be.null
+//           expect(res).to.have.status(201)
+//           expect(res.body.user).to.have.property('email')
+//           expect(res.body.user).to.have.property('password')
+//           expect(res.body.user.password).to.not.equal('123456')
+//           expect(res.body).to.have.property('token')
+//           userToken = res.body.token
+//           done()
+//         })
+//     })
+
 //     it('should not create a cart without jwt', function (done) {
 //       chai.request(app)
 //         .post('/carts')

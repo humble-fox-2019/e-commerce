@@ -1,7 +1,7 @@
 <template>
   <div class="product">
     <v-col>
-      <v-card :color="color">
+      <v-card>
         <v-list-item three-line>
           <v-list-item-avatar size="300" height="500px" tile>
             <v-img :src="image" width="100%" height="100%"></v-img>
@@ -102,8 +102,6 @@ export default {
           this.name = data.name;
           this.author = data.author;
           this.description = data.description;
-
-          console.log(data);
         })
         .catch(err => {
           console.log(err);

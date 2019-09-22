@@ -4,7 +4,9 @@ class CartController {
     static getMyCart(req, res, next) {
         Cart.find({
             userid: req.decode.id
-        }).then(carts => {
+        })
+            .populate('productid')
+            .then(carts => {
             res.status(200).json(carts);
         }).catch(next);
     }

@@ -84,7 +84,7 @@ export default {
         })
         .then(({data}) => {
           localStorage.setItem('token', data.access_token);
-          localStorage.setItem('userData', data.userData);
+          localStorage.setItem('userData', JSON.stringify(data.userData));
           this.$store.commit('setToken', data.access_token);
           this.$store.commit('setUserData', data.userData);
           

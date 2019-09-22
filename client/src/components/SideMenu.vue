@@ -6,12 +6,12 @@
       </v-list-item-avatar>
 
       <v-list-item-title>John Leider</v-list-item-title>
-
-      <v-btn icon>
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
     </v-list-item>
-
+  <v-list-item>
+    <v-btn text color="primary" to="/">
+      view site
+    </v-btn>
+  </v-list-item>
     <v-divider></v-divider>
 
     <v-list dense>

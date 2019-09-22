@@ -10,7 +10,7 @@ export default {
   created(){
     if(localStorage.getItem('token')) {
       this.$store.commit('setToken', localStorage.getItem('token'));
-      this.$store.commit('setUserData', localStorage.getItem('userData')); 
+      this.$store.commit('setUserData', JSON.parse(localStorage.getItem('userData'))); 
     }
   }
 };

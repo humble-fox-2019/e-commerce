@@ -9,7 +9,8 @@ export default new Vuex.Store({
     baseUrl: 'http://localhost:3000',
     allProducts: [],
     status: null,
-    cart: []
+    cart: [],
+    admin: null
   },
   mutations: {
     changeStatus(state, data){

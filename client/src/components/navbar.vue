@@ -16,6 +16,9 @@
             <router-link to="/"  class="text-3xl"><h1>WoodPecker</h1></router-link>
         </div>
         <div class="right flex flex-row">
+            <div v-if="this.$store.state.status === 'admin'">
+                <router-link to="/admin">Admin</router-link>
+            </div>
             <div>
                 <a v-if="this.$store.state.status" style="text-decoration: none; color: black;" href="" @click.prevent="logout">Logout</a>
                 <router-link v-else to="/login">Login</router-link>
@@ -33,13 +36,12 @@
 export default {
   data: function () {
     return {
-
     }
   },
   methods: {
       logout(){
           localStorage.removeItem('token')
-          this.$store.commit('changeStatus', false)
+          this.$store.commit('changeStatus', null)
           this.$router.push('/')
       }
   },

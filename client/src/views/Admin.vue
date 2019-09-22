@@ -53,9 +53,6 @@ export default {
             brand: "",
             items: [],
             product: null,
-            
-
-
         }
     },
     methods: {
@@ -93,7 +90,6 @@ export default {
                 url = `${this.$store.state.baseUrl}/products`
                 method = 'post'
             }
-            console.log(url, method)
             axios({
                 url,
                 method,
@@ -122,7 +118,16 @@ export default {
     },
     created(){
         this.$store.dispatch('fetchAllImages')
-    } 
+    },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if(vm.$store.state.status === 'admin'){
+                next()
+            }else {
+                next('/')
+            }
+        })
+    }
 }
 </script>
 

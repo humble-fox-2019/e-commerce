@@ -56,13 +56,8 @@ export default {
     }
     .list {
         display: grid;
-        /* grid-gap: 45px; */
-        /* width: 90%; */
+
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        /* display: flex;
-        flex-wrap: wrap;
-        width:  90%;
-        justify-content: space-evenly; */
 
     }
 </style>

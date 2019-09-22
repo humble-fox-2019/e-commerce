@@ -1,7 +1,6 @@
 const UserController = require('../controllers/user');
 const router = require('express').Router();
 const authenticate = require('../middlewares/authenticate')
-const authorizeAdmin = require('../middlewares/authorizeAdmin')
 router.post('/register', UserController.createUser)
 router.post('/loginform', UserController.loginForm)
 router.patch('/cart/:id', authenticate, UserController.addToCart)

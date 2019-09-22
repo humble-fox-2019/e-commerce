@@ -56,27 +56,11 @@ export default {
                 .catch(errorHandler)
             }
         }
-    },
-    created(){
-        if(product.qty < 1){
-
-        }
-    },
-    components: {
-        
     }
 }
 </script>
 
 <style scoped>
-
-/* .head:hover{
-    -webkit-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);
-    transform: scale(1.03);
-    transition: 0.2s
-} */
 .head{
      height: 55vh;
      width: 15vw;

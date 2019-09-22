@@ -49,10 +49,11 @@ export default {
             })
             .then(({ data }) =>{
                 localStorage.setItem('token', data.token)
-                    this.$store.commit('changeStatus', true)
                 if(data.username == "admin"){
+                    this.$store.commit('changeStatus', 'admin')
                     this.$router.push('/admin')
                 }else {
+                    this.$store.commit('changeStatus', 'user')
                     this.$router.push('/')
                 }
             })

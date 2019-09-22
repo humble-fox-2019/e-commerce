@@ -36,9 +36,10 @@
           <v-list-item-title>Registration</v-list-item-title>
         </v-list-item>
         
-        <v-list-item route to='/dashboard' v-if="cekToken">
+        <v-list-item route to='/dashboard' v-if="cekRule === 'admin'">
           <v-list-item-title>dashboard</v-list-item-title>
         </v-list-item>
+        
         <v-list-item v-if="cekToken" @click="logout">
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
@@ -60,6 +61,9 @@ export default {
   computed: {
     cekToken() {
       return this.$store.state.token
+    },
+    cekRule() {
+        return this.$store.state.userData
     }
   },
   methods: {

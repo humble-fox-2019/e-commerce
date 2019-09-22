@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import FrontEnd from './views/template/FrontEnd.vue';
+import BackEnd from './views/template/BackEnd.vue';
 import Cart from './views/Cart.vue';
 import Login from './views/Login.vue';
 import Registration from './views/Registration.vue';
@@ -55,6 +56,17 @@ export default new Router({
         name: 'registration',
         component: Registration
       }]
+    },
+    {
+      path: '/products',
+      component: BackEnd,
+      children: [
+        {
+          path: '/products',
+          name: 'productListBackEnd',
+          component: () => import('./views/products/ProductListBackEnd.vue')
+        }
+      ]
     },
     {
       path: '/about',

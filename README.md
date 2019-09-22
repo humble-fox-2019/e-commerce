@@ -4,7 +4,7 @@
 
 ## Link Deploy
 
-e-commerce.saveroz.com
+http://e-commerce.saveroz.com/
 
 ## Usage
 

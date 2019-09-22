@@ -25,7 +25,7 @@ class UserController {
         User.findOne({ $or: [{ username: identity }, { email: identity }] })
             .then((User) => {
                 if (User && compare(password, User.password)) {
-                    const token = createToken({ id: User._id })
+                    const token = createToken({ id: User._id, role: User.role })
                     res.status(200).json({ identity, token })
                 } else {
                     let err = new Error('Wrong Username / Email / Password')

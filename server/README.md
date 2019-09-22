@@ -1,6 +1,6 @@
 ## Rest Api
 
-All the API routes start by [http://35.192.45.25](http://35.192.45.25/)
+All the API routes start by [http://35.186.151.57](http://35.186.151.57/)
 
 ### Users End Point
 

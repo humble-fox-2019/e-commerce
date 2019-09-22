@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import router from './router'
 
-const base_url = "http://localhost:3000"
+const base_url = "http://35.186.151.57"
 const users_url = `${base_url}/users/`
 const products_url = `${base_url}/products/`
 const cart_url = `${base_url}/carts`

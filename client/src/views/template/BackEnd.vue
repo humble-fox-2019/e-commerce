@@ -9,6 +9,7 @@
 
 <script>
 import SideMenu from "@/components/SideMenu";
+import Swal from 'sweetalert2';
 
 export default {
   name: "backEnd",
@@ -17,6 +18,16 @@ export default {
   },
   data() {
     return {};
+  },
+  created() {
+    if(this.$store.state.userData.role != 'admin') {
+      Swal.fire(
+        'Permition!',
+        'You dont have permission!',
+        'error'
+      )
+      this.$router.push('/');
+    }
   }
 };
 </script>

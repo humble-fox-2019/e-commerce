@@ -52,6 +52,8 @@ export default {
     .head{
         background-color: white;
         min-height: 15vh;
+        max-height: 70vh;
+        overflow: scroll;
         width: 10vw;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;

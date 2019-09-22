@@ -116,7 +116,7 @@ class UserController {
             })
         })
         .then(_ =>{
-            res.status(200).json({ message: 'Successfully added item to cart' })
+            res.status(200).json({ message: 'Successfully delete items in cart' })
         })
         .catch(next)
     }

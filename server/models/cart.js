@@ -7,14 +7,13 @@ const cartSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  listItem: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Item'
-  }],
+  listItem: {
+    type : Object
+  },
   quantity: {
     type: Number
   },
-  totalPrice: {
+  totalPayment: {
     type: Number
   },
 },{
@@ -24,12 +23,11 @@ const cartSchema = new Schema({
 const Cart = mongoose.model('Cart', cartSchema)
 
 cartSchema.pre('save', function () {
-    this.totalPrice = this.item.price * this.quantity
-    next()
-})
-
-cartSchema.pre('updateOne', function(){
-    this.totalPrice = this.item.price * this.quantity
+  let quantity = 0
+    for (let k in this.listItem){
+      quantity += this.listItem[k].quantity
+    }
+    this.quantity = quantity
     next()
 })
 

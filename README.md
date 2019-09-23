@@ -22,5 +22,5 @@ Access server via `http://localhost:3000`
 
 ## API Documentation (using POSTMAN)
 ```
-https://documenter.getpostman.com/view/8640330/SVmtyKSH
+https://documenter.getpostman.com/view/8640330/SVmySJG8
 ```

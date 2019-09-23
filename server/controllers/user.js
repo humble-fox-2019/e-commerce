@@ -9,6 +9,7 @@ class UserController {
             password : req.body.password
         })
         .then ((user)=>{
+            console.log(user._id)
             const payload = {
                 id : user._id,
                 email : user.email
@@ -32,14 +33,22 @@ class UserController {
 
     static login(req,res,next){
         User.findOne({ email : req.body.email }).then((user)=>{
-            const payload = {
-                id : user._id,
-                email : user.email
+            if (user){
+                console.log(user._id)
+                const payload = {
+                    id : user._id,
+                    email : user.email
+                }
+                const token = generateToken(payload)
+                res.status(200).json({
+                    token
+                })
+            } else {
+                next({
+                    status:404, 
+                    message: "User not found"
+                })
             }
-            const token = generateToken(payload)
-            res.status(200).json({
-                token
-            })
         })
         .catch (next)
     }

@@ -17,7 +17,7 @@ class shoppingCartController {
         .catch(next)
     }
 
-    static add(req,res,next){
+    static addItem(req,res,next){
         const decode = verifyToken(req.headers.token)
         req.decode = decode
         ShoppingCart.findOne({ owner : req.decode.id })
@@ -35,11 +35,13 @@ class shoppingCartController {
     }
 
     static find(req,res,next){
-        ShoppingCart.find()
-        .then((shoppingCarts) =>{
-            if (shoppingCarts){
+        const decode = verifyToken(req.headers.token)
+        req.decode = decode
+        ShoppingCart.findOne({ owner : req.decode.id })
+        .then((shoppingCart) =>{
+            if (shoppingCart){
                 res.status(200).json({
-                    shoppingCarts
+                    shoppingCart
                 })
             } else {
                 next({
@@ -52,7 +54,15 @@ class shoppingCartController {
     }
 
     static delete(req,res,next){
-
+        const decode = verifyToken(req.headers.token)
+        req.decode = decode
+        ShoppingCart.findOneAndDelete({ owner : req.decode.id })
+        .then(() =>{
+            res.status(200).json({
+                message : 'deleted'
+            })
+        })
+        .catch(next)
     }
 }
 

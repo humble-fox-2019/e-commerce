@@ -27,7 +27,6 @@ export default {
     },
     mounted : function (){
         this.$store.dispatch('getProducts')
-        //console.log('woy')
         this.getProducts
     }
 }

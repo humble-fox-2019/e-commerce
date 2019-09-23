@@ -220,15 +220,15 @@ http://api.grabah.guntoroyk.site
         ]
     ```
     
-- 403 (Not Authenticated)
-  
-    ```javascript
-     {
-         errors: [
-             "You must login first"
-         ]
-      }
-    ```
+  - 403 (Not Authenticated)
+    
+      ```javascript
+      {
+          errors: [
+              "You must login first"
+          ]
+        }
+      ```
 + ### Checkout
 
   Method : `POST`<br>Endpoint : `/users/checkout`
@@ -390,37 +390,37 @@ http://api.grabah.guntoroyk.site
 
     ```javascript
     {
-        "_id": "5d5ffbf0180c3f167c03afc2",
-        "name": "Cheramic Bayat",
-        "stock": 70,
-        "price": 10000,
-        "image": "https://www.pdma.org/global_graphics/default-store-350x350.jpg",
-        "createdAt": "2019-08-23T14:45:04.769Z",
-        "updatedAt": "2019-08-23T14:45:04.769Z"
-      }
+      "_id": "5d5ffbf0180c3f167c03afc2",
+      "name": "Cheramic Bayat",
+      "stock": 70,
+      "price": 10000,
+      "image": "https://www.pdma.org/global_graphics/default-store-350x350.jpg",
+      "createdAt": "2019-08-23T14:45:04.769Z",
+      "updatedAt": "2019-08-23T14:45:04.769Z"
+    }
     ```
 
   - 400 (Bad Request)
 
     ```javascript
-  {
-        errors: [
-            "Name field is required",
-            "Description field is required",
-            "Stock field description is required",
-            "Price field is required"
-        ]
+    {
+      errors: [
+          "Name field is required",
+          "Description field is required",
+          "Stock field description is required",
+          "Price field is required"
+      ]
     }
     ```
     
   - 403 (Not Authenticated)
     
     ```javascript
-      {
-          errors: [
-              "You must login first"
-          ]
-      }
+    {
+        errors: [
+            "You must login first"
+        ]
+    }
     ```
     
   - 401 (Unauthorized)
@@ -428,11 +428,11 @@ http://api.grabah.guntoroyk.site
     Only admin that can create product
   
     ```javascript
-        {
-            errors: [
-                "You haven't authorized"
-            ]
-        }
+    {
+        errors: [
+            "You haven't authorized"
+        ]
+    }
     ```
 
 
@@ -472,7 +472,7 @@ http://api.grabah.guntoroyk.site
   - 403 (Not Authenticated)
 
     ```javascript
-  {
+    {
         errors: [
             "You must login first"
         ]
@@ -560,31 +560,31 @@ http://api.grabah.guntoroyk.site
 
     ```javascript
     {
-      	message: 'Product updated'
+      message: 'Product updated'
     }
     ```
 
   - 400 (Bad Request)
 
     ```javascript
-  {
-        errors: [
-            "Name field is required",
-            "Description field is required",
-            "Stock field description is required",
-            "Price field is required",
-            
-        ]
+    {
+      errors: [
+          "Name field is required",
+          "Description field is required",
+          "Stock field description is required",
+          "Price field is required",
+          
+      ]
     }
     ```
   
   - 400 (Bad Request)
 
     ```javascript
-  {
-        errors: [
-           "Product ID is not found"
-        ]
+    {
+      errors: [
+          "Product ID is not found"
+      ]
     }
     ```
     
@@ -639,7 +639,7 @@ http://api.grabah.guntoroyk.site
     }
     ```
     
-- 400 (Bad Request)
+  - 400 (Bad Request)
   
     ```javascript
     {
@@ -657,10 +657,9 @@ http://api.grabah.guntoroyk.site
             "You must login first"
         ]
     }
-  ```
-    
+    ```
   - 401 (Unauthorized)
-  
+
     Only admin that can delete product
     
     ```javascript
@@ -672,7 +671,6 @@ http://api.grabah.guntoroyk.site
     ```
   
   
-
 ## Another Error
 
 + 500 (Internal Server Error)

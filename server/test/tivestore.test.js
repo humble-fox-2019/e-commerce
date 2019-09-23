@@ -344,26 +344,27 @@ describe('Cart', function () {
                 .set('access_token', customerToken)
                 .send({ productid: product1, qty: 4 })
                 .end(function (err, res) {
-                    insertidcart = res.body._id;
-                    expect(res.body).to.include.keys(['productid', 'qty']);
+                    insertidcart = res.body.data._id;
+                    expect(res.body.data).to.include.keys(['productid', 'qty']);
                     expect(res).have.status(201);
                     done();
                 });
         });
-
-        // it('Error less quantity', function (done) {
-        //     chai.request(app)
-        //         .post('/cart')
-        //         .set('access_token', customerToken)
-        //         .end(function (err, res) {
-        //             expect(res.body.message[0]).to.equal('Product quentity not enought');
-        //             expect(res).have.status(400);
-        //             done();
-        //         });
-        // });
+        
+        it('Product already in cart', function (done) {
+            chai.request(app)
+                .post('/cart')
+                .set('access_token', customerToken)
+                .send({ productid: product1, qty: 4 })
+                .end(function (err, res) {
+                    expect(res.body.message).to.equal('The Product already in cart');
+                    expect(res).have.status(400);
+                    done();
+                });
+        });
     });
 
-    describe('Update product from cart', function () {
+    describe('Update product cart', function () {
         it('Update product without error', function (done) {
             chai.request(app)
                 .put('/cart/' + insertidcart)
@@ -372,27 +373,12 @@ describe('Cart', function () {
                     qty: 10
                 })
                 .end(function (err, res) {
-                    console.log(insertidcart);
                     expect(res.body.message).to.equal('successfully updated');
                     expect(res.body.data).to.include.keys(['qty']);
                     expect(res).have.status(200);
                     done();
                 });
         });
-        
-        // it('Error less quantity', function (done) {
-        //     chai.request(app)
-        //         .put('/cart/' + insertidcart)
-        //         .set('access_token', customerToken)
-        //         .send({
-        //             qty: 300
-        //         })
-        //         .end(function (err, res) {
-        //             expect(res.body.message[0]).to.equal('Product quentity not enought');
-        //             expect(res).have.status(400);
-        //             done();
-        //         });
-        // });
     });
 
     describe('Get my cart', function () {
@@ -406,7 +392,7 @@ describe('Cart', function () {
                     expect(res).have.status(200);
                     done();
                 });
-        })
+        });
     });
 
     describe('Remove product from cart', function () {

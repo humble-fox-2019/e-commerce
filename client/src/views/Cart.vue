@@ -42,9 +42,14 @@
             </tfoot>
           </v-simple-table>
 
+          <v-card-text>
+            Addres:
+            <v-textarea v-model="address"></v-textarea>
+          </v-card-text>
+
           <v-card-actions>
-            <div class="flex-grow-1"></div>
-            <v-btn dark color="teal">
+            <div class="flex-grow-1"></div>            
+            <v-btn dark color="teal" @click="checkout()">
               <v-icon>mdi-check</v-icon>Checkout
             </v-btn>
           </v-card-actions>
@@ -56,13 +61,15 @@
 
 <script>
 import db from "@/apis/axios";
+import Swal from "sweetalert2";
 
 export default {
   name: "cart",
   data() {
     return {
       products: [],
-      total: 0
+      total: 0,
+      address: ""
     };
   },
   methods: {
@@ -81,6 +88,7 @@ export default {
               name: el.productid.name,
               qty: el.qty,
               price: el.productid.price,
+              stock: el.productid.stock,
               subtotal: this.numberFormat(el.qty * el.productid.price)
             });
 
@@ -124,9 +132,17 @@ export default {
         })
         .indexOf(id);
 
-      this.products[getIndex].qty += 1;
+      if (this.products[getIndex].qty === this.products[getIndex].stock) {
+        Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: "Stock not enough"
+        });
+      } else {
+        this.products[getIndex].qty += 1;
 
-      this.updateProduct(id, this.products[getIndex].qty);
+        this.updateProduct(id, this.products[getIndex].qty);
+      }
     },
     minusProduct(id) {
       let getIndex = this.products
@@ -134,10 +150,17 @@ export default {
           return el.id;
         })
         .indexOf(id);
+      if (this.products[getIndex].qty === 1) {
+        Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: "Minimum 1"
+        });
+      } else {
+        this.products[getIndex].qty -= 1;
 
-      this.products[getIndex].qty -= 1;
-
-      this.updateProduct(id, this.products[getIndex].qty);
+        this.updateProduct(id, this.products[getIndex].qty);
+      }
     },
     removeProduct(id) {
       db.delete("/cart/" + id, {
@@ -146,14 +169,57 @@ export default {
         }
       })
         .then(({ data }) => {
-          console.log(data);
-
           this.getCart();
         })
         .catch(err => {
-          console.log(err);
+          let errMsg;
+          
+          if (err.response.data) {
+            errMsg = err.response.data.message.join("\n");
+          } else {
+            errMsg = "something wrong"
+          }
+          
+          Swal.fire({
+            type: "error",
+            title: "Oops...",
+            text: errMsg
+          });
         })
         .finally(() => {});
+    },
+    checkout() {
+      db.post(
+        "/cart/checkout/",{ address: this.address},
+        {
+          headers: {
+            access_token: this.$store.state.token
+          }
+        }
+      ).then(({ data }) => {
+          Swal.fire({
+            type: "success",
+            title: "Success",
+            text: "Checkout done!"
+          });
+          
+          this.getCart();          
+        })
+        .catch(err => {
+          let errMsg;
+          
+          if (err.response.data) {
+            errMsg = err.response.data.message.join("\n");
+          } else {
+            errMsg = "something wrong"
+          }
+          
+          Swal.fire({
+            type: "error",
+            title: "Oops...",
+            text: errMsg
+          });
+        });
     }
   },
   watch: {
@@ -175,7 +241,7 @@ export default {
     if (!this.$store.state.token) {
       this.$router.push("/login");
     }
-
+    this.address = "";
     this.getCart();
   }
 };

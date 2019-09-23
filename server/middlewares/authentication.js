@@ -8,7 +8,7 @@ function authentication(req, res, next) {
 
         req.decode = decode
         let _id = req.decode.id
-
+        
         User.findById(_id)
             .then(user => {
                 if (user) {

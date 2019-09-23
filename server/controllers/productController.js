@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const deleteFile = require('../helpers/deleteFileGcs');
 
 class ProductController {
     static findAll(req, res, next) {
@@ -37,6 +38,10 @@ class ProductController {
         
         if (req.file) {
             data.image = req.file.cloudStoragePublicUrl;
+            
+            let file = data.image.split('/')
+            let fileName = file[file.length - 1];
+            deleteFile(fileName)
         }
         
         Product.findByIdAndUpdate({ _id: req.params.id }, data, { omitUndefined: true, runValidators: true })
@@ -49,6 +54,11 @@ class ProductController {
     static delete(req, res, next) {
         Product.findByIdAndDelete(req.params.id)
             .then(data => {
+                let file = data.image.split('/')
+                let fileName = file[file.length - 1];
+
+                deleteFile(fileName)
+                
                 res.status(200).json({ message: 'successfully deleted', data });
             })
             .catch(next);

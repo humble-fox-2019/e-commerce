@@ -20,7 +20,7 @@
             </v-list-item-title>
 
             <p class="py-4 my-3 paragraf">{{description}}</p>
-
+<!-- 
             <v-list-item-title class="subtitle-1 pt-5">Detail:</v-list-item-title>
 
             <v-simple-table>
@@ -48,7 +48,7 @@
                   </tr>
                 </tbody>
               </template>
-            </v-simple-table>
+            </v-simple-table> -->
             <div class="py-5">
               <v-list-item-title class="d-flex justify-center" v-if="cekToken">
                 <v-btn color="primary" dark @click="addToCart()">

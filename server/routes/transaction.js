@@ -5,8 +5,8 @@ const { Authentication, AuthOwner, AuthAdmin } = require('../middlewares/authent
 router.use(Authentication);
 router.get('/', transaction.findAll);
 router.get('/admin', AuthAdmin, transaction.find);
-router.patch('/verified/:id', AuthAdmin, transaction.verified);
 router.patch('/pay/:id', AuthOwner, transaction.pay);
+router.patch('/verified/:id', AuthAdmin, transaction.verified);
 router.patch('/recieved/:id', AuthOwner, transaction.recieved);
 
 module.exports = router;

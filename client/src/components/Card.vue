@@ -24,7 +24,7 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-const url = `http://localhost:3000`;
+const url = `http://34.87.3.189`;
 export default {
   props: ["dog"],
   methods: {

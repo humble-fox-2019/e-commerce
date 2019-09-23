@@ -14,7 +14,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import Card from "../components/Card";
-const url = `http://localhost:3000`;
+const url = `http://34.87.3.189`;
 export default {
   data() {
     return {

@@ -4,9 +4,9 @@
     <Navbar></Navbar>
     <div class="content shadow-lg p-0 container">
       <div class="d-flex flex-column">
-        <!-- <div style="z-index: 10;position: relative">
+        <div style="z-index: 10;position: relative">
           <Ads></Ads>
-        </div>-->
+        </div>
       </div>
       <div style="z-index: 10;position: relative;top: 56px;" class="d-flex flex-column">
         <MainButton @gotodog="gotodog()" @gotocart="gotocart()" @gotoorder="gotoorder()"></MainButton>

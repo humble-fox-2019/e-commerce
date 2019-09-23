@@ -1,5 +1,4 @@
 module.exports = (err, req, res, next) => {
-  console.log(err)
   let status, errors
   if (err.name === 'JsonWebTokenError') {
     status = 400

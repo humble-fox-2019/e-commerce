@@ -18,7 +18,7 @@ export default {
     },
     computed : {
         getCartItems : function(){
-            this.productsInCart = this.$store.state.cartItems
+            this.productsInCart = this.$store.state.cart.items
         }
     },
     mounted : function(){

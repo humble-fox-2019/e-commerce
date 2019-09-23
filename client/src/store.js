@@ -14,7 +14,8 @@ export const store = new Vuex.Store({
   },
   mutations: {
     addItem (state, item) {
-      state.cartItems.push(item)
+      //state.cartItems.push(item)
+      state.cart.items.push(item)
     },
     setProductsMute (state, products) {
       state.products = products.products

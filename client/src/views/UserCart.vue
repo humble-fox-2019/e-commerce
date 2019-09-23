@@ -147,7 +147,7 @@ export default {
         }
       })
       .then(({data}) => {
-        console.log(data)
+        this.$router.push('/account/order')
       })
       .catch(err => {
         console.log(err.response.data)

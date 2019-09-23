@@ -17,7 +17,7 @@ class TransactionController {
           Transaction.create({
             product: carts[i].product._id,
             quantity: carts[i].quantity,
-            store: carts[i].store,
+            store: carts[i].product.store,
             user: req.decode.id
           })
         )
@@ -47,7 +47,8 @@ class TransactionController {
         .populate({
           path: 'product',
           populate: {
-            path: 'store'
+            path: 'store',
+            select: 'name city province'
           }
         })
         .then(transactions => {
@@ -56,12 +57,45 @@ class TransactionController {
         .catch(next)
     }else if(req.isStore) {
       Transaction.find({ store: req.decode.id })
-        .populate('user')
+        .populate('product')
+        .populate('user', 'name email')
         .then(transactions => {
             res.json(transactions)
           })
           .catch(next)
     }
+  }
+
+  static confirm(req, res, next) {
+    Transaction.findByIdAndUpdate(req.params.id, {
+      $set: {
+        status: 1
+      }
+    }, {
+      new: true,
+      useFindAndModify: false
+    })
+    .then(transaction => {
+      res.json({
+        message: 'Update status success'
+      })
+    })
+  }
+
+  static completed(req, res, next) {
+    Transaction.findByIdAndUpdate(req.params.id, {
+      $set: {
+        status: 2
+      }
+    }, {
+      new: true,
+      useFindAndModify: false
+    })
+    .then(transaction => {
+      res.json({
+        message: 'Update status success'
+      })
+    })
   }
 
 }

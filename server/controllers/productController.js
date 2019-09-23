@@ -123,6 +123,18 @@ class ProductController {
 
     }
 
+    static search(req, res, next) {
+        let name = req.query.name
+        let regex = new RegExp(name,'i')
+        Product.find({ name: regex }).limit(10)
+            .then(products => {
+                res.json({
+                    products
+                })
+            })
+            .catch(next)
+    }
+
 
 
 

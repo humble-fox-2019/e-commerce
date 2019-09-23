@@ -6,6 +6,7 @@ const productAuthorization = require('../middleware/productAuthorization')
 
 router.post('/', storeAuthentication, imageUploader.multer.single('image'), imageUploader.sendUploadToGCS, productController.create)
 router.get('/', productController.getAll)
+router.get('/search', productController.search)
 router.get('/featured', productController.getFeatured)
 router.get('/myproduct', storeAuthentication, productController.getMyProduct)
 router.get('/:id', productController.getOne)

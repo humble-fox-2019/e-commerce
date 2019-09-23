@@ -4,7 +4,7 @@ const { Transaction } = require('../models')
 
 module.exports = {
   admin: function (req, res, next) {
-    if (req.decoded.email === 'admin@e-commerce.com') {
+    if (req.decoded.email === 'admin@gamestop.com') {
       next()
     } else {
       console.log('Authorization failed')

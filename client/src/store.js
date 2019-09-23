@@ -10,7 +10,7 @@ Vue.use(Vuex)
 // Simple store to hold user data outside component scope
 export default new Vuex.Store({
   state: {
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://35.246.212.37',
     email: '',
     id: '',
     isAdmin: false,

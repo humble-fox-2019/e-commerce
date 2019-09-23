@@ -51,7 +51,7 @@ import axios from 'axios'
 export default {
     created (){
         axios({
-        url: `http://localhost:3000/transaction/user`,
+        url: `http://34.87.84.241/transaction/user`,
         method: "GET",
         headers: {
           token: localStorage.getItem("token")
@@ -75,7 +75,7 @@ export default {
   methods : {
     konfirmasiPembayaran (id){
       axios({
-        url: `http://localhost:3000/transaction/${id}/user`,
+        url: `http://34.87.84.241/transaction/${id}/user`,
         method: "PATCH",
         headers: {
           token: localStorage.getItem("token")
@@ -96,7 +96,7 @@ export default {
     detailtrx (id) {
       
        axios({
-      url: `http://localhost:3000/transaction/${id}/detail`,
+      url: `http://34.87.84.241/transaction/${id}/detail`,
       method: "GET",
       headers: {
         token: localStorage.getItem("token")

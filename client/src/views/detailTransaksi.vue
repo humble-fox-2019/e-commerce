@@ -30,7 +30,7 @@ export default {
   methods : {
     fetchData (){
       axios({
-      url: `http://localhost:3000/transaction/${this.$route.params.id}/detail`,
+      url: `http://34.87.84.241/transaction/${this.$route.params.id}/detail`,
       method: "GET",
       headers: {
         token: localStorage.getItem("token")

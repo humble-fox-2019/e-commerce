@@ -42,7 +42,7 @@ export default {
     };
   },
   created (){
-      axios.get(`http://localhost:3000/product/${this.$route.params.id}`,{
+      axios.get(`http://34.87.84.241/product/${this.$route.params.id}`,{
         headers : {
           token : localStorage.getItem('token')
         }
@@ -72,7 +72,7 @@ export default {
       },
       addToCart (){
           axios({
-              url : 'http://localhost:3000/cart',
+              url : 'http://34.87.84.241/cart',
               method : 'POST',  
               headers : {
                   token : localStorage.getItem('token')

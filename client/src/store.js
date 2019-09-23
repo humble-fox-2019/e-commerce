@@ -66,7 +66,7 @@ const store = new Vuex.Store({
     },
     actions : {
         getData ({commit , state}){
-            axios.get('http://localhost:3000/')
+            axios.get('http://34.87.84.241/')
             .then(({data})=>{
                 commit('change' ,  data)
             })
@@ -77,7 +77,7 @@ const store = new Vuex.Store({
         Login ({commit , state}){
             return new Promise((resolve,reject)=>{
                 let { email , password}  = state
-                axios.post('http://localhost:3000/user/login',{
+                axios.post('http://34.87.84.241/user/login',{
                     email , password
                 })
                 .then(({data})=>{
@@ -106,7 +106,7 @@ const store = new Vuex.Store({
         Register ({commit ,  state}){
             return new Promise((resolve,reject)=>{
                 let {  username ,email , password} = state
-                axios.post('http://localhost:3000/user/register',{
+                axios.post('http://34.87.84.241/user/register',{
                     email , password , username
                 })
                 .then(({data})=>{
@@ -121,7 +121,7 @@ const store = new Vuex.Store({
         },
         GetCart ({commit ,  state}){
             axios({
-                url : 'http://localhost:3000/cart',
+                url : 'http://34.87.84.241/cart',
                 method : 'GET',  
                 headers : {
                     token : localStorage.getItem('token')
@@ -136,7 +136,7 @@ const store = new Vuex.Store({
         },
         checkAdminOrUser ({ commit ,  state }){
             axios({
-                url : 'http://localhost:3000/user/checkadmin',
+                url : 'http://34.87.84.241/user/checkadmin',
                 method : 'POST',
                 headers : {
                     token : localStorage.getItem('token')

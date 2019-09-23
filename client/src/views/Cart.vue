@@ -115,7 +115,7 @@ export default {
     },
     editQtyClick (id){
       axios({
-            url: `http://localhost:3000/cart/${id}`,
+            url: `http://34.87.84.241/cart/${id}`,
             method: "PATCH",
             headers: {
               token: localStorage.getItem("token")
@@ -157,7 +157,7 @@ export default {
       }).then((result) => {
         if (result.value) {
           axios({
-            url: `http://localhost:3000/cart/${id}`,
+            url: `http://34.87.84.241/cart/${id}`,
             method: "DELETE",
             headers: {
               token: localStorage.getItem("token")
@@ -190,7 +190,7 @@ export default {
       }).then((result) => {
         if (result.value) {
            axios({
-            url: `http://localhost:3000/cart/checkout`,
+            url: `http://34.87.84.241/cart/checkout`,
             method: "POST",
             headers: {
               token: localStorage.getItem("token")

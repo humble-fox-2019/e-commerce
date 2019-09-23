@@ -59,7 +59,7 @@ export default {
       this.$router.push({ path: "/" });
     }
     axios({
-      url: "http://localhost:3000/transaction",
+      url: "http://34.87.84.241/transaction",
       method: "GET",
       headers: {
         token: localStorage.getItem("token")
@@ -81,7 +81,7 @@ export default {
   methods: {
     konfirmasiPembayaran(id) {
       axios({
-        url: `http://localhost:3000/transaction/${id}/admin`,
+        url: `http://34.87.84.241/transaction/${id}/admin`,
         method: "PATCH",
         headers: {
           token: localStorage.getItem("token")

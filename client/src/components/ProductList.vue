@@ -65,7 +65,7 @@ export default {
     }
     this.loading()
     axios
-      .get("http://localhost:3000/product",{
+      .get("http://34.87.84.241/product",{
         headers : {
           token : localStorage.getItem('token')
         }

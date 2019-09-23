@@ -62,8 +62,8 @@
           <div class="col-md-12 mb-4"></div>
           <div class="form-group">
             <p class="text-center">
-              Don't have account?
-              <a href="#" id="signup">Sign up here</a>
+              have account?
+              <a href="#" id="signup" @click="pindahKELogin">Sign In here</a>
             </p>
           </div>
         </form>
@@ -89,6 +89,9 @@ export default {
     }
   },
   methods: {
+    pindahKELogin(){
+      this.$router.push({ path : "/login" })
+    },
     RegisterUser() {
       let { email, password, username } = this;
       this.$store.commit("REGISTER", { email, password, username });

@@ -109,7 +109,7 @@ export default {
   methods: {
     fetchData (){
        axios
-      .get("http://localhost:3000/product",{
+      .get("http://34.87.84.241/product",{
         headers : {
           token : localStorage.getItem('token')
         }
@@ -136,7 +136,7 @@ export default {
       console.log(bodyFormData)
       axios({
         method : 'POST',
-        url : 'http://localhost:3000/product',
+        url : 'http://34.87.84.241/product',
         data : bodyFormData,
         headers : {
           token : localStorage.getItem('token')
@@ -169,7 +169,7 @@ export default {
         if (result.value) {
           axios({
           method : 'DELETE',
-          url : `http://localhost:3000/product/${id}`,
+          url : `http://34.87.84.241/product/${id}`,
           headers : {
             token : localStorage.getItem('token')
             }

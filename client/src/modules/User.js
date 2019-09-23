@@ -27,7 +27,19 @@ export default {
     },
     actions: {
         register({ state, commit }) {
-
+            axios.post('/users/', {
+                data: {
+                    username: state.form.username,
+                    email: state.form.email,
+                    password: state.form.password
+                }
+            }).then((newUser) => {
+                localStorage.setItem('token', newUser.token)
+                localStorage.setItem('username', newUser.username)
+                localStorage.setItem('email', newUser.email)
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     },
     getters: {

@@ -3,6 +3,7 @@ const productModel = require('../model/product')
 class ProductController {
 
     static create(req, res, next) {
+        console.log('berhasil masuk ke bagian create')
         let obj = {
             productName: req.body.productName,
             description: req.body.description,
@@ -43,9 +44,20 @@ class ProductController {
             .catch(next)
     }
     static delete(req, res, next) {
+
+        // console.log(data, '<<< CEK ISINYA APA ')
+        // console.log(req.params.id)
+
         productModel.deleteOne({
-            _id: req.params._id
-        })
+                _id: req.params.id
+            })
+            .then(data => {
+                console.log(data, '<<< BERHASIL DI DELETE DATANYA DI SERVER DELETE PRODUCTS ')
+                console.log('berhasil datanya di delete di data')
+            })
+            .catch(err => {
+                console.log('sorry bro datanya error ada di server delete product')
+            })
     }
 
     static update(req, res, next) {

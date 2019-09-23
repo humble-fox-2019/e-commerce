@@ -36,7 +36,7 @@ export default {
       })
         .then(({ data }) => {
           this.products = data.data;
-          console.log(this.products, ",<<<< ini datanya masuk ");
+          // console.log(data.data[0].image_url, ",<<<< ini datanya masuk ");
         })
         .catch(err => {
           console.log(err, "<<< INI ERRORNYA");
@@ -45,7 +45,7 @@ export default {
   },
   created() {
     this.getall();
-    console.log(this.data);
+    // console.log(this.data);
     // console.log(this.products, "<<<< MASUK PRODUCTSNYA ");
   }
 };

@@ -40,6 +40,24 @@ class ProductController {
 				next(err);
 			});
 	}
+	static updatePut(req, res, next) {
+		const { productName, image, category, price, stock, description } = req.body;
+		Product.findOneAndUpdate({
+			_id: req.params.id,},
+			{
+			productName, 
+			image, 
+			category, 
+			price, 
+			stock, 
+			description
+		}).then(data => {
+			res.status(200).json({
+				message : 'Success Update'
+			})
+		})
+		.catch(next)
+	}
 	static getOne(req, res, next) {
 		let { id } = req.params;
 		Product.findById(id)

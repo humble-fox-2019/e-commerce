@@ -20,7 +20,9 @@
 
 <script>
 import axios from 'axios'
-const baseUrl = 'http://localhost:3000'
+
+const baseUrl = 'http://35.247.148.217'
+// const baseUrl = 'http://localhost:3000'
 
 export default {
   data () {

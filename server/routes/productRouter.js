@@ -13,7 +13,8 @@ router.post(
 	images.multer.single('image'),
 	images.sendUploadToGCS,
 	ProductController.create
-);
-router.delete('/:id', authentication, authorizeAdmin, ProductController.destroy);
+)
+router.delete('/:id', authentication, authorizeAdmin, ProductController.destroy)
+router.put('/:id', authentication, authentication, ProductController.updatePut)
 
 module.exports = router;

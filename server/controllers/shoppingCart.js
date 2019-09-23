@@ -3,8 +3,8 @@ const { verifyToken } = require('../helpers/jwt')
 
 class shoppingCartController {
     static create(req,res,next){
-        const decode = verifyToken(req.headers.token)
-        req.decode = decode
+        /* const decode = verifyToken(req.headers.token)
+        req.decode = decode */
         ShoppingCart.create({
             items : [],
             owner : req.decode.id
@@ -18,8 +18,8 @@ class shoppingCartController {
     }
 
     static addItem(req,res,next){
-        const decode = verifyToken(req.headers.token)
-        req.decode = decode
+        /* const decode = verifyToken(req.headers.token)
+        req.decode = decode */
         ShoppingCart.findOne({ owner : req.decode.id })
         .then((shoppingCart) =>{
             if (shoppingCart){
@@ -35,8 +35,8 @@ class shoppingCartController {
     }
 
     static find(req,res,next){
-        const decode = verifyToken(req.headers.token)
-        req.decode = decode
+        /* const decode = verifyToken(req.headers.token)
+        req.decode = decode */
         ShoppingCart.findOne({ owner : req.decode.id })
         .then((shoppingCart) =>{
             if (shoppingCart){
@@ -54,8 +54,8 @@ class shoppingCartController {
     }
 
     static delete(req,res,next){
-        const decode = verifyToken(req.headers.token)
-        req.decode = decode
+        /* const decode = verifyToken(req.headers.token)
+        req.decode = decode */
         ShoppingCart.findOneAndDelete({ owner : req.decode.id })
         .then(() =>{
             res.status(200).json({

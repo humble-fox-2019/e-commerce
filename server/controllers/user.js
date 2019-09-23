@@ -16,6 +16,7 @@ class UserController {
             }
             const token = generateToken(payload)
             res.status(200).json({
+                userId : user._id,
                 token
             })
         })
@@ -32,25 +33,15 @@ class UserController {
     }
 
     static login(req,res,next){
-        User.findOne({ email : req.body.email }).then((user)=>{
-            if (user){
-                console.log(user._id)
-                const payload = {
-                    id : user._id,
-                    email : user.email
-                }
-                const token = generateToken(payload)
-                res.status(200).json({
-                    token
-                })
-            } else {
-                next({
-                    status:404, 
-                    message: "User not found"
-                })
-            }
+        const payload = {
+            id : req.user._id,
+            email : req.user.email
+        }
+        const token = generateToken(payload)
+        res.status(200).json({
+            userId : req.user._id,
+            token
         })
-        .catch (next)
     }
 
     static patch(req,res,next){

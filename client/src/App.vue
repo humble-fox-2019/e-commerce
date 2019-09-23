@@ -27,8 +27,7 @@ export default {
     methods : {
       logout : function () {
         console.log('wow')
-        this.$store.commit('logout')
-        localStorage.clear('token')
+        this.$store.dispatch('logout')
       }
     }
 }

@@ -2,11 +2,7 @@ const bcrypt = require ('bcryptjs')
 
 function hashPassword (password) {
     const salt = bcrypt.genSaltSync(10)
-    bcrypt.hash(password, salt).then((hash) =>{
-        return hash
-    }).catch ((err)=>{
-        console.log(err)
-    })
+    return bcrypt.hashSync(password, salt)
 }
 
 function compareHash (password, hash) {

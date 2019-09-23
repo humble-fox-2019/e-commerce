@@ -1,10 +1,11 @@
 const User = require('../models/user')
 const { compareHash } = require ('../helpers/bcrypt')
 
-function authentication () {
+function authentication (req,res,next) {
     User.findOne({ email : req.body.email })
     .then((user)=>{
         if (user){
+            req.user = user
             if (compareHash(req.body.password,user.password)){
                 next()
             } else {

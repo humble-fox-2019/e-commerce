@@ -9,7 +9,8 @@ export const store = new Vuex.Store({
   state: {
     isLoggedIn : false,
     cartItems : [],
-    products : []
+    products : [],
+    cart : ""
   },
   mutations: {
     addItem (state, item) {
@@ -24,7 +25,12 @@ export const store = new Vuex.Store({
     },
     logout (state) {
       state.isLoggedIn = false
+      localStorage.clear('token')
       console.log(`logged in = ${state.isLoggedIn}`)
+    },
+    initializeCart (state, newCart) {
+      state.cart = newCart
+      console.log(state.cart)
     }
   },
   actions: {
@@ -55,6 +61,7 @@ export const store = new Vuex.Store({
       .then(({ data })=>{
         localStorage.setItem('token', data.token)
         context.commit('login')
+        context.dispatch('createCart')
       })
       .catch ((err)=>{
         console.log(err)
@@ -73,10 +80,39 @@ export const store = new Vuex.Store({
       .then(({ data })=>{
         localStorage.setItem('token', data.token)
         context.commit('login')
+        context.dispatch('createCart')
       })
       .catch ((err)=>{
         console.log(err)
       }) 
+    },
+    createCart (context){
+      axios({
+        method : 'POST',
+        url : 'http://localhost:3000/cart',
+        headers : {token : localStorage.getItem('token')}
+      })
+      .then(({ data }) =>{
+        context.commit('initializeCart', data.shoppingCart)
+      })
+      .catch ((err)=>{
+        console.log(err)
+      })
+    },
+    //logout aka removeCart
+    logout (context){
+      axios({
+        method : 'DELETE',
+        url : 'http://localhost:3000/cart',
+        headers : { token : localStorage.getItem('token')}
+      })
+      .then(({ data })=>{
+        console.log(data.message)
+        context.commit('logout')
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
     }
   }
 })

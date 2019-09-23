@@ -21,6 +21,9 @@ http://api.grabah.guntoroyk.site
   * [Find One](#find-one)
   * [Update](#update)
   * [Delete](#delete)
+* [Transaction](#transaction)
+  * [Find](#find)
+  * [Pay](#pay)
 * [Another Error](#another-error)
 
 
@@ -148,7 +151,7 @@ http://api.grabah.guntoroyk.site
 
      ```javascript
      {
-         message: 'Added to cart'
+        'Added to cart'
      }
      ```
 
@@ -257,7 +260,7 @@ http://api.grabah.guntoroyk.site
 
     ```javascript
     {
-        message: 'Success checkout.'
+        'Success checkout.'
     }
     ```
 
@@ -320,7 +323,7 @@ http://api.grabah.guntoroyk.site
 
     ```javascript
     {
-        message: 'Cart deleted'
+        'Cart deleted'
     }
     ```
 
@@ -560,7 +563,7 @@ http://api.grabah.guntoroyk.site
 
     ```javascript
     {
-      message: 'Product updated'
+      'Product updated'
     }
     ```
 
@@ -635,7 +638,7 @@ http://api.grabah.guntoroyk.site
 
     ```javascript
     {
-      	message: "Product deleted"
+      	"Product deleted"
     }
     ```
     
@@ -669,7 +672,125 @@ http://api.grabah.guntoroyk.site
         ]
     }
     ```
+    
+## Transaction
+
++ ### Find
+
+  Method : `GET`<br>Endpoint: `/transactions`
+
+  ### _Request_ :
+
+  - headers:
+
+    ```javascript
+    {
+        name: "{your token}"
+    }
+    ```
+
+  ###  _Response_ :
+
+  - 200 (OK)
+
+    ```javascript
+    [
+      {
+        "status": "paid",
+        "_id": "5d878824105dc813f126ffe5",
+        "UserId": {
+            "image": "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914__340.png",
+            "role": "customer",
+            "_id": "5d877e01105dc813f126ffd7",
+            "name": "Guntoro Yudhy",
+            "email": "guntoro.gyk@gmail.com",
+            "password": "$2a$10$Gpdqp3OdxayT0COIn5VBfuoQXgRn1CGZ.rI2aRmpOLtMDTPMmZlRy",
+            "cart": [
+                {
+                    "count": 4,
+                    "_id": "5d87ce9dd3d9e3233efb68fa",
+                    "ProductId": "5d8785a3105dc813f126ffdf"
+                }
+            ],
+            "createdAt": "2019-09-22T13:58:25.944Z",
+            "updatedAt": "2019-09-22T19:42:21.938Z",
+            "__v": 0
+        },
+        "products": [
+            {
+                "count": 3,
+                "_id": "5d87880d105dc813f126ffe3",
+                "ProductId": {
+                    "image": "https://storage.googleapis.com/e-commerce-igun/1569162087394gerabah-5.jpeg",
+                    "_id": "5d878367105dc813f126ffdd",
+                    "name": "Gerabah 5",
+                    "description": "keren bangetttt",
+                    "price": 101000,
+                    "stock": 61,
+                    "createdAt": "2019-09-22T14:21:27.939Z",
+                    "updatedAt": "2019-09-23T02:17:28.178Z",
+                    "__v": 0
+                }
+            },
+            {
+                "count": 4,
+                "_id": "5d87881b105dc813f126ffe4",
+                "ProductId": {
+                    "image": "https://storage.googleapis.com/e-commerce-igun/1569162658927gerabah-1.jpeg",
+                    "_id": "5d8785a3105dc813f126ffdf",
+                    "name": "Gerabah 1",
+                    "description": "cocok buat kamu",
+                    "price": 25000,
+                    "stock": 21,
+                    "createdAt": "2019-09-22T14:30:59.313Z",
+                    "updatedAt": "2019-09-22T19:43:24.065Z",
+                    "__v": 0
+                }
+            }
+        ],
+        "total": 403000,
+        "createdAt": "2019-09-22T14:41:40.449Z",
+        "updatedAt": "2019-09-22T14:41:53.323Z",
+        "__v": 0
+      }
+    ]
+    ```
+
+  - 403 (Not Authenticated)
   
+    ```javascript
+    {
+        errors: [
+            "You must login first"
+        ]
+    }
+    ```
+
++ ### Pay
+
+  Method : `GET`<br>Endpoint: `/:id/pay`
+
+  ### _Request_ :
+
+  - headers:
+
+    ```javascript
+    {
+        name: "{your token}"
+    }
+    ```
+
+  ###  _Response_ :
+
+  - 200 (OK)
+
+    ```javascript
+    {
+       'Pay success!' 
+    }
+    ```
+
+
   
 ## Another Error
 

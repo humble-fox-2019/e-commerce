@@ -18,9 +18,9 @@ class ProductController {
 				});
 			})
 			.catch((err) => {
-				res.status(400).json({
-					message: err
-				});
+				// res.status(400).json({
+				// 	message: err
+				// });
 				next({
 					status: 400,
 					err: err
@@ -66,10 +66,7 @@ class ProductController {
 					data
 				});
 			})
-			.catch((err) => {
-				res.status(404);
-				next(err);
-			});
+			.catch((next));
 	}
 	static getCategory(req, res, next) {
 		const { category } = req.body;

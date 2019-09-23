@@ -5,6 +5,7 @@ const authorizeAdmin = require('../middlewares/authorizeAdmin');
 const images = require('../helpers/images');
 
 router.get('/', ProductController.getAll);
+router.get('/:id', )
 router.post('/category', ProductController.getCategory);
 router.post(
 	'/create',

@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "bubbly-yeti-252603",
+    "private_key_id": "756b046fc813dd1efaebf907198b97192354f31f",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC9oK9SWI5MhKqf\nZMzlFHFZsc9Btq3j9nFMTH5RyKSCxsQrKISKNH2afCl1OkebZ3xMgFnPe4xDc5fC\nZN2Jbi4U1QEWcRdtf9Sx9p/aXur2JjcG0T2JdGXfM4yrUdr51HX5+3qDXLGioUPd\nbCq11yo3KD/lo9spICYAFP+NXNRKd/4+z2wha2/2IxrqAKPGL1xWk6gWMlLKCUsz\nnwLNMzTlK9zWtFkEQQXfSjM4dvpTUxd0+8NHgrBDNd/VaX7A/Zulv/yaKbydW/CS\n/NgY9fJgfOGJVCHTcOxKKqM/h5++z9ufVhx9gDYHv35P2gYNLzvo0Fn/PxuWv8N1\nf3XwNZUpAgMBAAECggEAUqJGJF1AzWl2rPURMLai2pJYnetMha2sG7KtzVfhELgr\nXh9O+qb7ISoAKvyVncwP54p7GKZfLjmeJXEs9SmVXTChQ7VOn0H4XwD5EgEQ5Oks\nS4U9Crw1dHmTUEjgYsRKEQCcl8f6BMO/virXxdwYomagyaKI67f9t0VvQ5vzSuuV\nLqkyKwraJ0aaUtSNdq9z/WrV+C7dpJaiTRU5iJwY9THzShDOm1nRKpuB79D8tUef\nn+qRHOESyI6sp1lhmnRv7j/2AzndWcvArflHL1WSupvqxRIg15yQ2FsiHzUOZca8\n62KMuR18u7tmGrOOX0EP0N9j6OKqgMCY4VM8XXmZ7QKBgQDkym+Y0Uv4MUwVz9vB\nxFNIi/ZaF44K1NjoLI2A4H4Yijrx2DyWE+8VIQ+pQJElrxQA8QzSF6/7KlUQ/Gii\nA/0Y4k3ybRqu1jX9qaoo4U5x0GiX44UP3hIPSvC4I0UtaALlXxSXgMaXB6GMHg6y\nnuBEQTajbM+y8tz0vyE8Ol/A3wKBgQDULexz30kBOqnhnn9FrLrzHDku89nFLetG\nsfzAJQEJ8yGIpqN/0M7kfFHuCdXQ//ZLAMx8EciLnZWnHEk8uaYtmaprmltSjU/u\nd8Ax6h5mFz125cay2pUwen0wLJcWWmBCaojRPwCUp3Z75aPW2jGuhNGUATcBIVpO\n+j3eWAdC9wKBgE6YxLGo5QJEXTD5ETOFsF6xxlW41dEewc0w0QO/G1Ju2kUO1fFw\ns6d8jhbE2ZgqhyKzrIXYIVqVdle5fnB6Ek6kH8byeEIr0Kxtxsj4baxnvia/wIxs\n66NZSUzYwQESRDxr53UMhiyIMJUkFkSCk+Seyphl3wxIpmNl7ZL1MsPdAoGBAIO4\nQrsoWZz+uynKiH5Lnf+AfOtuDLpBKHdJ1Xu/PSbdHetEb+nQSjBEEWSyDF/kFxU2\n2LsJGzO5T4dfowOkyMo0RDzqpVjZS07iXpleGyMLuGeQe8rasZVX5VG7zMverTVu\nB6PG9ehTEdYWmKCv8fnCkIzOOERmXTb8WN4oTdG/AoGBALmgpALh38Hopu/qHFmI\nuV9SBcB8bD2P6rwyX0JNIWTBDzJcNvXLNmL2Os+1ed1Y/a6Nmon1weTnyxHCAFTx\ntoISrHOa3FHiEEPkAdmVDnSFoDZ8Y2XcECwnuZfvikW8jUMQ4CBFJjX9pYOC1xjg\nGpTHYM5fbMZvzW4arvfIJQzj\n-----END PRIVATE KEY-----\n",
+    "client_email": "owner-98@bubbly-yeti-252603.iam.gserviceaccount.com",
+    "client_id": "115974198652772291337",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/owner-98%40bubbly-yeti-252603.iam.gserviceaccount.com"
+}

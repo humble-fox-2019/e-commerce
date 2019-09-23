@@ -28,7 +28,7 @@
 <script>
 import Axios from "axios";
 import Swal from "sweetalert2";
-let baseUrl = "http://localhost:3000";
+let baseUrl = "http://35.247.184.198";
 
 export default {
   data: function() {

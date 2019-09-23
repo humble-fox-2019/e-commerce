@@ -23,7 +23,7 @@
           <v-icon>mdi-login</v-icon>Login
         </v-btn>
 
-        <v-menu offset-y v-if="$store.state.login">
+        <v-menu offset-y v-if="$store.state.User.login">
           <template v-slot:activator="{on}">
             <v-btn outlined v-on="on" :class="{'mr-4': $store.state.admin}">
               <v-img :src="$store.getters.gravatar" width="20px" alt="profile image" class="mr-2"></v-img>
@@ -37,7 +37,7 @@
           </v-list>
         </v-menu>
 
-        <v-menu offset-y v-if="$store.state.admin">
+        <v-menu offset-y v-if="$store.state.User.admin">
           <template v-slot:activator="{on}">
             <v-btn outlined v-on="on">
               <v-icon>mdi-account-supervisor</v-icon>Admin

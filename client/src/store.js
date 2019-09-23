@@ -2,11 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import md5 from 'md5'
 import axios from './config/axios'
+import Cart from './modules/Cart'
+import User from './modules/User'
 
 Vue.use(Vuex)
 
 const localhost = "http://localhost:3000"
 const store = new Vuex.Store({
+  modules: {
+    Cart, User
+  },
   state: {
     products: [],
     admin: true,
@@ -32,11 +37,8 @@ const store = new Vuex.Store({
       state.login = true;
       state.username = payload.username;
       state.userEmail = payload.email;
-    },
-    refreshCart(state, payload) {
-      state.cart = []
-      payload.forEach(el => state.card.push(el))
     }
+
   },
   actions: {
     getProducts({ commit }) {
@@ -47,20 +49,7 @@ const store = new Vuex.Store({
           console.log(err)
         });
     },
-    getCart({ commit }) {
-      axios.get(localhost + '/carts')
-        .then(({ data }) => {
-          commit('refreshCart', data)
-        }).catch(err => {
-          console.log(err);
-        });
-    },
-    modifyCart({ commit }) {
-      axios.put(localhost + '/carts')
-        .then(({ data }) => {
-          commit('refreshCart', data)
-        }).catch(err => console.log(err));
-    }
+
   },
   getters: {
     gravatar() {

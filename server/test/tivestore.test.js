@@ -6,12 +6,15 @@ const chaiHttp = require('chai-http');
 const app = require('../app');
 const User = require("../models/user");
 const Product = require("../models/product");
+const Cart = require("../models/cart");
 
 chai.use(chaiHttp);
 let expect = chai.expect;
 
 let customerToken = '';
 let adminToken = '';
+
+let dataAdmin = '';
 
 describe('Authentication', function () {
     before(function (done) {
@@ -24,6 +27,7 @@ describe('Authentication', function () {
 
             User.create({ name, email, password, role })
                 .then(result => {
+                    dataAdmin = result;
                     done();
                 });
         });
@@ -357,7 +361,7 @@ describe('Cart', function () {
                 .set('access_token', customerToken)
                 .send({ productid: product1, qty: 4 })
                 .end(function (err, res) {
-                    expect(res.body.message).to.equal('The Product already in cart');
+                    expect(res.body.message[0]).to.equal('The Product already in cart');
                     expect(res).have.status(400);
                     done();
                 });
@@ -412,37 +416,68 @@ describe('Cart', function () {
     });
 
     describe('Checkout', function () {
-        it('Checkout without error', function (done) {
+        it('Reqiured validation', function (done) {
+            Cart.create({ productid: product2, userid: dataAdmin._id, qty: 2 })
+                .then(result => {
+                    // console.log(result);
+                });
+            
             chai.request(app)
-                .post('/checkout')
-                .set('access_token', customerToken)
+                .post('/cart/checkout')
+                .set('access_token', adminToken)
+                .send({ address: '' })
                 .end(function (err, res) {
-                    expect(res.body.message).to.equal('Checkout successfull');
+                    expect(res.body.message[0]).to.equal('address is required');
+                    expect(res).have.status(400);
+                    done();
+                });
+        });
+        
+        it('Checkout without error', function (done) {
+            Cart.create({ productid: product1, userid: dataAdmin._id, qty: 2 })
+                .then(result => {
+                    // console.log(result);
+                });
+            
+            chai.request(app)
+                .post('/cart/checkout')
+                .set('access_token', adminToken)
+                .send({ address: 'jln imogiri' })                
+                .end(function (err, res) {
+                    expect(res.body.message).to.equal('successfully checkout');
                     expect(res).have.status(200);
+                    done();
+                });
+        });
+        
+        it('Error stock not enought', function (done) {
+            Cart.create({ productid: product3, userid: dataAdmin._id, qty: 20 })
+                .then(result => {
+                    // console.log(result);
+                });
+            
+            chai.request(app)
+                .post('/cart/checkout')
+                .set('access_token', adminToken)
+                .send({ address: 'jln imogiri' })                
+                .end(function (err, res) {
+                    console.log(res.body.message[0]);
+                    expect(res.body.message[0]).to.equal('stock addidas New luxury not enought');
+                    expect(res).have.status(400);
                     done();
                 });
         });
 
         it('Error cart empty', function (done) {
             chai.request(app)
-                .post('/checkout')
+                .post('/cart/checkout')
                 .set('access_token', customerToken)
+                .send({ address: 'jln imogiri'})
                 .end(function (err, res) {
-                    expect(res.body.message[0]).to.equal('Cart empty');
+                    expect(res.body.message[0]).to.equal('please add products to cart first');
                     expect(res).have.status(404);
                     done();
                 });
         });
-
-        // it('Error less quantity', function (done) {
-        //     chai.request(app)
-        //         .post('/checkout')
-        //         .set('access_token', customerToken)
-        //         .end(function (err, res) {
-        //             expect(res.body.message).to.equal('Checkout successfull');
-        //             expect(res).have.status(200);
-        //             done();
-        //         });
-        // });
     });
 });

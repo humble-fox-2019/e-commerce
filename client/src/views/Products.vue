@@ -1,7 +1,7 @@
 <template>
     <ol>
-        
         <Product v-for="(product,i) in products" :key="i" :product="product"/>
+        <router-view/>
     </ol>
 </template>
 
@@ -16,7 +16,8 @@ export default {
     data : function(){
         return {
             productsDummy : ['susu','sandal','tempe','minyak wangi'],
-            products : []
+            products : [],
+            showRoute : false
         }
     },
     computed : {

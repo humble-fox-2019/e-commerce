@@ -37,11 +37,18 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Products.vue'),
       children : [
           {
-            path: 'product/:id',
+            path: ':id',
             name: 'product',
-            component: () => import(/* webpackChunkName: "about" */ './views/ProductDetails.vue')
+            component: () => import(/* webpackChunkName: "about" */ './views/ProductDetails.vue'),
+            props : true
           }
       ]
+    },
+    ,
+    {
+      path: '/shopping-cart',
+      name: 'cart',
+      component: () => import(/* webpackChunkName: "about" */ './views/ShoppingCart.vue')
     }
   ]
 })

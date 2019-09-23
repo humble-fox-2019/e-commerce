@@ -1,9 +1,8 @@
 <template>
     <li>
         {{product.name}}
-        <input type="button" @click="goToProductPage(product)" value="Product page"/>
+        <input type="button" @click="goToProductPage(product._id)" value="Product page"/>
         <input type="button" @click="addItemToCart(product)" value="Add to Cart"/>
-         <router-view></router-view>
     </li>
 </template>
 
@@ -15,8 +14,8 @@ export default {
         product : Object
     },
     methods : {
-        goToProductPage : function (product) {
-            let id = product._id
+        goToProductPage : function (prodId) {
+            let id = prodId
             this.$router.push({ name: 'product', params: { id } })
         },
         addItemToCart : function (product) {

@@ -1,6 +1,6 @@
 <template>
     <ol>
-        <Product v-for="(product,i) in productsInCart" :key="i" :product="product"/>
+        <li v-for="(product,i) in productsInCart" :key="i" :product="product">{{product.name}}</li>
     </ol>
 </template>
 
@@ -12,8 +12,17 @@ export default {
     },
     data : function(){
         return {
-            productsInCart : ['susu','sandal','tempe','minyak wangi']
+            productsInCart : [],
+            productsInCartDummy : ['susu','sandal','tempe','minyak wangi']
         }
+    },
+    computed : {
+        getCartItems : function(){
+            this.productsInCart = this.$store.state.cartItems
+        }
+    },
+    mounted : function(){
+        this.getCartItems
     }
 }
 </script>

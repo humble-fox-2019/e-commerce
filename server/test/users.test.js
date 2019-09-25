@@ -40,7 +40,7 @@ describe('User', function () {
             expect(res.body).to.be.an('array')
             expect(res.body).to.have.lengthOf(3)
             expect(res.body[0]).to.be.equal('Name is required')
-            expect(res.body[1]).to.be.equal('Email is required')
+            expect(res.body[1]).to.be.equal('E-mail is required')
             expect(res.body[2]).to.be.equal('Password is required')
             done()
           }
@@ -56,10 +56,8 @@ describe('User', function () {
             done(err)
           } else {
             expect(res.body).to.be.an('array')
-            expect(res.body).to.have.lengthOf(3)
+            expect(res.body).to.have.lengthOf(1)
             expect(res.body[0]).to.be.equal('Name is required')
-            expect(res.body[1]).to.be.equal('Email is required')
-            expect(res.body[2]).to.be.equal('Password is required')
             done()
           }
         })

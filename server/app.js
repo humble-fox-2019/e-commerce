@@ -13,7 +13,7 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use("/",routes);
-mongoose.connect('mongodb://localhost:27017/e-commerce',{useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify:false})
+mongoose.connect(process.env.ATLAS_CONNECT,{useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify:false})
 .then(data => {
     console.log('success connect')
 }).catch(err => {

@@ -6,14 +6,16 @@ class ProductController {
         let {
             name,
             price,
-            stock
+            stock,
+            description
         } = req.body
         let image = req.file.cloudStoragePublicUrl
         Product.create({
             name,
             price,
             image,
-            stock
+            stock,
+            description
         }).then(data => {
             res.status(201).json({
                 data

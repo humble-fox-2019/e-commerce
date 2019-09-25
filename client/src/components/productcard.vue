@@ -10,7 +10,7 @@
           <div class="name-content">
             <strong><p class="title is-4">{{product.name}}</p></strong>
             <b-button pill variant="success" v-if="product.stock > 0">Available</b-button>
-            <b-button pill variant="success" v-if="product.stock <= 0">Out of Stock</b-button>
+            <b-button pill variant="danger" v-if="product.stock <= 0">Out of Stock</b-button>
             <!-- <b-tag v-if="product.stock > 0" type="is-success">Available</b-tag>
             <b-tag v-if="product.stock <= 0" type="is-danger">Out Of Stock</b-tag> -->
           </div>

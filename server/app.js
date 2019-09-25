@@ -4,7 +4,7 @@ if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development' || process.en
 const errorHandler = require('./middlewares/errorHandler');
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const routes = require('./routes/index');
 const cors = require('cors')
 const mongoose = require('mongoose')

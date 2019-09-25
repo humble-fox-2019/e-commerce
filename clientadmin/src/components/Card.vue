@@ -4,9 +4,11 @@
       :title="dog.species"
       :img-src="dog.photo"
       img-alt="Image"
+      
+      img-height="400"
       img-top
       tag="article"
-      style="max-width: 20rem;"
+      style="max-width: 20rem; height: 200px"
       class="mb-2 dog-card"
     >
       <b-card-text>

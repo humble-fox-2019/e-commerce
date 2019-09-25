@@ -1,24 +1,33 @@
 <template>
   <div class="main-btn d-flex justify-content-around align-items-center">
-    <button class="btn" @click.prevent="gotodog()"><i class="fas fa-paw"></i> Dogs</button>
-    <button class="btn" @click.prevent="gotocart()"><i class="fas fa-shopping-cart"></i> Cart</button>
-    <button class="btn" @click.prevent="gotoorder()"><i class="fas fa-clipboard-list"></i> Order</button>
+    <button class="btn" @click.prevent="gotodog()">
+      <i class="fas fa-paw"></i> Dogs
+    </button>
+    <button class="btn" @click.prevent="gotocart()">
+      <i class="fas fa-shopping-cart"></i> Cart
+    </button>
+    <button class="btn" @click.prevent="gotoorder()">
+      <i class="fas fa-clipboard-list"></i> Order
+    </button>
   </div>
 </template>
 
 <script>
 export default {
-    methods:{
-        gotodog(){
-            this.$emit('gotodog')
-        },
-        gotocart(){
-            this.$emit('gotocart')
-        },
-        gotoorder(){
-            this.$emit('gotoorder')
-        }
+  methods: {
+    gotodog() {
+      this.$router.push("/home/dogs");
+      // this.$emit('gotodog')
+    },
+    gotocart() {
+      this.$router.push("/home/cart");
+      // this.$emit("gotocart");
+    },
+    gotoorder() {
+      this.$router.push("/home/orders");
+      // this.$emit("gotoorder");
     }
+  }
 };
 </script>
 

@@ -12,10 +12,10 @@
         <MainButton @gotodog="gotodog()" @gotocart="gotocart()" @gotoorder="gotoorder()"></MainButton>
       </div>
       <div style="z-index: 10;position: relative;top: 56px;" class="d-flex flex-column">
-        <!-- <router-view></router-view> -->
-        <Dog v-if="dogPage"></Dog>
+        <router-view></router-view>
+        <!-- <Dog v-if="dogPage"></Dog>
         <Cart v-if="cartPage"></Cart>
-        <Order v-if="orderPage"></Order>
+        <Order v-if="orderPage"></Order>-->
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ export default {
     return {
       dogPage: true,
       cartPage: false,
-      orderPage: false,
+      orderPage: false
     };
   },
   components: {
@@ -42,7 +42,7 @@ export default {
     MainButton,
     Dog,
     Cart,
-    Order,
+    Order
   },
   methods: {
     gotodog() {

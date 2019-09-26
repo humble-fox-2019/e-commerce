@@ -22,7 +22,8 @@ export default new Vuex.Store({
     allCarts: [],
     username : "",
     productReviews : [],
-    role : ""
+    role : "",
+    textSearch : ""
   },
   mutations: {
 
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     PRODUCT_REVIEW(state, payload){
       state.productReviews = payload
+    },
+    SEARCH(state, payload){
+      state.textSearch = payload
     }
 
   },

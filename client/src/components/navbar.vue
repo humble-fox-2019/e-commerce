@@ -244,7 +244,7 @@ export default {
   },
   watch: {
     search(value, old) {
-      this.$store.commit("FILTER", value);
+      this.$store.commit("SEARCH", value);
     }
   },
   created: function() {}

@@ -8,7 +8,7 @@ chai.use(chaiHTTP)
 
 
 let newUser = {
-    username: 'user',
+    name: 'user',
     email: 'user@gmail.com',
     password: 'user123'
 }
@@ -20,7 +20,7 @@ let userSignin = {
 
 before(function(done) {
     User.create({
-        username: 'andi',
+        name: 'andi',
         email: 'andi@gmail.com',
         password: 'andi123'
     })
@@ -64,7 +64,7 @@ describe('User Model test', function() {
                     expect(err).to.be.null
                     expect(res.body).to.be.an('object').to.have.key('errors')
                     expect(res.body.errors).to.be.an('array')
-                    expect(res.body.errors).to.include('username required')
+                    expect(res.body.errors).to.include('name required')
                     expect(res.body.errors).to.include('email required')
                     expect(res.body.errors).to.include('password required')
                     done()
@@ -74,15 +74,16 @@ describe('User Model test', function() {
             chai.request(app)
                 .post('/user/signup')
                 .send({
-                    username: 'abc',
+                    name: 'abc',
                     email: 'test@gmail.com',
                     password: 'abc123'
                 })
                 .end(function (err, res) {
+                    console.log(res.body)
                     expect(err).to.be.null
                     expect(res.body).to.be.an('object').to.have.key('errors')
                     expect(res.body.errors).to.be.an('array')
-                    expect(res.body.errors).to.include('username minimal 4 characters')
+                    expect(res.body.errors).to.include('name minimal 4 characters')
                     done()
                 })
         })

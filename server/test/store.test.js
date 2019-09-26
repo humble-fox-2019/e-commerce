@@ -53,10 +53,11 @@ describe('Store Model test', function() {
                 .post('/store/signup')
                 .send(newStore)
                 .end(function(err, res) {
+                    console.log(res.body,'<<<<<<<<<<<')
                     expect(err).to.be.null
                     expect(res).to.have.status(201)
                     expect(res.body).to.be.an('object').to.have.any.keys('message', 'token')
-                    expect(res.body.message).to.equal('success signup')
+                    expect(res.body.message).to.equal('success open store')
                     done()
                 })
         })

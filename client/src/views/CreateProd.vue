@@ -87,6 +87,7 @@ export default {
         }
       })
         .then(response => {
+          console.log(response);
           this.$toastr.Add({
             title: 'Success create new product',
             msg: '',
@@ -103,7 +104,8 @@ export default {
           })
         })
         .catch(err => {
-          let string = err.response.data.message.join('<br>')
+          // console.log(err.response.data.message);
+          let string = 'Please input image with jpeg file.'
           this.$toastr.Add({
             title: 'Upss Something wrong..',
             msg: string,

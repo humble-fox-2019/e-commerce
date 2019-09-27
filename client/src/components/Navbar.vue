@@ -170,6 +170,8 @@ export default {
         localStorage.clear()
         this.showButton = false
         this.acsess = false
+        this.cart = []
+        this.toCart = {}
         this.$router.push({ path: '/' })
       })
     },
@@ -228,6 +230,7 @@ export default {
         }
       })
         .then(response => {
+          console.log('berhasil');
           this.$toastr.Add({
             title: 'Success',
             msg: 'Your previous cart has been processed',
@@ -250,7 +253,7 @@ export default {
           this.totalPayment = 0
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data)
         })
     }
   },

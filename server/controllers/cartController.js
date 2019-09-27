@@ -4,6 +4,7 @@ const Product = require('../models/product');
 class CartController {
 	static create(req, res, next) {
 		const userId = req.decoded._id;
+		console.log(req.body);
 		const { listItems, totalPayment } = req.body;
 		for (let k in listItems) {
 			let stock = listItems[k].stock - listItems[k].quantity;
@@ -15,21 +16,23 @@ class CartController {
 					stock: stock
 				}
 			).then((data) => {
-				console.log(data);
-			});
+				Cart.create({
+					userId,
+					listItem : listItems,
+					totalPayment
+				})
+					.then((data) => {
+						res.status(200).json({
+							message: 'Your cart request has been process'
+						});
+					})
+					.catch(err =>{
+						console.log(err);
+					});
+			
+			
+			})};
 		}
-		Cart.create({
-			userId,
-			listItems,
-			totalPayment
-		})
-			.then((data) => {
-				res.status(200).json({
-					message: 'Your cart request has been process'
-				});
-			})
-			.catch(next);
-	}
 }
 
 module.exports = CartController;

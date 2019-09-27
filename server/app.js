@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const mongoose = require('mongoose');
 const database = 'mongodb+srv://ayusudi:ayusudi@cluster0-acddn.mongodb.net/e-commerce?retryWrites=true&w=majority'

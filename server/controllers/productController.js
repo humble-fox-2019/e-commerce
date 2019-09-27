@@ -12,6 +12,8 @@ class ProductController {
 			stock
 		})
 			.then((data) => {
+				console.log('here');
+				console.log(data);
 				res.status(201).json({
 					message: 'Success create new product',
 					data: data

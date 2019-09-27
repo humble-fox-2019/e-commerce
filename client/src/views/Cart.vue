@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class>
-      <h2>Cart Checkout</h2>
+      <CartCard></CartCard>
     </div>
   </div>
 </template>
 
 <script>
 import CartCard from "../components/CartCard";
-import Swal from "sweetalert2";
+//import Swal from "sweetalert2";
 import axios from "../API/url";
 export default {
   components: {
@@ -18,7 +18,7 @@ export default {
     getCart() {
       axios({
         method: "get",
-        url: `/getOne`,
+        url: `/getone`,
         headers: {
           token: localStorage.getItem("token")
         }

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Dashboard from './views/Dashboard.vue'
+import Cart from './views/Cart.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/Cart/:id',
+      name: 'cart',
+      component: Cart
     },
     {
       path: '/about',

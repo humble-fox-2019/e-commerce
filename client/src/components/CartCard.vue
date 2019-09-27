@@ -11,6 +11,7 @@
         <h5>Total / item: $ {{item.price}}</h5>
       </div>
   </div>
+  </div>
 </template>
 
 <script>

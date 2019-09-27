@@ -1,8 +1,12 @@
 <template>
-  <div class="d-inline-flex w-100">
-    <title>Product</title>
-    <appItem v-for="product in products" :key="product._id" :product="product" />
+<div class="container">
+  <div class="row">
+   
+       <title>Product</title>
+     <appItem v-for="product in products" :key="product._id" :product="product" />
+  
   </div>
+</div>
 </template>
 <script>
 import appItem from "../components/item";

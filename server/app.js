@@ -18,7 +18,7 @@ app.use(express.json())
 
 app.use('/', routes)
 
-
+//const db =
 mongoose.connect(process.env.DB, {useNewUrlParser: true})
 .then(data => {
     console.log('success')

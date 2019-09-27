@@ -15,7 +15,7 @@ class CartController {
         else {
             
             let status = false
-            Cart.findOne({ ProductId, status })
+            Cart.findOne({UserId, ProductId, status })
                 .then(cart => {
                     // console.log(cart,"masuk ke cart create")
 
